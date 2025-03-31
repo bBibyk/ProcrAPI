@@ -1,2 +1,7 @@
 # ProcrAPI
-This an academic project to konsolidate our knowledge about Spring Framework.
+This an academic project to consolidate our knowledge about Spring Framework.
+
+Collaborators :
+- Eylyl Alptekin
+- Mohamed Ali Mabrouk
+- Bogdan Bibyk
