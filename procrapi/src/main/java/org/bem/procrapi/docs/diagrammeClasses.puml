@@ -1,0 +1,170 @@
+@startuml
+enum Role {
+  UHERBE
+  UANTIPRO
+  ADMIN
+}
+
+enum NiveauProcrastination {
+  DEBUTANT
+  INTERMEDIAIRE
+  EXPERT
+}
+
+enum StatutTache {
+  EN_ATTENTE
+  EVITEE_AVEC_SUCCES
+  REALISEE_IN_EXTREMIS
+  CATASTROPHE
+}
+
+enum DifficulteDefi {
+  FACILE
+  MOYEN
+  DIFFICILE
+}
+
+enum StatutDefi {
+  ACTIF
+  TERMINE
+}
+
+enum TypePiege {
+  JEU
+  DEFI
+  MEDITATION
+}
+
+enum StatutPiege {
+  ACTIF
+  INACTIF
+}
+
+enum CategorieExcuse {
+  TRAVAIL
+  ETUDES
+  VIE_SOCIALE
+}
+
+enum StatutExcuse {
+  EN_ATTENTE
+  APPROUVEE
+  REJETEE
+}
+
+enum TypeRecompense {
+  BADGE
+  TITRE_HONORIFIQUE
+  POUVOIR_SPECIAL
+}
+
+enum StatutRecompense {
+  ACTIF
+  EXPIRE
+}
+
+enum StatutParticipation {
+  INSCRIT
+  EN_COURS
+  TERMINE
+}
+
+class Utilisateur {
+  ID : int
+  pseudo : string
+  email : string
+  role : Role
+  niveauProcrastination : NiveauProcrastination
+  excusePréférée : string
+  dateInscription : Date
+  pointsAccumules : int
+}
+
+class TacheAEviter {
+  ID : int
+  description : string
+  degreUrgence : int
+  dateLimite : Date
+  consequences : string
+  statut : StatutTache
+  dateCreation : Date
+}
+
+class DefiProcrastination {
+  ID : int
+  titre : string
+  description : string
+  duree : int
+  difficulte : DifficulteDefi
+  pointsAGagner : int
+  dateDebut : Date
+  dateFin : Date
+  statut : StatutDefi
+}
+
+class PiegeProductivite {
+  ID : int
+  titre : string
+  description : string
+  type : TypePiege
+  createurID : int
+  difficulte : string
+  recompense : string
+  consequence : string
+  dateCreation : Date
+  statut : StatutPiege
+}
+
+class ConfrontationPiege {
+  ID : int
+  piegeID : int
+  utilisateurID : int
+  dateConfrontation : Date
+  resultat : string
+  pointsGagnesPerdus : int
+  commentaire : string
+}
+
+class ExcuseCreative {
+  ID : int
+  texte : string
+  situation : string
+  votesRecus : int
+  auteurID : int
+  dateSoumission : Date
+  categorie : CategorieExcuse
+  statut : StatutExcuse
+}
+
+class Recompense {
+  ID : int
+  titre : string
+  description : string
+  conditionsObtention : string
+  niveauPrestige : string
+  type : TypeRecompense
+}
+
+class AttributionRecompense {
+  ID : int
+  recompenseID : int
+  utilisateurID : int
+  dateObtention : Date
+  dateExpiration : Date
+  contexteAttribution : string
+  statut : StatutRecompense
+}
+
+class ParticipationDefi {
+  ID : int
+  defiID : int
+  utilisateurID : int
+  dateInscription : Date
+  statut : StatutParticipation
+  pointsGagnes : int
+}
+
+TacheAEviter "0..*" o-- "1" Utilisateur : "tachesAEviter\n\n\n\n\n\n\n-utilisateurId"
+DefiProcrastination "0..*" -- "1" Utilisateur : defisCrees\n\n\n\n\n\n\n\n-createurId
+
+@enduml
