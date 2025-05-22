@@ -1,7 +1,8 @@
-package org.bem.procrapi.entities;// Recompense.java
+package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.bem.procrapi.utilities.TypeRecompense;
 
 @Entity
 @Data
@@ -9,9 +10,16 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Recompense {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    private String nom;
+    private String titre;
+    private String description;
+    private String conditionsObtention;
+    private String niveauPrestige;
+
+    @Enumerated(EnumType.STRING)
+    private TypeRecompense type;
 }

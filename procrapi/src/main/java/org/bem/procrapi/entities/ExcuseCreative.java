@@ -1,9 +1,11 @@
-package org.bem.procrapi.entities;// ExcuseCreative.java
+package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.bem.procrapi.utilities.CategorieExcuse;
+import org.bem.procrapi.utilities.StatutExcuse;
 
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Data
@@ -11,12 +13,23 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ExcuseCreative {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String texte;
+    private String situation;
+    private String sousRecu;
 
-    @OneToMany(mappedBy="excusePreferee")
-    private List<Utilisateur> utilisateurs;
+    private int auteurID; // ou @ManyToOne si tu veux un lien vers Utilisateur
+
+    @Temporal(TemporalType.DATE)
+    private Date dateSoumission;
+
+    @Enumerated(EnumType.STRING)
+    private CategorieExcuse categorie;
+
+    @Enumerated(EnumType.STRING)
+    private StatutExcuse statut;
 }
