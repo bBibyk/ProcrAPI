@@ -30,5 +30,5 @@ public class Recompense {
     private TypeRecompense type;
 
     @OneToMany(mappedBy = "recompense")
-    private List<Recompense> attributions;
+    private List<AttributionRecompense> attributions;
 }

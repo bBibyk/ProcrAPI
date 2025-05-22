@@ -3,13 +3,13 @@ package org.bem.procrapi.services;
 import lombok.RequiredArgsConstructor;
 
 import org.bem.procrapi.entities.ExcuseCreative;
-import org.bem.procrapi.repositories.ExcuseCreativeRepository;
+import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExcuseCreativeService {
-    private final ExcuseCreativeRepository repository;
+public class ServiceExcuseCreative {
+    private final RepositoryExcuseCreative repository;
 
     public ExcuseCreative creer(String texte) {
         return repository.save(ExcuseCreative.builder().texte(texte).build());
