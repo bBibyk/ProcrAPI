@@ -7,6 +7,7 @@ import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
+import org.bem.procrapi.utilities.ResultatConfrontationPiege;
 
 import java.sql.Date;
 
@@ -14,21 +15,23 @@ import java.sql.Date;
 @Setter
 @Entity
 public class ConfrontationPiege {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private Long piegeID; // ID du piège productivité confronté
-
-    private Long utilisateurID; // ID de l'utilisateur confronté
-
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateConfrontation;
 
-    private String resultat; // par ex. "succès" ou "échec"
+    @Enumerated(EnumType.ORDINAL)
+    private ResultatConfrontationPiege resultat;
 
-    private int pointsGagnesPerdus;
+    private Integer points;
 
     private String commentaire;
+
+    @ManyToOne
+    private PiegeDeProductivite piege;
+
+    @ManyToOne
+    private Utilisateur utilisateur;
 }

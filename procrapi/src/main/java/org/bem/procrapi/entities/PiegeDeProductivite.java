@@ -8,36 +8,39 @@ import org.bem.procrapi.utilities.TypePiege;
 
 
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class PiegeProductivite {
+public class PiegeDeProductivite {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String titre;
 
-    @Column(length = 1000)
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private TypePiege type;
 
-    private Long createurID;
-
-    private String difficulte;
+    private Integer difficulte;
 
     private String recompense;
 
     private String consequence;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateCreation;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private StatutPiege statut;
 
+    @ManyToOne
+    private Utilisateur createur;
+
+    @OneToMany(mappedBy = "piege")
+    private List<ConfrontationPiege> confrontations;
 }
 

@@ -12,13 +12,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class AttributionRecompense {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private int recompenseID;
-    private int utilisateurID;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date dateObtention;
@@ -26,8 +22,14 @@ public class AttributionRecompense {
     @Temporal(TemporalType.DATE)
     private Date dateExpiration;
 
-    private String contexteAttribution;
+    private String contexte;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private StatutRecompense statut;
+
+    @ManyToOne
+    private Utilisateur utilisateur;
+
+    @ManyToOne
+    private Recompense recompense;
 }

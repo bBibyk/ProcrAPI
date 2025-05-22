@@ -13,20 +13,21 @@ import java.sql.Date;
 @Setter
 @Entity
 public class ParticipationDefi {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private Long defiID; // ID du défi
-
-    private Long utilisateurID; // ID de l'utilisateur participant
-
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateInscription;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private StatutParticipation statut;
 
-    private int pointsGagnes;
+    private Integer points;
+
+    @ManyToOne
+    private Utilisateur utilisateur;
+
+    @ManyToOne
+    private DefiDeProcrastination defi;
 }

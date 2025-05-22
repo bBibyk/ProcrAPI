@@ -1,6 +1,7 @@
 package org.bem.procrapi.utilities;
 
 public enum StatutDefi {
-    ACTIF,
+    INSCRIT,
+    EN_COURS,
     TERMINE
 }
