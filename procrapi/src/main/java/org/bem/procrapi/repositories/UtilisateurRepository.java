@@ -1,4 +1,4 @@
 package org.bem.procrapi.repositories;
 
-public class RepositorySomething {
+public class UtilisateurRepository {
 }
