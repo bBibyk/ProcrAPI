@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class ProcrapiApplication implements CommandLineRunner {
 
@@ -23,8 +25,8 @@ public class ProcrapiApplication implements CommandLineRunner {
         String gestionnaire_mail = "dali.mabrouk@miage.fr";
         if (repositoryUtilisateur.findByEmail(gestionnaire_mail).isEmpty()) {
             Utilisateur gestionnaireDuTempsPerdu = new Utilisateur();
-            gestionnaireDuTempsPerdu.setId((long)1);
             gestionnaireDuTempsPerdu.setRole(RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU);
+            gestionnaireDuTempsPerdu.setDateInscription(new Date());
             gestionnaireDuTempsPerdu.setEmail(gestionnaire_mail);
             repositoryUtilisateur.save(gestionnaireDuTempsPerdu);
         }
