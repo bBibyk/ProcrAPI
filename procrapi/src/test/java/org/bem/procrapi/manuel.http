@@ -1,0 +1,12 @@
+### Create a new user
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+
+{
+  "pseudo": "LazyJoe",
+  "email": "lazyjoe@example.com",
+  "niveau": "DEBUTANT",
+  "role": "PROCRASTINATEUR_EN_HERBE",
+  "pointsAccumules": 0,
+  "excusePreferee": null
+}
