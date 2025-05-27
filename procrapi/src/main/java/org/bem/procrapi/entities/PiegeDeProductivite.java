@@ -7,7 +7,7 @@ import org.bem.procrapi.utilities.StatutPiege;
 import org.bem.procrapi.utilities.TypePiege;
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Getter
