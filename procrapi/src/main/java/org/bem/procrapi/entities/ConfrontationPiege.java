@@ -7,7 +7,7 @@ import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
-import org.bem.procrapi.utilities.ResultatConfrontationPiege;
+import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 
 import java.sql.Date;
 

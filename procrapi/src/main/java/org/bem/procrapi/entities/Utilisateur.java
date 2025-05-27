@@ -1,11 +1,13 @@
 package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.bem.procrapi.utilities.NiveauProcrastination;
-import org.bem.procrapi.utilities.RoleUtilisateur;
+import org.bem.procrapi.utilities.enumerations.NiveauProcrastination;
+import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,40 +19,41 @@ public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @NotNull
+    private String email;
+
+    private RoleUtilisateur role;
+
     private String pseudo;
 
-    private NiveauProcrastination niveau;
+    private NiveauProcrastination niveau = NiveauProcrastination.DEBUTANT;
 
     @Temporal(TemporalType.DATE)
-    private Date dateInscription;
+    private Date dateInscription = new Date();
 
-    private Integer pointsAccumules;
+    private Integer pointsAccumules = 0;
 
     @ManyToOne
     private ExcuseCreative excusePreferee;
 
     @OneToMany
-    private List<ExcuseCreative> excuses;
-
-    private String email;
-
-    private RoleUtilisateur role;
+    private List<ExcuseCreative> excuses = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<TacheAEviter> taches;
+    private List<TacheAEviter> taches = new ArrayList<>();
 
     @OneToMany(mappedBy = "createur")
-    private List<DefiDeProcrastination> defis;
+    private List<DefiDeProcrastination> defis = new ArrayList<>();
 
     @OneToMany(mappedBy = "createur")
-    private List<PiegeDeProductivite> pieges;
+    private List<PiegeDeProductivite> pieges = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<ConfrontationPiege> confrontations;
+    private List<ConfrontationPiege> confrontations = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<AttributionRecompense> recompenses;
+    private List<AttributionRecompense> recompenses = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<ParticipationDefi> participations;
+    private List<ParticipationDefi> participations = new ArrayList<>();
 }

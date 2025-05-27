@@ -1,0 +1,32 @@
+### Correct
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+
+{
+  "pseudo": "LazyJoe",
+  "email": "lazyjoe@example.com",
+  "niveau": "INTERMEDIAIRE",
+  "role": "PROCRASTINATEUR_EN_HERBE",
+  "pointsAccumules": 0,
+  "excusePreferee": null
+}
+
+### Incorrect
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+
+{
+  "pseudo": "second",
+  "email": "second@example.com"
+}
+
+### Correct
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+
+{
+  "pseudo": "activeOne",
+  "email": "activeOne22@example.com",
+  "niveau": "DEBUTANT",
+  "role": "PROCRASTINATEUR_EN_HERBE"
+}

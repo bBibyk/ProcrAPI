@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.bem.procrapi.utilities.StatutTache;
+import org.bem.procrapi.utilities.enumerations.StatutTache;
 
 import java.util.Date;
 
@@ -18,25 +18,24 @@ public class TacheAEviter {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String titre;
+    private String titre = "";
 
-    @NotNull
-    private String description;
+    private String description = "";
 
     @Min(1)
     @Max(5)
-    private Integer degreUrgence;
+    private Integer degreUrgence = 1;
 
     @Temporal(TemporalType.DATE)
     private Date dateLimite;
 
-    private String consequences;
+    private String consequences = "";
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutTache statut;
+    private StatutTache statut = StatutTache.EN_ATTENTE;
 
     @Temporal(TemporalType.DATE)
-    private Date dateCreation;
+    private Date dateCreation = new Date();
 
     @ManyToOne
     private Utilisateur utilisateur;

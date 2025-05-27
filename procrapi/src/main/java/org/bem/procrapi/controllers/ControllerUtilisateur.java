@@ -3,10 +3,10 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.services.ServiceUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -21,16 +21,13 @@ public class ControllerUtilisateur {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-        Optional<Utilisateur> createdUser = serviceUtilisateur.createUtilisateur(utilisateur);
+    public ResponseEntity<?> create(@RequestBody Utilisateur utilisateur) {
+        Optional<Utilisateur> createdUtilisateur = serviceUtilisateur.create(utilisateur);
 
-        if (createdUser.isEmpty()) {
-            return ResponseEntity.status(409).build();
+        if (createdUtilisateur.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Cet utilisateur ne peut pas être crée.");
         }
-
-        return ResponseEntity
-                .created(URI.create("/api/utilisateur/" + createdUser.get().getId()))
-                .body(createdUser.get());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur.get());
     }
 }
 

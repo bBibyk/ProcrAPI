@@ -1,0 +1,49 @@
+### incorrect
+POST http://localhost:8080/api/defideprocrastination/create
+Content-Type: application/json
+
+{
+  "dateFin": "2026-04-23T18:25:43.511Z",
+  "duree": 200
+}
+
+### incorrect
+POST http://localhost:8080/api/defideprocrastination/create
+Content-Type: application/json
+X-Utilisateur-Email: el.flemardo@miage.fr
+
+{
+}
+
+### Prepare next
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+
+{
+  "pseudo": "LazyJoe",
+  "email": "lazyjoe@example.com",
+  "niveau": "INTERMEDIAIRE",
+  "role": "PROCRASTINATEUR_EN_HERBE",
+  "pointsAccumules": 0,
+  "excusePreferee": null
+}
+
+### incorrect
+POST http://localhost:8080/api/defideprocrastination/create
+Content-Type: application/json
+X-Utilisateur-Email: lazyjoe@example.com
+
+{
+  "dateFin": "2026-04-23T18:25:43.511Z",
+  "duree": 200
+}
+
+### Correct
+POST http://localhost:8080/api/defideprocrastination/create
+Content-Type: application/json
+X-Utilisateur-Email: el.flemardo@miage.fr
+
+{
+  "dateFin": "2026-04-23T18:25:43.511Z",
+  "duree": 200
+}
