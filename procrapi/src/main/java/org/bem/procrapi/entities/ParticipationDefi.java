@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
-import org.bem.procrapi.utilities.StatutParticipation;
+import org.bem.procrapi.utilities.enumerations.StatutParticipation;
 
 import java.sql.Date;
 

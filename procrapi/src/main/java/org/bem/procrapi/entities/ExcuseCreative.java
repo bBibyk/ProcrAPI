@@ -1,10 +1,9 @@
 package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.bem.procrapi.utilities.CategorieExcuse;
-import org.bem.procrapi.utilities.StatutExcuse;
+import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
+import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 
 import java.util.Date;
 import java.util.List;

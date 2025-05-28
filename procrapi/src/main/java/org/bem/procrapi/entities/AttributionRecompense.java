@@ -2,7 +2,7 @@ package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.bem.procrapi.utilities.StatutRecompense;
+import org.bem.procrapi.utilities.enumerations.StatutRecompense;
 
 import java.util.Date;
 

@@ -2,8 +2,8 @@ package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.bem.procrapi.utilities.NiveauDePrestige;
-import org.bem.procrapi.utilities.TypeRecompense;
+import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
+import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 
 import java.util.List;
 

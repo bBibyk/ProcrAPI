@@ -3,8 +3,8 @@ package org.bem.procrapi.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.bem.procrapi.utilities.StatutPiege;
-import org.bem.procrapi.utilities.TypePiege;
+import org.bem.procrapi.utilities.enumerations.StatutPiege;
+import org.bem.procrapi.utilities.enumerations.TypePiege;
 
 
 import java.util.Date;
