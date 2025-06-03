@@ -22,12 +22,12 @@ public class ControllerUtilisateur {
 
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody Utilisateur utilisateur) {
-        Optional<Utilisateur> createdUtilisateur = serviceUtilisateur.create(utilisateur);
-
-        if (createdUtilisateur.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Cet utilisateur ne peut pas être crée.");
+        try{
+            Optional<Utilisateur> createdUtilisateur = serviceUtilisateur.create(utilisateur);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur.get());
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur.get());
     }
 }
 

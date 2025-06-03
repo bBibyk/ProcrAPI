@@ -28,10 +28,10 @@ public class Utilisateur {
 
     private NiveauProcrastination niveau = NiveauProcrastination.DEBUTANT;
 
+    private Integer pointsAccumules = 0;
+
     @Temporal(TemporalType.DATE)
     private Date dateInscription = new Date();
-
-    private Integer pointsAccumules = 0;
 
     @ManyToOne
     private ExcuseCreative excusePreferee;
