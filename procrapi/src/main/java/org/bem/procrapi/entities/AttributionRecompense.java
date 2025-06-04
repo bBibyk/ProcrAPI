@@ -22,7 +22,7 @@ public class AttributionRecompense {
     @Temporal(TemporalType.DATE)
     private Date dateExpiration;
 
-    private String contexte;
+    private String contexteAttribution;
 
     @Enumerated(EnumType.ORDINAL)
     private StatutRecompense statut;

@@ -7,7 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import org.bem.procrapi.utilities.enumerations.StatutParticipation;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Getter
 @Setter

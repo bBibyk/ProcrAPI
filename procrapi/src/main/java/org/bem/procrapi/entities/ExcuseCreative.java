@@ -22,7 +22,7 @@ public class ExcuseCreative {
 
     private String situation;
 
-    private String votesRecus;
+    private int votesRecus;
 
     @OneToMany(mappedBy = "excusePreferee")
     private List<Utilisateur> utilisateurs;
