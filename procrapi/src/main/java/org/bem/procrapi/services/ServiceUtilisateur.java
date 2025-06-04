@@ -25,7 +25,7 @@ public class ServiceUtilisateur {
         this.repositoryExcuseCreative = repositoryExcuseCreative;
     }
 
-    public Optional<Utilisateur> create(Utilisateur utilisateur) throws  IllegalArgumentException {
+    public Utilisateur create(Utilisateur utilisateur) throws  IllegalArgumentException {
         if (utilisateur.getRole() == null){
             throw new IllegalArgumentException("Role non valide");
         } else if (utilisateur.getPseudo() == null ){
@@ -39,19 +39,19 @@ public class ServiceUtilisateur {
             throw new IllegalArgumentException("Vous n'avez pas ce droit");
         }
 
-        Utilisateur savedUtilisateru = new Utilisateur();
+        Utilisateur savedUtilisateur = new Utilisateur();
         if (utilisateur.getExcusePreferee() != null){
             Optional<ExcuseCreative> excusePreferee = repositoryExcuseCreative.findById(utilisateur.getExcusePreferee().getId());
             if (excusePreferee.isEmpty()){
                 throw new IllegalArgumentException("Excuse non valide");
             }
-            savedUtilisateru.setExcusePreferee(excusePreferee.get());
+            savedUtilisateur.setExcusePreferee(excusePreferee.get());
         }
 
-        savedUtilisateru.setEmail(utilisateur.getEmail());
-        savedUtilisateru.setPseudo(utilisateur.getPseudo());
-        savedUtilisateru.setRole(utilisateur.getRole());
-        return Optional.of(savedUtilisateru);
+        savedUtilisateur.setEmail(utilisateur.getEmail());
+        savedUtilisateur.setPseudo(utilisateur.getPseudo());
+        savedUtilisateur.setRole(utilisateur.getRole());
+        return repositoryUtilisateur.save(savedUtilisateur);
     }
 
     public Boolean ajouterPoints(Utilisateur utilisateur) {

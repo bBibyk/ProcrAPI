@@ -23,8 +23,8 @@ public class ControllerUtilisateur {
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody Utilisateur utilisateur) {
         try{
-            Optional<Utilisateur> createdUtilisateur = serviceUtilisateur.create(utilisateur);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur.get());
+            Utilisateur createdUtilisateur = serviceUtilisateur.create(utilisateur);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur);
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

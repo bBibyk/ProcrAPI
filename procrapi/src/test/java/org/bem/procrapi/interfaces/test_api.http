@@ -5,6 +5,6 @@ Content-Type: application/json
   "titre": "Récompense du mois",
   "description": "Décernée à la meilleure excuse du mois",
   "conditionsObtention": "Avoir plus de 50 votes",
-  "niveau":"or",
-  "type": "TROPHEE"
+  "niveau": null,
+  "type": "BADGE"
 }
