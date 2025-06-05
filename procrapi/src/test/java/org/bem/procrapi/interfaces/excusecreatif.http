@@ -1,0 +1,15 @@
+POST http://localhost:8080/api/excuse/create
+Content-Type: application/json
+X-Utilisateur-Email: el.flemardo@miage.fr
+
+
+{
+  "texte": "Mon chat a mangé mon réveil",
+  "situation": "Vie personnelle",
+  "votesRecus": 0,
+  "createur": {
+    "id": 1
+  },
+  "dateSoumission": "2025-06-05",
+  "categorie": "TRAVAIL"
+}

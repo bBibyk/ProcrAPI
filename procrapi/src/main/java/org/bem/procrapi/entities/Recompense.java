@@ -23,10 +23,10 @@ public class Recompense {
 
     private String conditionsObtention;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private NiveauDePrestige niveau;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TypeRecompense type;
 
     @OneToMany(mappedBy = "recompense")

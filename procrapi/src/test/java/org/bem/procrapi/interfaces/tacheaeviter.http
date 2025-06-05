@@ -1,25 +1,11 @@
-### incorrect
-POST http://localhost:8080/api/tacheaeviter/create
-Content-Type: application/json
-
-{
-  "dateLimite": "2026-04-23T18:25:43.511Z"
-}
-
-### incorrect
-POST http://localhost:8080/api/tacheaeviter/create
-Content-Type: application/json
-X-Utilisateur-Email: activeOne22@example.com
-
-{
-}
-
 ### Correct
 POST http://localhost:8080/api/tacheaeviter/create
 Content-Type: application/json
-X-Utilisateur-Email: activeOne22@example.com
+X-Utilisateur-Email: Michelle2@miage.com
 
 {
   "titre": "Ma tâche impérative",
-  "dateLimite": "2026-04-23T18:25:43.511Z"
+  "dateLimite": "2026-04-23T18:25:43.511Z",
+  "consequences": "La planète s'arrête",
+  "description": "Ce que j'ai repousé précieusement à demain"
 }

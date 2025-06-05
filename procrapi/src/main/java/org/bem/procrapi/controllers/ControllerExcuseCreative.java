@@ -1,27 +1,41 @@
 package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.ExcuseCreative;
-import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.services.ServiceExcuseCreative;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping(path = "/api/excuse")
 public class ControllerExcuseCreative {
 
-    private final ServiceExcuseCreative service;
+    private final ServiceExcuseCreative serviceExcuseCreative;
 
-    public ControllerExcuseCreative(ServiceExcuseCreative service) {
-        this.service = service;
+    @Autowired
+    public ControllerExcuseCreative(ServiceExcuseCreative serviceExcuseCreative) {
+        this.serviceExcuseCreative = serviceExcuseCreative;
     }
 
-    @PostMapping(path="/creer")
-    public ExcuseCreative creer(@RequestBody ExcuseCreative excuse) {
-        return service.creerExcuse(
-                excuse.getTexte(),
-                excuse.getSituation(),
-                excuse.getVotesRecus(),
-                excuse.getCreateur(),
-                excuse.getDateSoumission(),
-                excuse.getCategorie()
-        );
+    @PostMapping(path = "/create")
+    public ResponseEntity<?> create(@RequestBody ExcuseCreative excuseCreative) {
+        try {
+            ExcuseCreative createdExcuse = serviceExcuseCreative.create(
+                    excuseCreative.getTexte(),
+                    excuseCreative.getSituation(),
+                    excuseCreative.getVotesRecus(),
+                    excuseCreative.getCreateur(),
+                    excuseCreative.getDateSoumission(),
+                    excuseCreative.getCategorie()
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdExcuse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
+
+
 }

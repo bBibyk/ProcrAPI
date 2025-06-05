@@ -28,7 +28,7 @@ public class DefiDeProcrastination {
     @Enumerated(EnumType.ORDINAL)
     private DifficulteDefi difficulte = DifficulteDefi.FACILE;
 
-    private Integer pointsAGagner = 0;
+    private Integer pointsAGagner;
 
     @Temporal(TemporalType.DATE)
     private Date dateDebut;

@@ -26,24 +26,24 @@ public class ServiceUtilisateur {
     }
 
     public Utilisateur create(Utilisateur utilisateur) throws  IllegalArgumentException {
-        if (utilisateur.getRole() == null){
-            throw new IllegalArgumentException("Role non valide");
-        } else if (utilisateur.getPseudo() == null ){
-            throw new IllegalArgumentException("Pseudo non valide");
-        } else if (repositoryUtilisateur.findByEmail(utilisateur.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email non valide");
-        } else if (UtilisateurHolder.getCurrentUser() == null){
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié");
+        if (utilisateur.getRole()==RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
+            throw new IllegalArgumentException("Cet utilisateur ne peut pas être crée.");
         } else if (utilisateur.getRole() == RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI
                 && UtilisateurHolder.getCurrentUser().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Vous n'avez pas ce droit");
+            throw new IllegalArgumentException("Vous n'avez pas ce droit.");
+        } else if (utilisateur.getRole() == null){
+            throw new IllegalArgumentException("Role non valide.");
+        } else if (utilisateur.getPseudo() == null ){
+            throw new IllegalArgumentException("Pseudo non valide.");
+        } else if (repositoryUtilisateur.findByEmail(utilisateur.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email non valide.");
         }
 
         Utilisateur savedUtilisateur = new Utilisateur();
         if (utilisateur.getExcusePreferee() != null){
             Optional<ExcuseCreative> excusePreferee = repositoryExcuseCreative.findById(utilisateur.getExcusePreferee().getId());
             if (excusePreferee.isEmpty()){
-                throw new IllegalArgumentException("Excuse non valide");
+                throw new IllegalArgumentException("Excuse non valide.");
             }
             savedUtilisateur.setExcusePreferee(excusePreferee.get());
         }
