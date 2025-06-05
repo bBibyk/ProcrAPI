@@ -9,7 +9,7 @@ Content-Type: application/json
 ### incorrect
 POST http://localhost:8080/api/tacheaeviter/create
 Content-Type: application/json
-X-Utilisateur-Email: el.flemardo@miage.fr
+X-Utilisateur-Email: activeOne22@example.com
 
 {
 }
@@ -17,8 +17,9 @@ X-Utilisateur-Email: el.flemardo@miage.fr
 ### Correct
 POST http://localhost:8080/api/tacheaeviter/create
 Content-Type: application/json
-X-Utilisateur-Email: el.flemardo@miage.fr
+X-Utilisateur-Email: activeOne22@example.com
 
 {
+  "titre": "Ma tâche impérative",
   "dateLimite": "2026-04-23T18:25:43.511Z"
 }

@@ -22,6 +22,7 @@ Content-Type: application/json
 
 ### Correct
 POST http://localhost:8080/api/utilisateur/create
+X-Utilisateur-Email: el.flemardo@miage.fr
 Content-Type: application/json
 
 {
