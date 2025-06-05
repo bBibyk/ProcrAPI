@@ -1,6 +1,5 @@
 POST http://localhost:8080/api/attributions/create
 Content-Type: application/json
-X-Utilisateur-Email: el.flemardo@miage.fr
 
 {
   "utilisateur": {
