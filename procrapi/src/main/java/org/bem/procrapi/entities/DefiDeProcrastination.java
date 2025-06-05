@@ -31,7 +31,7 @@ public class DefiDeProcrastination {
     private Integer pointsAGagner = 0;
 
     @Temporal(TemporalType.DATE)
-    private Date dateDebut = new Date();
+    private Date dateDebut;
 
     //date de décompte des résultats
     @Temporal(TemporalType.DATE)

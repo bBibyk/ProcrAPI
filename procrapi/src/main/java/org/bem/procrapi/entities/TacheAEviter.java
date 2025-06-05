@@ -18,12 +18,10 @@ public class TacheAEviter {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String titre = "";
+    private String titre;
 
     private String description = "";
 
-    @Min(1)
-    @Max(5)
     private Integer degreUrgence = 1;
 
     @Temporal(TemporalType.DATE)

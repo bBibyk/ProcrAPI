@@ -26,16 +26,11 @@ public class ControllerDefiDeProcrastination {
 
     @PostMapping(path="/create")
     public ResponseEntity<?> create(@RequestBody DefiDeProcrastination defiDeProcrastination) {
-        if(UtilisateurHolder.getCurrentUser()==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentifiez-vous avant d'utiliser cette méthode.");
+        try{
+            DefiDeProcrastination nouveauDefi = serviceDefiDeProcrastination.create(defiDeProcrastination);
+            return new ResponseEntity<>(nouveauDefi, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-        if(UtilisateurHolder.getCurrentUser().getRole()!=RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous n'êtes pas autorisé à utiliser cette méthode.");
-        }
-        Optional<DefiDeProcrastination> createdDefi = serviceDefiDeProcrastination.create(defiDeProcrastination);
-        if(createdDefi.isPresent()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdDefi.get());
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Ce defi ne peut pas être crée.");
     }
 }
