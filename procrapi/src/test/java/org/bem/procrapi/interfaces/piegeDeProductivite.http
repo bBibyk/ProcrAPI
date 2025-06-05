@@ -1,0 +1,10 @@
+
+POST http://localhost:8080/api/piegedeproductivite/creer
+Content-Type: application/json
+
+{
+  "titre": "Réunion Zoom Surprise",
+  "description": "Un faux lien de réunion pour faire croire à une urgence",
+  "type": "JEU",
+  "difficulte": 3
+}

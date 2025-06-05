@@ -14,17 +14,19 @@ import java.util.Optional;
 public class ControllerPiegeDeProductivite {
 
     private final ServicePiegeDeProductivite piegeService;
-    private final ServicePiegeDeProductivite servicePiegeDeProductivite;
 
-    public ControllerPiegeDeProductivite(ServicePiegeDeProductivite piegeService, ServicePiegeDeProductivite servicePiegeDeProductivite) {
+    public ControllerPiegeDeProductivite(ServicePiegeDeProductivite piegeService) {
         this.piegeService = piegeService;
-        this.servicePiegeDeProductivite = servicePiegeDeProductivite;
     }
 
-    @PostMapping(path="/creer")
+    @PostMapping("/creer")
     public ResponseEntity<?> creerPiege(@RequestBody PiegeDeProductivite piege) {
-        Optional<PiegeDeProductivite> created = servicePiegeDeProductivite.creerPiege(piege.getTitre());
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-
+        try {
+            PiegeDeProductivite created = piegeService.create(piege);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalArgumentException e) {
+            // Quand les données reçues sont incorrectes
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

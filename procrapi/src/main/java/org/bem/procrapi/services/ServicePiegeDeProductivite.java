@@ -1,39 +1,56 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.authentication.UtilisateurHolder;
 import org.bem.procrapi.entities.PiegeDeProductivite;
+import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
+import org.bem.procrapi.repositories.RepositoryUtilisateur;
+import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
+import org.bem.procrapi.utilities.enumerations.StatutPiege;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class ServicePiegeDeProductivite {
 
-    private final RepositoryPiegeDeProductivite piegeRepository;
+    private final RepositoryPiegeDeProductivite piegeRepo;
+    private final RepositoryUtilisateur userRepo;
 
-    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite piegeRepository) {
-        this.piegeRepository = piegeRepository;
+    @Autowired
+    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege,
+                                      RepositoryUtilisateur userRepo) {
+        this.piegeRepo = repositoryPiege;
+        this.userRepo = userRepo;
     }
 
+    public PiegeDeProductivite create(PiegeDeProductivite piege) {
+        Utilisateur currentUser = UtilisateurHolder.getCurrentUser();
 
-    public Optional<PiegeDeProductivite> creerPiege(String titre) {
-        PiegeDeProductivite piege = new PiegeDeProductivite();
-        piege.setTitre(titre);
-        piege.setDateCreation(new Date());
-
-        return Optional.of(piegeRepository.save(piege));
-    }
-
-
-    public boolean supprimerPiege(String titre) {
-        Optional<PiegeDeProductivite> piegeOpt = piegeRepository.findByTitre(titre);
-
-        if (piegeOpt.isPresent()) {
-            piegeRepository.delete(piegeOpt.get());
-            return true;
+        if (currentUser == null) {
+            throw new IllegalArgumentException("Utilisateur non authentifié.");
+        } else if (currentUser.getRole() != RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI) {
+            throw new IllegalArgumentException("Seuls les Anti-Procrastinateurs Repentis peuvent créer un piège.");
+        }else if (piege.getTitre() == null ) {
+            throw new IllegalArgumentException("Titre obligatoire.");
+        }else if (piege.getType() == null) {
+            throw new IllegalArgumentException("Type obligatoire.");
+        }else if (piege.getDifficulte() == null || piege.getDifficulte() < 1 || piege.getDifficulte() > 5) {
+            throw new IllegalArgumentException("Difficulté invalide.");
         }
-        return false;
+
+        PiegeDeProductivite newPiege = new PiegeDeProductivite();
+        newPiege.setTitre(piege.getTitre());
+        newPiege.setDescription(piege.getDescription());
+        newPiege.setType(piege.getType());
+        newPiege.setDifficulte(piege.getDifficulte());
+        newPiege.setDateCreation(new Date()); // Valeur par défaut
+        newPiege.setStatut(StatutPiege.ACTIF); // Valeur par défaut
+        newPiege.setCreateur(currentUser);
+
+        return piegeRepo.save(newPiege);
     }
+
 
     }

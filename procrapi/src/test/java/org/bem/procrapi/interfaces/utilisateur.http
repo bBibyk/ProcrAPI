@@ -30,3 +30,15 @@ Content-Type: application/json
   "niveau": "DEBUTANT",
   "role": "PROCRASTINATEUR_EN_HERBE"
 }
+
+### Création d'un utilisateur anti-procrastinateur pour tester piege de productivite
+POST http://localhost:8080/api/utilisateur/create
+Content-Type: application/json
+X-Utilisateur-Email: antiPro1@example.com
+
+{
+  "pseudo": "antiPro1",
+  "email": "antiPro1@example.com",
+  "niveau": "DEBUTANT",
+  "role": "ANTIPROCRASTINATEUR_REPENTI"
+}
