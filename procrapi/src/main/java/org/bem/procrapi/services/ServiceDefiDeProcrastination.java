@@ -55,6 +55,9 @@ public class ServiceDefiDeProcrastination {
         if(defi.getDescription()!=null){
             savedDefi.setDescription(defi.getDescription());
         }
+        if(defi.getDifficulte()!=null){
+            savedDefi.setDifficulte(defi.getDifficulte());
+        }
         return repositoryDefiDeProcrastination.save(defi);
     }
 

@@ -3,21 +3,9 @@ POST http://localhost:8080/api/utilisateur/create
 Content-Type: application/json
 
 {
-  "pseudo": "LazyJoe",
-  "email": "lazyjoe@example.com",
-  "niveau": "INTERMEDIAIRE",
-  "role": "PROCRASTINATEUR_EN_HERBE",
-  "pointsAccumules": 0,
-  "excusePreferee": null
-}
-
-### Incorrect
-POST http://localhost:8080/api/utilisateur/create
-Content-Type: application/json
-
-{
-  "pseudo": "second",
-  "email": "second@example.com"
+  "pseudo": "Michelle",
+  "email": "Michelle2@miage.com",
+  "role": "PROCRASTINATEUR_EN_HERBE"
 }
 
 ### Correct
@@ -26,8 +14,7 @@ X-Utilisateur-Email: el.flemardo@miage.fr
 Content-Type: application/json
 
 {
-  "pseudo": "activeOne",
-  "email": "activeOne22@example.com",
-  "niveau": "DEBUTANT",
-  "role": "PROCRASTINATEUR_EN_HERBE"
+  "pseudo": "LeEfficace",
+  "email": "piege1337@irit.fr",
+  "role": "ANTIPROCRASTINATEUR_REPENTI"
 }
