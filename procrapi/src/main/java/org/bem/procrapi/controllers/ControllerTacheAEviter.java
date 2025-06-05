@@ -26,13 +26,11 @@ public class ControllerTacheAEviter {
 
     @PostMapping(path="/create")
     public ResponseEntity<?> create(@RequestBody TacheAEviter tacheAEviter) {
-        if(UtilisateurHolder.getCurrentUser()==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentifiez-vous avant d'utiliser cette méthode.");
+        try{
+            TacheAEviter nouvelleTache = serviceTacheAEviter.create(tacheAEviter);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleTache);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-        Optional<TacheAEviter> createdTache = serviceTacheAEviter.create(tacheAEviter);
-        if(createdTache.isPresent()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdTache.get());
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Cette tâche ne peut pas être crée.");
     }
 }

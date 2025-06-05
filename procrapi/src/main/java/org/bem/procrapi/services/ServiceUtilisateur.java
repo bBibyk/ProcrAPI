@@ -5,11 +5,11 @@ import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
+import org.bem.procrapi.utilities.enumerations.NiveauProcrastination;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Service
@@ -54,7 +54,18 @@ public class ServiceUtilisateur {
         return repositoryUtilisateur.save(savedUtilisateur);
     }
 
-    public Boolean ajouterPoints(Utilisateur utilisateur) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Utilisateur attribuerPoints(Utilisateur utilisateur, Integer points) {
+        int nouveauxPoints = utilisateur.getPointsAccumules() + points;
+        if (nouveauxPoints <= 0){
+            utilisateur.setPointsAccumules(0);
+            return repositoryUtilisateur.save(utilisateur);
+        }
+        utilisateur.setPointsAccumules(nouveauxPoints);
+        if (utilisateur.getNiveau()== NiveauProcrastination.DEBUTANT && nouveauxPoints>=500){
+            utilisateur.setNiveau(NiveauProcrastination.INTERMEDIAIRE);
+        } else if (utilisateur.getNiveau()== NiveauProcrastination.INTERMEDIAIRE && nouveauxPoints>=1000){
+            utilisateur.setNiveau(NiveauProcrastination.EXPERT);
+        }
+        return repositoryUtilisateur.save(utilisateur);
     }
 }
