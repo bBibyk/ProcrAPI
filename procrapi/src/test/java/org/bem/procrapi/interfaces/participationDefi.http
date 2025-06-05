@@ -1,0 +1,9 @@
+### Correct
+POST http://localhost:8080/api/participationdefi/create
+Content-Type: application/json
+X-Utilisateur-Email: lazyjoe@example.com
+
+{
+  "defi": {
+  }
+}

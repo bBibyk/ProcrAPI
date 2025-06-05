@@ -19,7 +19,7 @@ public class ControllerPiegeDeProductivite {
         this.piegeService = piegeService;
     }
 
-    @PostMapping("/creer")
+    @PostMapping(path="/creer")
     public ResponseEntity<?> creerPiege(@RequestBody PiegeDeProductivite piege) {
         try {
             PiegeDeProductivite created = piegeService.create(piege);

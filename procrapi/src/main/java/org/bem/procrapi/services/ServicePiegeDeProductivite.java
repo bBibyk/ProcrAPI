@@ -4,7 +4,6 @@ import org.bem.procrapi.authentication.UtilisateurHolder;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
-import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutPiege;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,10 @@ import java.util.Date;
 public class ServicePiegeDeProductivite {
 
     private final RepositoryPiegeDeProductivite piegeRepo;
-    private final RepositoryUtilisateur userRepo;
 
     @Autowired
-    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege,
-                                      RepositoryUtilisateur userRepo) {
+    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege){
         this.piegeRepo = repositoryPiege;
-        this.userRepo = userRepo;
     }
 
     public PiegeDeProductivite create(PiegeDeProductivite piege) {
@@ -36,14 +32,14 @@ public class ServicePiegeDeProductivite {
             throw new IllegalArgumentException("Titre obligatoire.");
         }else if (piege.getType() == null) {
             throw new IllegalArgumentException("Type obligatoire.");
-        }else if (piege.getDifficulte() == null || piege.getDifficulte() < 1 || piege.getDifficulte() > 5) {
+        }else if (piege.getDifficulte() == null || (piege.getDifficulte() < 1 || piege.getDifficulte() > 5) ) {
             throw new IllegalArgumentException("Difficulté invalide.");
         }
 
         PiegeDeProductivite newPiege = new PiegeDeProductivite();
         newPiege.setTitre(piege.getTitre());
-        newPiege.setDescription(piege.getDescription());
         newPiege.setType(piege.getType());
+        newPiege.setDescription(piege.getDescription());
         newPiege.setDifficulte(piege.getDifficulte());
         newPiege.setDateCreation(new Date()); // Valeur par défaut
         newPiege.setStatut(StatutPiege.ACTIF); // Valeur par défaut
@@ -52,5 +48,4 @@ public class ServicePiegeDeProductivite {
         return piegeRepo.save(newPiege);
     }
 
-
-    }
+}

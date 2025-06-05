@@ -42,5 +42,6 @@ public class PiegeDeProductivite {
 
     @OneToMany(mappedBy = "piege")
     private List<ConfrontationPiege> confrontations;
+
 }
 

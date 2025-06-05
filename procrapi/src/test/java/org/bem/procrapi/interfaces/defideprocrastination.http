@@ -47,3 +47,15 @@ X-Utilisateur-Email: el.flemardo@miage.fr
   "dateFin": "2026-04-23T18:25:43.511Z",
   "duree": 200
 }
+
+### (Incorrect) Création défi pour tester participation défi
+POST http://localhost:8080/api/defideprocrastination/create
+Content-Type: application/json
+X-Utilisateur-Email: lazyjoe@example.com
+
+{
+  "titre": "Déconnexion réseaux 48h",
+  "description": "Pas de réseaux sociaux pendant 48h",
+  "dateDebut": "2026-06-06T12:00:00.000Z",
+  "dateFin": "2026-06-08T12:00:00.000Z"
+}
