@@ -18,12 +18,10 @@ public class ControllerParticipationDefi {
         this.serviceParticipation = serviceParticipation;
     }
 
-    @PostMapping(path="/create")
+    @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ParticipationDefi participationDefi) {
         try {
-            ParticipationDefi participation = new ParticipationDefi();
-            participation.setDefi(participation.getDefi());
-            ParticipationDefi savedParticipation = serviceParticipation.create(participation);
+            ParticipationDefi savedParticipation = serviceParticipation.create(participationDefi);
             return new ResponseEntity<>(savedParticipation, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
