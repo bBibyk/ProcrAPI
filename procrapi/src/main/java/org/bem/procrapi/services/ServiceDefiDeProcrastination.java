@@ -26,24 +26,24 @@ public class ServiceDefiDeProcrastination {
 
 
     public DefiDeProcrastination create(DefiDeProcrastination defi){
-        if(defi.getDateFin()==null){
-            throw new IllegalArgumentException("La date de fin doit être spécifiée");
+        if (UtilisateurHolder.getCurrentUser() == null){
+            throw new IllegalArgumentException("Vous n'êtes pas authentifié");
+        } else if (UtilisateurHolder.getCurrentUser().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
+            throw new IllegalArgumentException("Vous n'avez pas ce droit");
         } else if (defi.getDateDebut()==null) {
             throw new IllegalArgumentException("La date de début doit être spécifiée");
         } else if (!defi.getDateFin().after(defi.getDateDebut())) {
             throw new IllegalArgumentException("La date de fin doit être après la date de début");
-        } else if (!defi.getDateDebut().before(new Date())) {
-            throw new IllegalArgumentException("La date de début doit être ultérieure à la date d'ajourd'hui");
+        } else if (!defi.getDateDebut().after(new Date())) {
+            throw new IllegalArgumentException("La date de début doit être postérieure à la date d'ajourd'hui");
         } else if (defi.getTitre()==null) {
             throw new IllegalArgumentException("Le titre doit être spécifié");
         } else if (defi.getDuree()==null) {
             throw new IllegalArgumentException("La durée doit être spécifiée");
         } else if (defi.getPointsAGagner()==null || defi.getPointsAGagner()<=0) {
             throw new IllegalArgumentException("Les points à gagner doivent être >= 0");
-        } else if (UtilisateurHolder.getCurrentUser() == null){
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié");
-        } else if (UtilisateurHolder.getCurrentUser().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Vous n'avez pas ce droit");
+        } else if(defi.getDateFin()==null){
+            throw new IllegalArgumentException("La date de fin doit être spécifiée");
         }
         DefiDeProcrastination savedDefi = new DefiDeProcrastination();
         savedDefi.setDateDebut(defi.getDateDebut());
