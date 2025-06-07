@@ -11,25 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class ServiceTacheAEviter {
-    private final ServiceUtilisateur serviceUtilisateur;
     private RepositoryTacheAEviter repositoryTacheAEviter;
     private RepositoryUtilisateur repositoryUtilisateur;
 
     @Autowired
     public ServiceTacheAEviter(RepositoryTacheAEviter repositoryTacheAEviter,
-                               RepositoryUtilisateur repositoryUtilisateur, ServiceUtilisateur serviceUtilisateur) {
+                               RepositoryUtilisateur repositoryUtilisateur) {
         this.repositoryUtilisateur = repositoryUtilisateur;
         this.repositoryTacheAEviter = repositoryTacheAEviter;
-        this.serviceUtilisateur = serviceUtilisateur;
     }
 
     public TacheAEviter create(TacheAEviter tacheAEviter){
@@ -81,7 +75,7 @@ public class ServiceTacheAEviter {
     }
 
     public Integer computePointsRapportes(TacheAEviter tacheAEviter, LocalDate dateDuCalcul){
-        LocalDate dateLimite = tacheAEviter.getDateLimite().toLocalDate();
+        LocalDate dateLimite = tacheAEviter.getDateLimite();
         int joursEntre = (int) ChronoUnit.DAYS.between(dateLimite, dateDuCalcul);
 
         int points = tacheAEviter.getDegreUrgence()*10 + 5*(joursEntre);

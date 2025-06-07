@@ -1,14 +1,11 @@
 package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -25,7 +22,7 @@ public class TacheAEviter {
     private Integer degreUrgence = 1;
 
     @Temporal(TemporalType.DATE)
-    private Date dateLimite;
+    private LocalDate dateLimite;
 
     private String consequences = "";
 
@@ -33,7 +30,7 @@ public class TacheAEviter {
     private StatutTache statut = StatutTache.EN_ATTENTE;
 
     @Temporal(TemporalType.DATE)
-    private Date dateCreation = new Date();
+    private LocalDate dateCreation = LocalDate.now();
 
     @ManyToOne
     private Utilisateur utilisateur;
