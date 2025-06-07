@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface RepositoryTacheAEviter extends JpaRepository<TacheAEviter, Long> {
-    public List<TacheAEviter> findByUtilisateur(Utilisateur utilisateur);
     List<TacheAEviter> findByUtilisateurIdAndStatut(Long userId, StatutTache statut);
+    List<TacheAEviter> findByStatutOrStatut(StatutTache statut1, StatutTache statut2);
 
 }

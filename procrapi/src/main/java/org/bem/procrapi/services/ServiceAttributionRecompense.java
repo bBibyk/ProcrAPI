@@ -28,7 +28,7 @@ public class   ServiceAttributionRecompense {
         if (utilisateur == null || utilisateur.getId() == null) {
             throw new IllegalArgumentException("Utilisateur non valide.");
         }
-        if ("or".equalsIgnoreCase(String.valueOf(recompense.getNiveau()))) {
+        if ("or".equalsIgnoreCase(String.valueOf(recompense.getNiveau()))) { //TODO on utilise des enums pour ça, pas in equalsIgnoreCase!
             if (!aAssezDAnciennete(utilisateur)) {
                 throw new IllegalArgumentException("Utilisateur trop récent pour recevoir une récompense de niveau OR.");
             }

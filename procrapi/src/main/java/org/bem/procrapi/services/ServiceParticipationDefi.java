@@ -48,6 +48,7 @@ public class ServiceParticipationDefi {
          */
 
         // Vérifie les 3 participations simultanées
+        // TODO très gros overkill (pourquoi solliciter la BD ?), pas besoin, il suffit de load l'utilisateur et de redared son attribut défis
         long defisEnCours = participationRepo.countByUtilisateurAndStatutIn(
                 currentUser, List.of(StatutParticipation.INSCRIT, StatutParticipation.EN_COURS)
         );
@@ -56,17 +57,19 @@ public class ServiceParticipationDefi {
         }
 
         // Vérifie les 5 participants max
+        // TODO Tout pareil que pour l'utilisateur
         long nbParticipants = participationRepo.countByDefi(defi);
         if (nbParticipants >= 5) {
             throw new IllegalArgumentException("Ce défi a atteint le nombre maximal de participants (5).");
         }
+        // TODO C'est quand qu'on donne les points à l'utilisateur ?
 
         ParticipationDefi nouvelleParticipation = new ParticipationDefi();
         nouvelleParticipation.setUtilisateur(currentUser);
         nouvelleParticipation.setDefi(defi);
         nouvelleParticipation.setDateInscription(new Date());
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
-        nouvelleParticipation.setPoints(0);
+        nouvelleParticipation.setPoints(0); //TODO Pourquoi ?
 
         return participationRepo.save(nouvelleParticipation);
     }

@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /* Nous avons opté pour cette solution d'authentification
-* parce qu'un solution colmpète (token, cookies...) n'était pas forcément nécessaire.
+* parce qu'une solution colmpète (token, cookies...) n'était pas forcément nécessaire.
 * Notre approche possède des défauts : BD souvent sollicitée, peu de sécurité.
 * Néanmoins, on considère que c'est suffisant pour ce cadre d'étude.*/
 

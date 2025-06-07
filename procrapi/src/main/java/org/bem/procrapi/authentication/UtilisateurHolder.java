@@ -4,6 +4,9 @@ import org.bem.procrapi.entities.Utilisateur;
 
 import java.util.Optional;
 
+/* Classe minimaliste pour pouvoir conserver l'utilisateur
+ * qui est en train d'utiliser l'API. */
+
 public class UtilisateurHolder {
 
     private static final ThreadLocal<Utilisateur> currentUser = new ThreadLocal<>();

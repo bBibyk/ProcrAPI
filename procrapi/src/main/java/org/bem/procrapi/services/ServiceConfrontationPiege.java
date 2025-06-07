@@ -37,7 +37,7 @@ public class ServiceConfrontationPiege {
         if (confrontation == null) {
             throw new IllegalArgumentException("Confrontation invalide.");
         }
-
+        // TODO vérifier si la date n'est pas dans le passé sinon erreur
         if (confrontation.getPiege() == null || confrontation.getPiege().getId() == null) {
             throw new IllegalArgumentException("Le piège doit être spécifi.");
         }
@@ -49,7 +49,7 @@ public class ServiceConfrontationPiege {
         confrontation.setUtilisateur(utilisateur);
         confrontation.setPiege(piege);
 
-        // Date confrontation par défaut à aujourd'hui si non précisée
+        // Date confrontation par défaut à aujourd'hui si non précisée TODO tu peux directement la set dans l'entité, comme ça on s'embete pas
         if (confrontation.getDateConfrontation() == null) {
             confrontation.setDateConfrontation(new Date());
         }
@@ -57,7 +57,7 @@ public class ServiceConfrontationPiege {
         if (confrontation.getResultat() == null) {
             throw new IllegalArgumentException("Le résultat doit être précisé");
         }
-        // Points par défaut à 0 si null
+        // Points par défaut à 0 si null TODO pas du tout, c'est +/- 50 points en fonction de si succès ou défaite
         if (confrontation.getPoints() == null) {
             confrontation.setPoints(0);
         }

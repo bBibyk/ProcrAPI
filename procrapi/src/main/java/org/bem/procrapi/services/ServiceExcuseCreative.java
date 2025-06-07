@@ -39,6 +39,7 @@ public class ServiceExcuseCreative {
         }
 
         // Vérifier que l'utilisateur connecté est bien celui qui crée l'excuse (sécurité)
+        // TODO Logique cassée, autant de ne pas vérifier createur tout court
         if (!UtilisateurHolder.getCurrentUser().getId().equals(createur.getId())) {
             throw new IllegalArgumentException("Vous ne pouvez soumettre une excuse que pour vous-même.");
         }
