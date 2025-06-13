@@ -9,6 +9,7 @@ import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,7 @@ public class   ServiceAttributionRecompense {
         AttributionRecompense attribution = new AttributionRecompense();
         attribution.setUtilisateur(utilisateur);
         attribution.setRecompense(recompense);
-        attribution.setDateObtention(new Date());
+        attribution.setDateObtention(LocalDate.now());
         attribution.setDateExpiration(null);
         attribution.setContexteAttribution(contexte);
         attribution.setStatut(StatutRecompense.ACTIF);
@@ -57,9 +58,9 @@ public class   ServiceAttributionRecompense {
         if (utilisateur.getDateInscription() == null) {
             return false;
         }
-        Calendar sixMoisAvant = Calendar.getInstance();
-        sixMoisAvant.add(Calendar.MONTH, -6);
-        return utilisateur.getDateInscription().before(sixMoisAvant.getTime());
+        LocalDate dateInscription = utilisateur.getDateInscription();
+        LocalDate sixMoisAvant = LocalDate.now().minusMonths(6);
+        return dateInscription.isBefore(sixMoisAvant);
     }
 }
 

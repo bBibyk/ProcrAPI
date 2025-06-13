@@ -1,11 +1,14 @@
 package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,7 +34,7 @@ public class ExcuseCreative {
     private Utilisateur createur;
 
     @Temporal(TemporalType.DATE)
-    private Date dateSoumission;
+    private LocalDate dateSoumission;
 
     @Enumerated(EnumType.ORDINAL)
     private CategorieExcuse categorie;

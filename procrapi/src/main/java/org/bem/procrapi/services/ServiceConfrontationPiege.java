@@ -10,7 +10,7 @@ import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Service
 public class ServiceConfrontationPiege {
@@ -51,7 +51,7 @@ public class ServiceConfrontationPiege {
 
         // Date confrontation par défaut à aujourd'hui si non précisée TODO tu peux directement la set dans l'entité, comme ça on s'embete pas
         if (confrontation.getDateConfrontation() == null) {
-            confrontation.setDateConfrontation(new Date());
+            confrontation.setDateConfrontation(LocalDate.now());
         }
 
         if (confrontation.getResultat() == null) {

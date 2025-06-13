@@ -36,7 +36,6 @@ public class ServiceRecompense {
         if (recompense.getType() == null) {
             throw new IllegalArgumentException("Type de récompense non valide.");
         }
-        //TODO ca
         return repository.save(recompense);
     }
 }

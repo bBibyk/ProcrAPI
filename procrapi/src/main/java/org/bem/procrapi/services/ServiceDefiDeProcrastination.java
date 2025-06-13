@@ -12,6 +12,7 @@ import org.bem.procrapi.utilities.enumerations.StatutDefi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -32,9 +33,9 @@ public class ServiceDefiDeProcrastination {
             throw new IllegalArgumentException("Vous n'avez pas ce droit");
         } else if (defi.getDateDebut()==null) {
             throw new IllegalArgumentException("La date de début doit être spécifiée");
-        } else if (!defi.getDateFin().after(defi.getDateDebut())) {
+        } else if (!defi.getDateFin().isAfter(defi.getDateDebut())) {
             throw new IllegalArgumentException("La date de fin doit être après la date de début");
-        } else if (!defi.getDateDebut().after(new Date())) {
+        } else if (!defi.getDateDebut().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La date de début doit être postérieure à la date d'ajourd'hui");
         } else if (defi.getTitre()==null) {
             throw new IllegalArgumentException("Le titre doit être spécifié");

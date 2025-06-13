@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.bem.procrapi.utilities.enumerations.DifficulteDefi;
 import org.bem.procrapi.utilities.enumerations.StatutDefi;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,11 +31,11 @@ public class DefiDeProcrastination {
     private Integer pointsAGagner;
 
     @Temporal(TemporalType.DATE)
-    private Date dateDebut;
+    private LocalDate dateDebut;
 
     //date de décompte des résultats
     @Temporal(TemporalType.DATE)
-    private Date dateFin;
+    private LocalDate dateFin;
 
     @Enumerated(EnumType.ORDINAL)
     private StatutDefi statut = StatutDefi.INSCRIT;

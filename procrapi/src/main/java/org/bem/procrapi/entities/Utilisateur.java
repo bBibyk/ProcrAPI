@@ -8,8 +8,8 @@ import lombok.Setter;
 import org.bem.procrapi.utilities.enumerations.NiveauProcrastination;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -32,7 +32,7 @@ public class Utilisateur {
     private Integer pointsAccumules = 0;
 
     @Temporal(TemporalType.DATE)
-    private Date dateInscription = new Date();
+    private LocalDate dateInscription = LocalDate.now();
 
     @ManyToOne
     private ExcuseCreative excusePreferee;

@@ -11,7 +11,7 @@ import org.bem.procrapi.utilities.enumerations.StatutParticipation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -67,7 +67,7 @@ public class ServiceParticipationDefi {
         ParticipationDefi nouvelleParticipation = new ParticipationDefi();
         nouvelleParticipation.setUtilisateur(currentUser);
         nouvelleParticipation.setDefi(defi);
-        nouvelleParticipation.setDateInscription(new Date());
+        nouvelleParticipation.setDateInscription(LocalDate.now());
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
         nouvelleParticipation.setPoints(0); //TODO Pourquoi ?
 

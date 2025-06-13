@@ -12,8 +12,10 @@ import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class ServiceExcuseCreative {
     }
 
     public ExcuseCreative create(String texte, String situation, int votesRecus, Utilisateur createur,
-                                 Date dateSoumission, CategorieExcuse categorie) {
+                                 LocalDate dateSoumission, CategorieExcuse categorie) {
 
 
         if (UtilisateurHolder.getCurrentUser() == null) {
@@ -61,7 +63,7 @@ public class ServiceExcuseCreative {
         excuse.setSituation(situation);
         excuse.setVotesRecus(votesRecus);
         excuse.setCreateur(createur);
-        excuse.setDateSoumission(dateSoumission != null ? dateSoumission : new Date());
+        excuse.setDateSoumission(dateSoumission != null ? dateSoumission : LocalDate.now());
         excuse.setCategorie(categorie);
         excuse.setStatut(StatutExcuse.EN_ATTENTE);
 

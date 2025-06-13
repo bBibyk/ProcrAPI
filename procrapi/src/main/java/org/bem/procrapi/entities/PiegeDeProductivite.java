@@ -6,8 +6,7 @@ import lombok.Setter;
 import org.bem.procrapi.utilities.enumerations.StatutPiege;
 import org.bem.procrapi.utilities.enumerations.TypePiege;
 
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -32,7 +31,7 @@ public class PiegeDeProductivite {
     private String consequence;
 
     @Temporal(TemporalType.DATE)
-    private Date dateCreation;
+    private LocalDate dateCreation;
 
     @Enumerated(EnumType.ORDINAL)
     private StatutPiege statut;

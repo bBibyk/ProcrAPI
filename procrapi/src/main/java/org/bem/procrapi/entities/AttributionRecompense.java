@@ -1,10 +1,13 @@
 package org.bem.procrapi.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bem.procrapi.utilities.enumerations.StatutRecompense;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -17,10 +20,10 @@ public class AttributionRecompense {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private Date dateObtention;
+    private LocalDate dateObtention;
 
     @Temporal(TemporalType.DATE)
-    private Date dateExpiration;
+    private LocalDate dateExpiration;
 
     private String contexteAttribution;
 

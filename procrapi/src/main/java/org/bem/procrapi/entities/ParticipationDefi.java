@@ -1,13 +1,12 @@
 package org.bem.procrapi.entities;
 
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.*;
 import org.bem.procrapi.utilities.enumerations.StatutParticipation;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ public class ParticipationDefi {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private Date dateInscription;
+    private LocalDate dateInscription;
 
     @Enumerated(EnumType.ORDINAL)
     private StatutParticipation statut;

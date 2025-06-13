@@ -9,7 +9,7 @@ import org.bem.procrapi.utilities.enumerations.StatutPiege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Service
 public class ServicePiegeDeProductivite {
@@ -41,7 +41,7 @@ public class ServicePiegeDeProductivite {
         newPiege.setType(piege.getType());
         newPiege.setDescription(piege.getDescription());
         newPiege.setDifficulte(piege.getDifficulte());
-        newPiege.setDateCreation(new Date()); // Valeur par défaut
+        newPiege.setDateCreation(LocalDate.now()); // Valeur par défaut
         newPiege.setStatut(StatutPiege.ACTIF); // Valeur par défaut
         newPiege.setCreateur(currentUser);
 

@@ -1,15 +1,11 @@
 package org.bem.procrapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.*;
 import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,7 +16,7 @@ public class ConfrontationPiege {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private Date dateConfrontation;
+    private LocalDate dateConfrontation;
 
     @Enumerated(EnumType.ORDINAL)
     private ResultatConfrontationPiege resultat;
