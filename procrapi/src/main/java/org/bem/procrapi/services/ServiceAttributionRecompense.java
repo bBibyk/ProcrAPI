@@ -4,6 +4,7 @@ import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryAttributionRecompense;
+import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
 import org.bem.procrapi.utilities.enumerations.StatutRecompense;
 import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class   ServiceAttributionRecompense {
         if (utilisateur == null || utilisateur.getId() == null) {
             throw new IllegalArgumentException("Utilisateur non valide.");
         }
-        if ("or".equalsIgnoreCase(String.valueOf(recompense.getNiveau()))) { //TODO on utilise des enums pour ça, pas in equalsIgnoreCase!
+        if (recompense.getNiveau() == NiveauDePrestige.OR) {
             if (!aAssezDAnciennete(utilisateur)) {
                 throw new IllegalArgumentException("Utilisateur trop récent pour recevoir une récompense de niveau OR.");
             }

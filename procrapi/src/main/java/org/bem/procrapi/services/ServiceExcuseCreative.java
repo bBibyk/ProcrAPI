@@ -12,7 +12,6 @@ import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
