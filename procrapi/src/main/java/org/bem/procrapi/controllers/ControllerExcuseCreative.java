@@ -27,7 +27,6 @@ public class ControllerExcuseCreative {
                     excuseCreative.getTexte(),
                     excuseCreative.getSituation(),
                     excuseCreative.getVotesRecus(),
-                    excuseCreative.getCreateur(),
                     excuseCreative.getDateSoumission(),
                     excuseCreative.getCategorie()
             );
