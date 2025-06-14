@@ -7,6 +7,7 @@ import org.bem.procrapi.utilities.enumerations.DifficulteDefi;
 import org.bem.procrapi.utilities.enumerations.StatutDefi;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,5 +45,5 @@ public class DefiDeProcrastination {
     private Utilisateur createur;
 
     @OneToMany(mappedBy = "defi")
-    private List<ParticipationDefi> participations;
+    private List<ParticipationDefi> participations = new ArrayList<>();
 }

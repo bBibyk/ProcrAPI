@@ -16,7 +16,7 @@ public class ConfrontationPiege {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateConfrontation;
+    private LocalDate dateConfrontation=LocalDate.now();
 
     @Enumerated(EnumType.ORDINAL)
     private ResultatConfrontationPiege resultat;

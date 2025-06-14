@@ -6,6 +6,7 @@ import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryConfrontationPiege;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
+import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class ServiceConfrontationPiege {
 
     public ConfrontationPiege create(ConfrontationPiege confrontation) {
         Utilisateur utilisateur = UtilisateurHolder.getCurrentUser();
+        ConfrontationPiege confrontationSauvegardee=new ConfrontationPiege();
+
         if (utilisateur == null) {
             throw new IllegalArgumentException("Utilisateur non authentifié.");
         }
@@ -37,32 +40,35 @@ public class ServiceConfrontationPiege {
         if (confrontation == null) {
             throw new IllegalArgumentException("Confrontation invalide.");
         }
-        // TODO vérifier si la date n'est pas dans le passé sinon erreur
+
         if (confrontation.getPiege() == null || confrontation.getPiege().getId() == null) {
-            throw new IllegalArgumentException("Le piège doit être spécifi.");
+            throw new IllegalArgumentException("Le piège doit être spécifié.");
         }
 
         PiegeDeProductivite piege = piegeRepo.findById(confrontation.getPiege().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Piège introuvable."));
 
-
-        confrontation.setUtilisateur(utilisateur);
-        confrontation.setPiege(piege);
-
-        // Date confrontation par défaut à aujourd'hui si non précisée TODO tu peux directement la set dans l'entité, comme ça on s'embete pas
-        if (confrontation.getDateConfrontation() == null) {
-            confrontation.setDateConfrontation(LocalDate.now());
-        }
-
         if (confrontation.getResultat() == null) {
             throw new IllegalArgumentException("Le résultat doit être précisé");
         }
-        // Points par défaut à 0 si null TODO pas du tout, c'est +/- 50 points en fonction de si succès ou défaite
+
         if (confrontation.getPoints() == null) {
-            confrontation.setPoints(0);
+            throw new IllegalArgumentException("Les points doivent être précisés.");
         }
 
-        return confrontationPiegeRepo.save(confrontation);
-    }
+        confrontationSauvegardee.setUtilisateur(utilisateur);
+        confrontationSauvegardee.setPiege(piege);
+        confrontationSauvegardee.setDateConfrontation(LocalDate.now());
+        switch (confrontation.getResultat()){
+            case SUCCES-> {
+                confrontationSauvegardee.setPoints(50);
+            }
+            case ECHEC -> {
+                confrontationSauvegardee.setPoints(-50);
+            }
+        }
 
+        utilisateur.setPointsAccumules(confrontationSauvegardee.getPoints());
+        return confrontationPiegeRepo.save(confrontationSauvegardee);
+    }
 }
