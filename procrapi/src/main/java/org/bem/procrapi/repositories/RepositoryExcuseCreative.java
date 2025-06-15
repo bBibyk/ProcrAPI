@@ -17,9 +17,10 @@ public interface RepositoryExcuseCreative extends JpaRepository<ExcuseCreative, 
     /**
      * Recherche les excuses créatives par leur statut.
      *
-     * @param statut le statut de l'excuse (ex : EN_ATTENTE, APPROUVEE, REJETEE)
+     * @param statut le statut de l'excuse (EN_ATTENTE, APPROUVEE, REJETEE)
      * @return la liste des excuses correspondant à ce statut
      */
     List<ExcuseCreative> findByStatut(StatutExcuse statut);
 
+    List<ExcuseCreative> findByStatutByVotesRecusDesc(StatutExcuse statut);
 }

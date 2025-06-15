@@ -34,7 +34,6 @@ public class ControllerAttributionRecompense {
     }
 
     /**
-     * Endpoint pour attribuer une récompense à un utilisateur.
      * Requête POST vers http://localhost:8080/api/attributions/create
      * @param attributionRecompense DTO contenant les informations nécessaires
      * @return l'attribution créée ou un message d'erreur

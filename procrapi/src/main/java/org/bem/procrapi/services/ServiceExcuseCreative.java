@@ -121,6 +121,9 @@ public class ServiceExcuseCreative {
         excuse.setVotesRecus(excuse.getVotesRecus() + 1);
         return repositoryExcuseCreative.save(excuse);
     }
+    public List<ExcuseCreative> getClassementHebdomadaire() {
+        return repositoryExcuseCreative.findByStatutByVotesRecusDesc(StatutExcuse.APPROUVEE);
+    }
 }
 
 

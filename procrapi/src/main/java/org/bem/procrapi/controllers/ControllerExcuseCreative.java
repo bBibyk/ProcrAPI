@@ -33,7 +33,6 @@ public class ControllerExcuseCreative {
     }
 
     /**
-     * Endpoint pour soumettre une nouvelle excuse créative.
      * Requête POST vers http://localhost:8080/api/excuse/create
      * @param excuseCreative DTO contenant les données d'excuse
      * @return l'excuse créée ou un message d'erreur
@@ -53,6 +52,13 @@ public class ControllerExcuseCreative {
         }
     }
 
+    /**
+     * Permet de récupérer les excuses en fonction de leur statut.
+     * Requête : GET http://localhost:8080/api/excuse/statut/{statut}
+     * @param statut le statut des excuses recherchées
+     * @return liste des excuses ou une erreur
+     */
+
     @GetMapping(path = "/statut/{statut}")
     public ResponseEntity<?> getByStatut(@PathVariable StatutExcuse statut) {
         try {
@@ -62,6 +68,14 @@ public class ControllerExcuseCreative {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    /**
+     * Permet au Gestionnaire du Temps Perdu de changer le statut d'une excuse.
+     * Requête : PUT http://localhost:8080/api/excuse/changer-statut/{idExcuse}
+     * @param idExcuse identifiant de l'excuse
+     * @param nouveauStatut nouveau statut à appliquer
+     * @return excuse mise à jour ou erreur
+     */
 
     @PutMapping(path = "/changer-statut/{idExcuse}")
     public ResponseEntity<?> setStatut(@PathVariable Long idExcuse, @RequestBody StatutExcuse nouveauStatut) {
@@ -73,6 +87,13 @@ public class ControllerExcuseCreative {
         }
     }
 
+    /**
+     * Permet à un utilisateur de voter pour une excuse approuvée.
+     * Requête : PUT http://localhost:8080/api/excuse/voter/{idExcuse}
+     * @param idExcuse identifiant de l'excuse
+     * @return excuse mise à jour ou erreur
+     */
+
     @PutMapping(path = "/voter/{idExcuse}")
     public ResponseEntity<?> voter(@PathVariable Long idExcuse) {
         try {
@@ -82,4 +103,15 @@ public class ControllerExcuseCreative {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping("/classement-hebdo")
+    public ResponseEntity<?> classementHebdomadaire() {
+        try {
+            List<ExcuseCreative> topExcuses = serviceExcuseCreative.getClassementHebdomadaire();
+            return ResponseEntity.ok(topExcuses);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }
