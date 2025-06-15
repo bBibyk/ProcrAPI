@@ -41,19 +41,15 @@ public class ControllerExcuseCreative {
         }
     }
 
-    @GetMapping(path = "/statut/")
+    @GetMapping(path = "/get-by-statut")
     public ResponseEntity<?> getByStatut(@RequestParam StatutExcuse statut) {
-        try {
-            List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(statut);
-            return ResponseEntity.ok(excuses);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(statut);
+        return ResponseEntity.ok(excuses);
     }
 
 
     @PutMapping(path = "/changer-statut")
-    public ResponseEntity<?> setStatut(@PathVariable String texteExcuse, @RequestBody StatutExcuse nouveauStatut) {
+    public ResponseEntity<?> setStatut(@RequestBody String texteExcuse, @RequestBody StatutExcuse nouveauStatut) {
         try {
             ExcuseCreative updated = serviceExcuseCreative.setStatut(texteExcuse, nouveauStatut);
             return ResponseEntity.ok(updated);
@@ -64,7 +60,7 @@ public class ControllerExcuseCreative {
 
 
     @PutMapping(path = "/voter")
-    public ResponseEntity<?> voter(@PathVariable String texteExcuse) {
+    public ResponseEntity<?> voter(@RequestBody String texteExcuse) {
         try {
             ExcuseCreative voted = serviceExcuseCreative.voterPourExcuse(texteExcuse);
             return ResponseEntity.ok(voted);
@@ -75,11 +71,7 @@ public class ControllerExcuseCreative {
 
     @GetMapping("/classement-hebdo")
     public ResponseEntity<?> classementHebdomadaire() {
-        try {
-            List<ExcuseCreative> topExcuses = serviceExcuseCreative.getClassementHebdomadaire();
-            return ResponseEntity.ok(topExcuses);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        List<ExcuseCreative> topExcuses = serviceExcuseCreative.getClassementHebdomadaire();
+        return ResponseEntity.ok(topExcuses);
     }
 }
