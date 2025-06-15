@@ -11,10 +11,7 @@ import java.time.LocalDate;
 @Data
 public class ImportAttributionRecompense {
     private LocalDate dateExpiration;
-
     private String contexteAttribution;
-
-    private Utilisateur utilisateur;
-
-    private Recompense recompense;
+    private ImportUtilisateur utilisateur;
+    private ImportRecompense recompense;
 }

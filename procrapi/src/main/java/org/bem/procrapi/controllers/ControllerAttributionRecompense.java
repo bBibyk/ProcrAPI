@@ -43,8 +43,8 @@ public class ControllerAttributionRecompense {
     public ResponseEntity<?> create(@RequestBody ImportAttributionRecompense attributionRecompense) {
         try {
             AttributionRecompense createdAttribution = serviceAttributionRecompense.create(
-                    attributionRecompense.getUtilisateur(),
-                    attributionRecompense.getRecompense(),
+                    attributionRecompense.getUtilisateur().getEmail(),
+                    attributionRecompense.getRecompense().getTitre(),
                     attributionRecompense.getContexteAttribution(),
                     attributionRecompense.getDateExpiration()
             );

@@ -27,7 +27,7 @@ public class ControllerConfrontationPiege {
     public ResponseEntity<?> createConfrontation(@RequestBody ImportConfrontationPiege confrontation) {
         try {
             ConfrontationPiege saved = serviceConfrontationPiege.create(
-                    confrontation.getPiege(),
+                    confrontation.getPiege().getTitre(),
                     confrontation.getResultat(),
                     confrontation.getPoints()
             );

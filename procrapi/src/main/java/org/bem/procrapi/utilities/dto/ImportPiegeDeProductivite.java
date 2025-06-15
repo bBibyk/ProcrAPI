@@ -10,6 +10,6 @@ public class ImportPiegeDeProductivite {
     private TypePiege type;
     private Integer difficulte;
     private String description;
-    private Recompense recompense;
+    private ImportRecompense recompense;
     private String consequence;
 }

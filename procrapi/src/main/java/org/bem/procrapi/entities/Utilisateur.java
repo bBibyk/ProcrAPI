@@ -1,7 +1,7 @@
 package org.bem.procrapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -35,6 +35,8 @@ public class Utilisateur {
     @Temporal(TemporalType.DATE)
     private LocalDate dateInscription = LocalDate.now();
 
+    // On fait la sérialisation côté excuse
+    @JsonBackReference
     @ManyToOne
     private ExcuseCreative excusePreferee;
 

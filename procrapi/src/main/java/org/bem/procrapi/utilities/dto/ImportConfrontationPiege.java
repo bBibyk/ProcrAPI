@@ -6,7 +6,7 @@ import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 
 @Data
 public class ImportConfrontationPiege {
-    private PiegeDeProductivite piege;
+    private ImportPiegeDeProductivite piege;
     private ResultatConfrontationPiege resultat;
     private Integer points;
 }

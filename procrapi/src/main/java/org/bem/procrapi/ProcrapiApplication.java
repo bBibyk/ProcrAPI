@@ -46,13 +46,13 @@ public class ProcrapiApplication implements CommandLineRunner {
         }
 
         // Création du badge procrastinateur en danger, vu qu'il est par défaut dans le programme (règle métier)
-        //if(repositoryRecompense.getRecompenseByTitre("Procrastinateur en Danger")){
+        if(repositoryRecompense.findByTitre("Procrastinateur en Danger").isEmpty()){
             Recompense recompense = new Recompense();
             recompense.setTitre("Procrastinateur en Danger");
             recompense.setConditionsObtention("Échouer à un piège de productivité.");
             recompense.setType(TypeRecompense.BADGE);
             repositoryRecompense.save(recompense);
-        //}
+        }
 
         System.out.println("Database initialized!");
     }
