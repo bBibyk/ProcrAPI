@@ -8,6 +8,7 @@ import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
 import org.bem.procrapi.utilities.enumerations.StatutRecompense;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,25 +34,25 @@ public class ServiceAttributionRecompense {
     public AttributionRecompense create(Utilisateur utilisateur, Recompense recompense, String contexte, LocalDate dateExpiration) {
 
         if (utilisateur == null || utilisateur.getId() == null) {
-            throw new IllegalArgumentException("Utilisateur non valide.");
+            throw new ServiceValidationException("Utilisateur non valide.");
         }
 
         if (recompense == null || recompense.getId() == null) {
-            throw new IllegalArgumentException("Récompense non valide.");
+            throw new ServiceValidationException("Récompense non valide.");
         }
 
         Utilisateur fullUtilisateur = repositoryUtilisateur.findById(utilisateur.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Cette utilisateur n'existe pas."));
+                .orElseThrow(() -> new ServiceValidationException("Cette utilisateur n'existe pas."));
 
         Recompense fullRecompense = repositoryRecompense.findById(recompense.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Récompense introuvable."));
+                .orElseThrow(() -> new ServiceValidationException("Récompense introuvable."));
 
         if (fullRecompense.getNiveau() == NiveauDePrestige.OR) {
             if (!aAssezDAnciennete(fullUtilisateur)) {
-                throw new IllegalArgumentException("Utilisateur trop récent pour recevoir une récompense de niveau OR.");
+                throw new ServiceValidationException("Utilisateur trop récent pour recevoir une récompense de niveau OR.");
             }
             if (fullUtilisateur.getPointsAccumules() < 2000) {
-                throw new IllegalArgumentException("Utilisateur n'a pas assez de points pour une récompense de niveau OR.");
+                throw new ServiceValidationException("Utilisateur n'a pas assez de points pour une récompense de niveau OR.");
             }
         }
 

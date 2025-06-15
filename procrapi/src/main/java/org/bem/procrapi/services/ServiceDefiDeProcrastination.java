@@ -5,9 +5,8 @@ import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryDefiDeProcrastination;
 import org.bem.procrapi.utilities.enumerations.DifficulteDefi;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
-import org.bem.procrapi.utilities.enumerations.StatutDefi;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,19 +33,19 @@ public class ServiceDefiDeProcrastination {
                                         DifficulteDefi difficulte) {
         Utilisateur utilisateurCourant = utilisateurService.getUtilisateurCourant();
         if (utilisateurCourant.getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Seul le gestionnaire du temps perdu peut créer des défis.");
+            throw new ServiceValidationException("Seul le gestionnaire du temps perdu peut créer des défis.");
         } else if (dateDebut==null) {
-            throw new IllegalArgumentException("La date de début doit être spécifiée.");
+            throw new ServiceValidationException("La date de début doit être spécifiée.");
         } else if (duree==null) {
-            throw new IllegalArgumentException("La durée doit être spécifiée.");
+            throw new ServiceValidationException("La durée doit être spécifiée.");
         } else if (duree<=0) {
-            throw new IllegalArgumentException("La durée doit être positive.");
+            throw new ServiceValidationException("La durée doit être positive.");
         } else if (!dateDebut.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("La date de début doit être postérieure à la date d'ajourd'hui.");
+            throw new ServiceValidationException("La date de début doit être postérieure à la date d'ajourd'hui.");
         } else if (titre==null) {
-            throw new IllegalArgumentException("Le titre doit être spécifié.");
+            throw new ServiceValidationException("Le titre doit être spécifié.");
         } else if (pointsAGagner==null || pointsAGagner<=0) {
-            throw new IllegalArgumentException("Les points à gagner doivent être >= 0.");
+            throw new ServiceValidationException("Les points à gagner doivent être >= 0.");
         }
 
         LocalDate dateFin = LocalDate.now().plusDays(duree-1);
@@ -65,11 +64,5 @@ public class ServiceDefiDeProcrastination {
             savedDefi.setDifficulte(difficulte);
         }
         return repositoryDefiDeProcrastination.save(savedDefi);
-    }
-
-    //method accessible seulement pour les services donc protected
-    protected DefiDeProcrastination setStatut(DefiDeProcrastination defi, StatutDefi statut){
-        defi.setStatut(statut);
-        return repositoryDefiDeProcrastination.save(defi);
     }
 }

@@ -7,10 +7,10 @@ import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.NiveauProcrastination;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
 import java.util.Optional;
 
 @Service
@@ -30,10 +30,11 @@ public class ServiceUtilisateur {
     // Mais nous avons opté pour cette solution afin de maintenir le user dans le contexte de persistence
     // De plus ça a permis de factoriser du code pour ne pas refaire le teste à chaque fois si le user
     // n'est pas authentifié
+    //method accessible seulement pour les services donc protected
     protected Utilisateur getUtilisateurCourant(){
         Optional<Utilisateur> utilisateurCourant = repositoryUtilisateur.findByEmail(EmailHolder.getEmail());
         if(utilisateurCourant.isEmpty()){
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié.");
+            throw new ServiceValidationException("Vous n'êtes pas authentifié.");
         }
         return utilisateurCourant.get();
     }
@@ -41,25 +42,25 @@ public class ServiceUtilisateur {
     public Utilisateur create(RoleUtilisateur role,
                               String pseudo,
                               String email,
-                              ExcuseCreative excusePreferee) throws  IllegalArgumentException {
+                              ExcuseCreative excusePreferee) throws  ServiceValidationException {
         if (role==RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Cet utilisateur ne peut pas être crée.");
+            throw new ServiceValidationException("Cet utilisateur ne peut pas être crée.");
         } else if (role == RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI
                 && getUtilisateurCourant().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Seul le Gestionnaire du temps perdu peut créer des antiprocrastinateurs répantis.");
+            throw new ServiceValidationException("Seul le Gestionnaire du temps perdu peut créer des antiprocrastinateurs répantis.");
         } else if (role == null){
-            throw new IllegalArgumentException("Role non valide.");
+            throw new ServiceValidationException("Role non valide.");
         } else if (pseudo == null ){
-            throw new IllegalArgumentException("Pseudo non valide.");
+            throw new ServiceValidationException("Pseudo non valide.");
         } else if (repositoryUtilisateur.findByEmail(email).isPresent()) {
-            throw new IllegalArgumentException("Email non valide.");
+            throw new ServiceValidationException("Email non valide.");
         }
 
         Utilisateur savedUtilisateur = new Utilisateur();
         if (excusePreferee != null){
             Optional<ExcuseCreative> excusePrefereeFull = repositoryExcuseCreative.findById(excusePreferee.getId());
             if (excusePrefereeFull.isEmpty()){
-                throw new IllegalArgumentException("Excuse non valide.");
+                throw new ServiceValidationException("Excuse non valide.");
             }
             savedUtilisateur.setExcusePreferee(excusePrefereeFull.get());
         }
@@ -70,6 +71,7 @@ public class ServiceUtilisateur {
         return repositoryUtilisateur.save(savedUtilisateur);
     }
 
+    //method accessible seulement pour les services donc protected
     protected void attribuerPoints(Utilisateur utilisateur, Integer points) {
         int nouveauxPoints = utilisateur.getPointsAccumules() + points;
         if (nouveauxPoints <= 0){

@@ -9,6 +9,7 @@ import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
 import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.TypeRecompense;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,22 +41,22 @@ public class ServiceConfrontationPiege {
         ConfrontationPiege confrontationSauvegardee=new ConfrontationPiege();
 
         if (utilisateur.getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE ){
-            throw new IllegalArgumentException("Vous n'avez pas les droits pour créer une confrontation.");
+            throw new ServiceValidationException("Vous n'avez pas les droits pour créer une confrontation.");
         }
 
         if (piege == null || piege.getId() == null) {
-            throw new IllegalArgumentException("Le piège doit être spécifié.");
+            throw new ServiceValidationException("Le piège doit être spécifié.");
         }
 
         PiegeDeProductivite piegeFull = piegeRepo.findById(piege.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Piège introuvable."));
+                .orElseThrow(() -> new ServiceValidationException("Piège introuvable."));
 
         if (resultat == null) {
-            throw new IllegalArgumentException("Le résultat doit être précisé");
+            throw new ServiceValidationException("Le résultat doit être précisé");
         }
 
         if (points == null) {
-            throw new IllegalArgumentException("Les points doivent être précisés.");
+            throw new ServiceValidationException("Les points doivent être précisés.");
         }
 
         confrontationSauvegardee.setUtilisateur(utilisateur);
@@ -75,7 +76,11 @@ public class ServiceConfrontationPiege {
                 Recompense recompense = new Recompense();
                 recompense.setType(TypeRecompense.BADGE);
                 recompense.setTitre("Procrastinateur en Danger");
-                serviceAttributionRecompense.create(utilisateur, recompense,"Piège de productivité raté", LocalDate.now().plusDays(7));
+                serviceAttributionRecompense.create(
+                        utilisateur,
+                        recompense,
+                        "Piège de productivité raté",
+                        LocalDate.now().plusDays(7));
             }
         }
 

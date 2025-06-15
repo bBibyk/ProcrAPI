@@ -4,6 +4,7 @@ import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.services.ServiceTacheAEviter;
 import org.bem.procrapi.utilities.dto.ImportTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class ControllerTacheAEviter {
                     tacheAEviter.getDescription());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleTache);
-        } catch (Exception e) {
-            //cas d'exception prévue
+        } catch (ServiceValidationException e) {
+            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -40,7 +41,7 @@ public class ControllerTacheAEviter {
     public ResponseEntity<?> setStatut(@PathVariable Long idTache, @RequestBody StatutTache statut) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(idTache, statut));
-        }catch (Exception e) {
+        }catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }

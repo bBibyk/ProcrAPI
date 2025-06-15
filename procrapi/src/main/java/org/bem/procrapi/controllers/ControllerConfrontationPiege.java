@@ -3,6 +3,7 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.ConfrontationPiege;
 import org.bem.procrapi.services.ServiceConfrontationPiege;
 import org.bem.procrapi.utilities.dto.ImportConfrontationPiege;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,8 @@ public class ControllerConfrontationPiege {
             );
             //cas normal
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            //cas d'exception prévue
+        } catch (ServiceValidationException e) {
+            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

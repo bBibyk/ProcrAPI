@@ -6,6 +6,7 @@ import org.bem.procrapi.repositories.RepositoryTacheAEviter;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +36,13 @@ public class ServiceTacheAEviter {
                                String description){
         Utilisateur utilisateurCourant = serviceUtilisateur.getUtilisateurCourant();
         if (utilisateurCourant.getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE){
-            throw new IllegalArgumentException("Vous n'avez pas ce droit.");
+            throw new ServiceValidationException("Vous n'avez pas ce droit.");
         } else if(dateLimite==null){
-            throw new IllegalArgumentException("La date doit être spécifiée.");
+            throw new ServiceValidationException("La date doit être spécifiée.");
         } else if (dateLimite.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("La date limite doit être postérieure à la date actuelle.");
+            throw new ServiceValidationException("La date limite doit être postérieure à la date actuelle.");
         } else if (titre==null) {
-            throw new IllegalArgumentException("Le titre doit être spécifiée.");
+            throw new ServiceValidationException("Le titre doit être spécifiée.");
         }
 
         TacheAEviter savedTache = new TacheAEviter();
@@ -49,7 +50,7 @@ public class ServiceTacheAEviter {
             if(degreUrgence>=1 && degreUrgence<=5){
                 savedTache.setDegreUrgence(degreUrgence);
             }else{
-                throw new IllegalArgumentException("Le degré d'urgence doit être compris entre 1 et 5.");
+                throw new ServiceValidationException("Le degré d'urgence doit être compris entre 1 et 5.");
             }
         }
         savedTache.setUtilisateur(utilisateurCourant);
@@ -74,7 +75,7 @@ public class ServiceTacheAEviter {
                 return repositoryTacheAEviter.save(tache);
             }
         }
-        throw new IllegalArgumentException("Vous n'êtes pas le non-réalisateur de cette tâche.");
+        throw new ServiceValidationException("Vous n'êtes pas le non-réalisateur de cette tâche.");
     }
 
     protected Integer computePointsRapportes(TacheAEviter tacheAEviter, LocalDate dateDuCalcul){

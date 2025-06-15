@@ -3,6 +3,7 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.DefiDeProcrastination;
 import org.bem.procrapi.services.ServiceDefiDeProcrastination;
 import org.bem.procrapi.utilities.dto.ImportDefiDeProcrastination;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class ControllerDefiDeProcrastination {
                     defiDeProcrastination.getDifficulte());
             //cas normal
             return new ResponseEntity<>(nouveauDefi, HttpStatus.CREATED);
-        } catch (Exception e) {
-            //cas d'exception prévue
+        } catch (ServiceValidationException e) {
+            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

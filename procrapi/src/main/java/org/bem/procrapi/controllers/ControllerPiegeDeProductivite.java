@@ -4,6 +4,7 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.services.ServicePiegeDeProductivite;
 import org.bem.procrapi.utilities.dto.ImportPiegeDeProductivite;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,8 @@ public class ControllerPiegeDeProductivite {
                     piege.getDescription());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (IllegalArgumentException e) {
-            //cas d'exception prévue
+        } catch (ServiceValidationException e) {
+            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

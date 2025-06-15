@@ -4,12 +4,10 @@ import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
-import org.bem.procrapi.utilities.enumerations.StatutPiege;
 import org.bem.procrapi.utilities.enumerations.TypePiege;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 public class ServicePiegeDeProductivite {
@@ -32,15 +30,15 @@ public class ServicePiegeDeProductivite {
         Utilisateur currentUser = utilisateurService.getUtilisateurCourant();
 
         if (currentUser == null) {
-            throw new IllegalArgumentException("Utilisateur non authentifié.");
+            throw new ServiceValidationException("Utilisateur non authentifié.");
         } else if (currentUser.getRole() != RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI) {
-            throw new IllegalArgumentException("Seuls les Anti-Procrastinateurs Repentis peuvent créer un piège.");
+            throw new ServiceValidationException("Seuls les Anti-Procrastinateurs Repentis peuvent créer un piège.");
         }else if (titre == null ) {
-            throw new IllegalArgumentException("Titre obligatoire.");
+            throw new ServiceValidationException("Titre obligatoire.");
         }else if (type == null) {
-            throw new IllegalArgumentException("Type obligatoire.");
+            throw new ServiceValidationException("Type obligatoire.");
         }else if (difficulte == null || (difficulte < 1 || difficulte > 5) ) {
-            throw new IllegalArgumentException("Difficulté invalide.");
+            throw new ServiceValidationException("Difficulté invalide.");
         }
 
         PiegeDeProductivite newPiege = new PiegeDeProductivite();

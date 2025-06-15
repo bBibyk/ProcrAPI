@@ -2,14 +2,15 @@ package org.bem.procrapi.services;
 
 
 import org.bem.procrapi.entities.ExcuseCreative;
-import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.entities.TacheAEviter;
+import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
+import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ public class ServiceExcuseCreative {
         );
 
         if (tachesSucces.isEmpty() && tachesCatastrophe.isEmpty()) {
-            throw new IllegalArgumentException("Vous n'avez pas de tâche éligible pour soumettre une excuse.");
+            throw new ServiceValidationException("Vous n'avez pas de tâche éligible pour soumettre une excuse.");
         }
 
 
@@ -71,11 +72,11 @@ public class ServiceExcuseCreative {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
         if (current.getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
-            throw new IllegalArgumentException("Seul le Gestionnaire du Temps Perdu peut approuver une excuse.");
+            throw new ServiceValidationException("Seul le Gestionnaire du Temps Perdu peut approuver une excuse.");
         }
 
         ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
-                .orElseThrow(() -> new IllegalArgumentException("Excuse non trouvée."));
+                .orElseThrow(() -> new ServiceValidationException("Excuse non trouvée."));
 
         excuse.setStatut(nouveauStatut);
         return repositoryExcuseCreative.save(excuse);
@@ -85,14 +86,14 @@ public class ServiceExcuseCreative {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
         if (current.getRole() == RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
-            throw new IllegalArgumentException("Le Gestionnaire ne peut pas voter.");
+            throw new ServiceValidationException("Le Gestionnaire ne peut pas voter.");
         }
 
         ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
-                .orElseThrow(() -> new IllegalArgumentException("Excuse non trouvée."));
+                .orElseThrow(() -> new ServiceValidationException("Excuse non trouvée."));
 
         if (excuse.getStatut() != StatutExcuse.APPROUVEE) {
-            throw new IllegalArgumentException("Vous ne pouvez voter que pour une excuse approuvée.");
+            throw new ServiceValidationException("Vous ne pouvez voter que pour une excuse approuvée.");
         }
 
         excuse.setVotesRecus(excuse.getVotesRecus() + 1);
