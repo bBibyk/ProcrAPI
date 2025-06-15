@@ -3,6 +3,7 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.services.ServiceExcuseCreative;
 import org.bem.procrapi.utilities.dto.ImportExcuseCreative;
+import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,36 @@ public class ControllerExcuseCreative {
                     excuseCreative.getCategorie()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(createdExcuse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/statut/{statut}")
+    public ResponseEntity<?> getByStatut(@PathVariable StatutExcuse statut) {
+        try {
+            List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(statut);
+            return ResponseEntity.ok(excuses);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping(path = "/changer-statut/{idExcuse}")
+    public ResponseEntity<?> setStatut(@PathVariable Long idExcuse, @RequestBody StatutExcuse nouveauStatut) {
+        try {
+            ExcuseCreative updated = serviceExcuseCreative.setStatut(idExcuse, nouveauStatut);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping(path = "/voter/{idExcuse}")
+    public ResponseEntity<?> voter(@PathVariable Long idExcuse) {
+        try {
+            ExcuseCreative voted = serviceExcuseCreative.voterPourExcuse(idExcuse);
+            return ResponseEntity.ok(voted);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
