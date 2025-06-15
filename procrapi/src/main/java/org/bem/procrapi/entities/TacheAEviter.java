@@ -26,6 +26,9 @@ public class TacheAEviter {
 
     private String consequences = "";
 
+    @Temporal(TemporalType.DATE)
+    private LocalDate dateCompletion;
+
     @Enumerated(EnumType.ORDINAL)
     private StatutTache statut = StatutTache.EN_ATTENTE;
 
