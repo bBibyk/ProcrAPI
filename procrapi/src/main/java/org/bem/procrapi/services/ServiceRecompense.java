@@ -36,7 +36,12 @@ public class ServiceRecompense {
         if (recompense.getType() == null) {
             throw new IllegalArgumentException("Type de récompense non valide.");
         }
-        //TODO attention avec cette manière de faire on ne se protège pas contre l'exemple que j'ai donné dans le http
+        Recompense savedRecompense = new Recompense();
+        savedRecompense.setTitre(recompense.getTitre());
+        savedRecompense.setDescription(recompense.getDescription());
+        savedRecompense.setConditionsObtention(recompense.getConditionsObtention());
+        savedRecompense.setNiveau(recompense.getNiveau());
+        savedRecompense.setType(recompense.getType());
         return repository.save(recompense);
     }
 }

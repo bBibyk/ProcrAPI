@@ -5,6 +5,7 @@ import lombok.*;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
 import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,5 @@ public class Recompense {
     private TypeRecompense type;
 
     @OneToMany(mappedBy = "recompense")
-    //TODO pense à l'initialiser à un moment dans le code sinon tel quel il y a un null pointer exception !
-    // Je te propose de l'initialiser ici direct comme j'ai fait
-    private List<AttributionRecompense> attributions;
+    private List<AttributionRecompense> attributions= new ArrayList<>();
 }
