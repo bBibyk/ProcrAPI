@@ -8,6 +8,7 @@ import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
+import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,16 +67,42 @@ public class ServiceExcuseCreative {
     }
 
 
-    // TODO : compléter avec une méthode pour setStatut
-    // seul le gestionnaire du temps peut l'appeler
+    public ExcuseCreative setStatut(Long idExcuse, StatutExcuse nouveauStatut) {
+        Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
+
+        if (current.getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
+            throw new IllegalArgumentException("Seul le Gestionnaire du Temps Perdu peut approuver une excuse.");
+        }
+
+        ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
+                .orElseThrow(() -> new IllegalArgumentException("Excuse non trouvée."));
+
+        excuse.setStatut(nouveauStatut);
+        return repositoryExcuseCreative.save(excuse);
+    }
 
 
 
 
-    // TODO ajouter une méthode pour voter pour une excuse créative
-    // Expliquer que c'est un bonus qu'on a décidé d'implémenter
-    // Seuls les utilisateur peuvent voter
-    // Seules les excuses avec statut aprouvé peuvent être votées
+
+    public ExcuseCreative voterPourExcuse(Long idExcuse) {
+        Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
+
+        if (current.getRole() == RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
+            throw new IllegalArgumentException("Le Gestionnaire ne peut pas voter.");
+        }
+
+        ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
+                .orElseThrow(() -> new IllegalArgumentException("Excuse non trouvée."));
+
+        if (excuse.getStatut() != StatutExcuse.APPROUVEE) {
+            throw new IllegalArgumentException("Vous ne pouvez voter que pour une excuse approuvée.");
+        }
+
+        excuse.setVotesRecus(excuse.getVotesRecus() + 1);
+        return repositoryExcuseCreative.save(excuse);
+    }
+
 
 }
 
