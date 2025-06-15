@@ -84,18 +84,18 @@ public class ServiceExcuseCreative {
 
     /**
      * Change le statut d’une excuse (action réservée au gestionnaire).
-     * @param idExcuse ID de l’excuse
+     * @param texteExcuse ID de l’excuse
      * @param nouveauStatut nouveau statut
      * @return excuse mise à jour
      */
-    public ExcuseCreative setStatut(Long idExcuse, StatutExcuse nouveauStatut) {
+    public ExcuseCreative setStatut(String texteExcuse, StatutExcuse nouveauStatut) {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
         if (current.getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
             throw new ServiceValidationException("Seul le Gestionnaire du Temps Perdu peut approuver une excuse.");
         }
 
-        ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
+        ExcuseCreative excuse = repositoryExcuseCreative.findByTexte(texteExcuse)
                 .orElseThrow(() -> new ServiceValidationException("Excuse non trouvée."));
 
         excuse.setStatut(nouveauStatut);
@@ -125,7 +125,7 @@ public class ServiceExcuseCreative {
         return repositoryExcuseCreative.save(excuse);
     }
     public List<ExcuseCreative> getClassementHebdomadaire() {
-        return repositoryExcuseCreative.findByStatutByVotesRecusDesc(StatutExcuse.APPROUVEE);
+        return repositoryExcuseCreative.findByStatutOrderByVotesRecusDesc(StatutExcuse.APPROUVEE);
     }
 }
 

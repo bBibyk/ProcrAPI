@@ -29,7 +29,7 @@ public class ControllerPiegeDeProductivite {
                     piege.getType(),
                     piege.getDifficulte(),
                     piege.getDescription(),
-                    piege.getRecompense().getTitre(),
+                    piege.getRecompense()==null ? null : piege.getRecompense().getTitre(),
                     piege.getConsequence());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(created);

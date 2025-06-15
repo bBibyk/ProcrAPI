@@ -35,7 +35,7 @@ public class ProcrapiApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String gestionnaire_mail = "el.flemardo@miage.fr";
-        if (repositoryUtilisateur.getUtilisateurByEmail(gestionnaire_mail).isEmpty()) {
+        if (repositoryUtilisateur.findByEmail(gestionnaire_mail).isEmpty()) {
             Utilisateur gestionnaireDuTempsPerdu = new Utilisateur();
             gestionnaireDuTempsPerdu.setRole(RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU);
             gestionnaireDuTempsPerdu.setNiveau(NiveauProcrastination.EXPERT);

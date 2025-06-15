@@ -22,5 +22,5 @@ public interface RepositoryExcuseCreative extends JpaRepository<ExcuseCreative, 
      */
     List<ExcuseCreative> findByStatut(StatutExcuse statut);
 
-    List<ExcuseCreative> findByStatutByVotesRecusDesc(StatutExcuse statut);
+    List<ExcuseCreative> findByStatutOrderByVotesRecusDesc(StatutExcuse statut);
 }

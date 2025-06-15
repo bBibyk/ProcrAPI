@@ -42,6 +42,6 @@ public class ControllerVerificationPeriodique {
     @PutMapping("/reinitialiser-votes")
     public String reinitialiserVotesExcusesValide() {
         service.reinitialiserVotesExcusesValide();
-        return "Excuses réinitialisées."
+        return "Excuses réinitialisées.";
     }
 }

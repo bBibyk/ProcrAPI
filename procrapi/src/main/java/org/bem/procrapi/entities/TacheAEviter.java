@@ -26,6 +26,7 @@ public class TacheAEviter {
 
     private String consequences = "";
 
+    // Attribut ajouté afin de calculer la règle métier de déchéance
     @Temporal(TemporalType.DATE)
     private LocalDate dateCompletion;
 

@@ -74,13 +74,14 @@ public class ServiceTacheAEviter {
         for(TacheAEviter tache : taches){
             if (tache.getTitre().equals(titreTache)){
                 tache.setStatut(statut);
-
                 if (statut == StatutTache.EVITE_AVEC_SUCCES) {
                    List<TacheAEviter> tachesCompleteesCeMois=repositoryTacheAEviter.findByUtilisateurIdAndDateCompletionBetween(utilisateur.getId(), LocalDate.now(), LocalDate.now().minusMonths(1));
                    int nbTachesCompletees=tachesCompleteesCeMois.size();
                    if (nbTachesCompletees > 5) {
                       serviceUtilisateur.perdreNiveau(utilisateur);
                    }
+                } else {
+                    tache.setDateCompletion(LocalDate.now());
                 }
                 return repositoryTacheAEviter.save(tache);
             }

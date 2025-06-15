@@ -25,7 +25,8 @@ public class ControllerParticipationDefi {
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportParticipationDefi participationDefi) {
         try {
-            ParticipationDefi savedParticipation = serviceParticipation.create(participationDefi.getDefi().getTitre());
+            ParticipationDefi savedParticipation = serviceParticipation.create(
+                    participationDefi==null ? null : participationDefi.getDefi().getTitre());
             //cas normal
             return new ResponseEntity<>(savedParticipation, HttpStatus.CREATED);
         } catch (ServiceValidationException e) {
