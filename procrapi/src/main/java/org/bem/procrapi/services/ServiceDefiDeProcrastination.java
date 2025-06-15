@@ -34,6 +34,10 @@ public class ServiceDefiDeProcrastination {
         Utilisateur utilisateurCourant = utilisateurService.getUtilisateurCourant();
         if (utilisateurCourant.getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
             throw new ServiceValidationException("Seul le gestionnaire du temps perdu peut créer des défis.");
+        } else if (titre==null) {
+            throw new ServiceValidationException("Le titre doit être spécifié.");
+        } else if (repositoryDefiDeProcrastination.findByTitre(titre).isPresent()) {
+            throw new ServiceValidationException("Ce défi existe déjà.");
         } else if (dateDebut==null) {
             throw new ServiceValidationException("La date de début doit être spécifiée.");
         } else if (duree==null) {
@@ -42,8 +46,6 @@ public class ServiceDefiDeProcrastination {
             throw new ServiceValidationException("La durée doit être positive.");
         } else if (!dateDebut.isAfter(LocalDate.now())) {
             throw new ServiceValidationException("La date de début doit être postérieure à la date d'ajourd'hui.");
-        } else if (titre==null) {
-            throw new ServiceValidationException("Le titre doit être spécifié.");
         } else if (pointsAGagner==null || pointsAGagner<=0) {
             throw new ServiceValidationException("Les points à gagner doivent être >= 0.");
         }

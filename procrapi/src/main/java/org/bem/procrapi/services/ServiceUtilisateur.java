@@ -85,4 +85,13 @@ public class ServiceUtilisateur {
         }
         repositoryUtilisateur.save(utilisateur);
     }
+
+    //method accessible seulement pour les services donc protected
+    protected void perdreNiveau(Utilisateur utilisateur){
+        if(utilisateur.getNiveau()==NiveauProcrastination.EXPERT){
+            utilisateur.setNiveau(NiveauProcrastination.INTERMEDIAIRE);
+        } else if (utilisateur.getNiveau()==NiveauProcrastination.INTERMEDIAIRE) {
+            utilisateur.setNiveau(NiveauProcrastination.DEBUTANT);
+        }
+    }
 }

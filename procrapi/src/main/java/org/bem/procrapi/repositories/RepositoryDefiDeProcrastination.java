@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RepositoryDefiDeProcrastination extends JpaRepository<DefiDeProcrastination, Long> {
-    public List<DefiDeProcrastination> findByDateDebut(LocalDate dateDebut);
-    public List<DefiDeProcrastination> findByDateFin(LocalDate dateFin);
+    Optional<DefiDeProcrastination> findByTitre(String id);
+    List<DefiDeProcrastination> findByDateDebut(LocalDate dateDebut);
+    List<DefiDeProcrastination> findByDateFin(LocalDate dateFin);
 }

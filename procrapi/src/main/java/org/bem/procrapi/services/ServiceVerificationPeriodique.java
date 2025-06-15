@@ -3,10 +3,7 @@ package org.bem.procrapi.services;
 import jakarta.transaction.Transactional;
 import org.bem.procrapi.entities.*;
 import org.bem.procrapi.repositories.*;
-import org.bem.procrapi.utilities.enumerations.StatutDefi;
-import org.bem.procrapi.utilities.enumerations.StatutParticipation;
-import org.bem.procrapi.utilities.enumerations.StatutRecompense;
-import org.bem.procrapi.utilities.enumerations.StatutTache;
+import org.bem.procrapi.utilities.enumerations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,7 @@ public class ServiceVerificationPeriodique {
     private final RepositoryTacheAEviter repositoryTacheAEviter;
     private final RepositoryDefiDeProcrastination repositoryDefiDeProcrastination;
     private final RepositoryAttributionRecompense repositoryAttributionRecompense;
+    private final RepositoryExcuseCreative repositoryExcuseCreative;
 
     @Autowired
     public ServiceVerificationPeriodique(RepositoryUtilisateur repositoryUtilisateur,
@@ -29,13 +27,14 @@ public class ServiceVerificationPeriodique {
                                          ServiceUtilisateur serviceUtilisateur,
                                          ServiceTacheAEviter serviceTacheAEviter,
                                          RepositoryDefiDeProcrastination repositoryDefiDeProcrastination,
-                                         RepositoryAttributionRecompense repositoryAttributionRecompense) {
+                                         RepositoryAttributionRecompense repositoryAttributionRecompense, RepositoryExcuseCreative repositoryExcuseCreative) {
         this.repositoryUtilisateur = repositoryUtilisateur;
         this.repositoryTacheAEviter = repositoryTacheAEviter;
         this.serviceUtilisateur = serviceUtilisateur;
         this.serviceTacheAEviter = serviceTacheAEviter;
         this.repositoryDefiDeProcrastination = repositoryDefiDeProcrastination;
         this.repositoryAttributionRecompense = repositoryAttributionRecompense;
+        this.repositoryExcuseCreative = repositoryExcuseCreative;
     }
 
     // 84400000 pour 1 fois/24 h
@@ -90,6 +89,16 @@ public class ServiceVerificationPeriodique {
         );
         for(AttributionRecompense attribution : attributions){
             attribution.setStatut(StatutRecompense.EXPIRE);
+        }
+    }
+
+    // Tous les 7 jours (hebdo) les votes sont remis à 0
+    @Scheduled(fixedRate = 604800000)
+    @Transactional
+    public void reinitialiserVotesExcusesValide(){
+        List<ExcuseCreative> excuses = repositoryExcuseCreative.findByStatut(StatutExcuse.APPROUVEE);
+        for(ExcuseCreative excuse : excuses){
+            excuse.setVotesRecus(0);
         }
     }
 }
