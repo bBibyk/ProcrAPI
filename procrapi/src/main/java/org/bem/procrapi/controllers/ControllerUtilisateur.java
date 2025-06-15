@@ -30,7 +30,7 @@ public class ControllerUtilisateur {
                     utilisateur.getRole(),
                     utilisateur.getPseudo(),
                     utilisateur.getEmail(),
-                    utilisateur.getExcusePreferee().getTexte());
+                    utilisateur.getExcusePreferee() == null ? null : utilisateur.getExcusePreferee().getTexte());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur);
         }catch (ServiceValidationException e) {

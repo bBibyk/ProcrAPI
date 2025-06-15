@@ -2,6 +2,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.ParticipationDefi;
 import org.bem.procrapi.services.ServiceParticipationDefi;
+import org.bem.procrapi.utilities.dto.ImportParticipationDefi;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,9 @@ public class ControllerParticipationDefi {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> create(@RequestBody ParticipationDefi participationDefi) {
+    public ResponseEntity<?> create(@RequestBody ImportParticipationDefi participationDefi) {
         try {
-            ParticipationDefi savedParticipation = serviceParticipation.create(participationDefi);
+            ParticipationDefi savedParticipation = serviceParticipation.create(participationDefi.getDefi().getTitre());
             //cas normal
             return new ResponseEntity<>(savedParticipation, HttpStatus.CREATED);
         } catch (ServiceValidationException e) {

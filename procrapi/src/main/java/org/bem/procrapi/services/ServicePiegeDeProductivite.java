@@ -40,9 +40,11 @@ public class ServicePiegeDeProductivite {
         } else if (currentUser.getRole() != RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI) {
             throw new ServiceValidationException("Seuls les Anti-Procrastinateurs Repentis peuvent créer un piège.");
         }else if (titre == null ) {
-            throw new ServiceValidationException("Titre obligatoire.");
-        }else if (type == null) {
-            throw new ServiceValidationException("Type obligatoire.");
+            throw new ServiceValidationException("Titre est obligatoire.");
+        } else if (piegeRepo.findByTitre(titre).isPresent()) {
+            throw new ServiceValidationException("Ce piège existe déjà.");
+        } else if (type == null) {
+            throw new ServiceValidationException("Type est obligatoire.");
         }else if (difficulte == null || (difficulte < 1 || difficulte > 5) ) {
             throw new ServiceValidationException("Difficulté invalide.");
         }

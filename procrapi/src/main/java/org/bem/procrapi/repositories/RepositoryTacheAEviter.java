@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface RepositoryTacheAEviter extends JpaRepository<TacheAEviter, Long> {
+    Optional<TacheAEviter> findByTitre(String titre);
     List<TacheAEviter> findByUtilisateurIdAndStatut(Long userId, StatutTache statut);
     List<TacheAEviter> findByStatutOrStatut(StatutTache statut1, StatutTache statut2);
     List<TacheAEviter> findByUtilisateurIdAndDateCompletionBetween(Long utilisateurId, LocalDate debut, LocalDate fin);

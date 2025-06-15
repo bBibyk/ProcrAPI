@@ -43,13 +43,16 @@ public class ServiceExcuseCreative {
      * Crée une nouvelle excuse si l’utilisateur a une tâche valide.
      * @param texte texte de l'excuse
      * @param situation contexte d'utilisation
-     * @param votesRecus ignoré (initialisé à 0)
      * @param categorie catégorie de l’excuse
      * @return l’excuse créée
      * @throws ServiceValidationException si l’utilisateur n’a pas de tâche admissible
      */
-    public ExcuseCreative create(String texte, String situation, Integer votesRecus, CategorieExcuse categorie) {
+    public ExcuseCreative create(String texte, String situation, CategorieExcuse categorie) {
         Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();
+
+        if (repositoryExcuseCreative.findByTexte(texte).isPresent()) {
+            throw new ServiceValidationException("Cette excuse existe déjà");
+        }
 
         List<TacheAEviter> tachesSucces = repositoryTacheAEviter.findByUtilisateurIdAndStatut(currentUser.getId(), StatutTache.EVITE_AVEC_SUCCES);
         List<TacheAEviter> tachesCatastrophe = repositoryTacheAEviter.findByUtilisateurIdAndStatut(currentUser.getId(), StatutTache.CATASTROPHE);
@@ -101,17 +104,17 @@ public class ServiceExcuseCreative {
 
     /**
      * Permet à un utilisateur (non gestionnaire) de voter pour une excuse approuvée.
-     * @param idExcuse ID de l’excuse ciblée
+     * @param texteExcuse texte de l’excuse ciblée
      * @return excuse mise à jour
      */
-    public ExcuseCreative voterPourExcuse(Long idExcuse) {
+    public ExcuseCreative voterPourExcuse(String texteExcuse) {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
         if (current.getRole() == RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
             throw new ServiceValidationException("Le Gestionnaire ne peut pas voter.");
         }
 
-        ExcuseCreative excuse = repositoryExcuseCreative.findById(idExcuse)
+        ExcuseCreative excuse = repositoryExcuseCreative.findByTexte(texteExcuse)
                 .orElseThrow(() -> new ServiceValidationException("Excuse non trouvée."));
 
         if (excuse.getStatut() != StatutExcuse.APPROUVEE) {

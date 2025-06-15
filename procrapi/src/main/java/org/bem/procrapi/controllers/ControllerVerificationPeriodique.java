@@ -38,4 +38,10 @@ public class ControllerVerificationPeriodique {
         service.terminerAttributionsRecompensesExpires();
         return "Récompenses expirées traitées.";
     }
+
+    @PutMapping("/reinitialiser-votes")
+    public String reinitialiserVotesExcusesValide() {
+        service.reinitialiserVotesExcusesValide();
+        return "Excuses réinitialisées."
+    }
 }

@@ -37,10 +37,10 @@ public class ControllerTacheAEviter {
         }
     }
 
-    @PutMapping(path="/setStatut/{idTache}")
-    public ResponseEntity<?> setStatut(@PathVariable Long idTache, @RequestBody StatutTache statut) {
+    @PutMapping(path="/setStatut")
+    public ResponseEntity<?> setStatut(@RequestBody String titreTache, @RequestBody StatutTache statut) {
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(idTache, statut));
+            return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(titreTache, statut));
         }catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

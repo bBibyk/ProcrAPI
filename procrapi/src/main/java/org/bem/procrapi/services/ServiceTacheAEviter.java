@@ -43,6 +43,8 @@ public class ServiceTacheAEviter {
             throw new ServiceValidationException("La date limite doit être postérieure à la date actuelle.");
         } else if (titre==null) {
             throw new ServiceValidationException("Le titre doit être spécifiée.");
+        } else if (repositoryTacheAEviter.findByTitre(titre).isPresent()) {
+            throw new ServiceValidationException("Cette tâche existe déjà.");
         }
 
         TacheAEviter savedTache = new TacheAEviter();
@@ -65,12 +67,12 @@ public class ServiceTacheAEviter {
         return repositoryTacheAEviter.save(savedTache);
     }
 
-    public TacheAEviter setStatut(Long idTache, StatutTache statut){
+    public TacheAEviter setStatut(String titreTache, StatutTache statut){
         Utilisateur utilisateurCourant = serviceUtilisateur.getUtilisateurCourant();
         Utilisateur utilisateur = repositoryUtilisateur.findById(utilisateurCourant.getId()).get();
         List<TacheAEviter> taches = utilisateur.getTaches();
         for(TacheAEviter tache : taches){
-            if (tache.getId()==idTache){
+            if (tache.getTitre().equals(titreTache)){
                 tache.setStatut(statut);
 
                 if (statut == StatutTache.EVITE_AVEC_SUCCES) {
@@ -83,7 +85,7 @@ public class ServiceTacheAEviter {
                 return repositoryTacheAEviter.save(tache);
             }
         }
-        throw new ServiceValidationException("Vous n'êtes pas le non-réalisateur de cette tâche.");
+        throw new ServiceValidationException("La tâche n'a pas été trouvée parmis vos tâches.");
     }
 
     protected Integer computePointsRapportes(TacheAEviter tacheAEviter, LocalDate dateDuCalcul){

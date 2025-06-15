@@ -75,6 +75,8 @@ public class ServiceVerificationPeriodique {
             defi.setStatut(StatutDefi.TERMINE);
             for(ParticipationDefi participation : defi.getParticipations()){
                 participation.setStatut(StatutParticipation.TERMINE);
+                participation.setPoints(defi.getPointsAGagner());
+                serviceUtilisateur.attribuerPoints(participation.getUtilisateur(), defi.getPointsAGagner());
             }
         }
     }

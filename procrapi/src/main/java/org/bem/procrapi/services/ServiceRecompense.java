@@ -45,6 +45,7 @@ public class ServiceRecompense {
                              TypeRecompense type) throws ServiceValidationException {
 
         if (titre == null) throw new ServiceValidationException("Titre de la récompense non valide.");
+        if (repository.findByTitre(titre).isPresent()) throw new ServiceValidationException("Cette récompense existe déjà");
         if (description == null) throw new ServiceValidationException("Description de la récompense non valide.");
         if (conditionsObtention == null) throw new ServiceValidationException("Conditions d'obtention non valides.");
         if (niveau == null) throw new ServiceValidationException("Niveau de prestige non valide.");

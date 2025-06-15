@@ -28,18 +28,18 @@ public class ServiceParticipationDefi {
         this.utilisateurService = utilisateurService;
     }
 
-    public ParticipationDefi create(ParticipationDefi partcipation) {
+    public ParticipationDefi create(String titreDefi) {
         Utilisateur utilisateurCourant = utilisateurService.getUtilisateurCourant();
 
         if (utilisateurCourant.getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE) {
             throw new ServiceValidationException("Seuls les Procrastinateurs en Herbe peuvent participer à un défi.");
         }
 
-        if (partcipation.getDefi() == null || partcipation.getDefi().getId() == null) {
+        if (titreDefi == null) {
             throw new ServiceValidationException("Défi non spécifié.");
         }
 
-        DefiDeProcrastination defi = defiRepo.findById(partcipation.getDefi().getId())
+        DefiDeProcrastination defi = defiRepo.findByTitre(titreDefi)
                 .orElseThrow(() -> new ServiceValidationException("Le défis spécifié est introuvable."));
 
         /* Il existe des contraintes imposées dans les règles :
@@ -56,7 +56,7 @@ public class ServiceParticipationDefi {
         }
 
         // Vérifie les 5 participants max
-        int nbParticipants = partcipation.getDefi().getParticipations().size();
+        int nbParticipants = defi.getParticipations().size();
         if (nbParticipants >= 5) {
             throw new ServiceValidationException("Ce défi a atteint le nombre maximal de participants (5).");
         }
@@ -66,13 +66,6 @@ public class ServiceParticipationDefi {
         nouvelleParticipation.setDefi(defi);
         nouvelleParticipation.setDateInscription(LocalDate.now());
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
-
-        /* Mise à jour des points gagnés par la participation
-        et attribution des points à l'utilisateur à la fin du défi */
-        if(partcipation.getDefi().getStatut()== StatutDefi.TERMINE){
-            nouvelleParticipation.setPoints(partcipation.getDefi().getPointsAGagner());
-            utilisateurService.attribuerPoints(utilisateurCourant, nouvelleParticipation.getPoints());
-        }
 
         return participationRepo.save(nouvelleParticipation);
     }

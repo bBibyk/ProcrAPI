@@ -52,8 +52,10 @@ public class ServiceUtilisateur {
             throw new ServiceValidationException("Role non valide.");
         } else if (pseudo == null ){
             throw new ServiceValidationException("Pseudo non valide.");
-        } else if (repositoryUtilisateur.findByEmail(email).isPresent()) {
+        } else if (email==null) {
             throw new ServiceValidationException("Email non valide.");
+        } else if (repositoryUtilisateur.findByEmail(email).isPresent()) {
+            throw new ServiceValidationException("Cet utilisateur existe déjà.");
         }
 
         Utilisateur savedUtilisateur = new Utilisateur();
