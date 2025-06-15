@@ -1,7 +1,11 @@
 package org.bem.procrapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
 import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 
@@ -30,6 +34,7 @@ public class Recompense {
     @Enumerated(EnumType.STRING)
     private TypeRecompense type;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recompense")
-    private List<AttributionRecompense> attributions= new ArrayList<>();
+    private List<AttributionRecompense> attributions = new ArrayList<>();
 }

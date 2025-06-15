@@ -3,11 +3,11 @@ POST http://localhost:8080/api/recompense/create
 Content-Type: application/json
 
 {
-"titre": "Récompense du mois",
-"description": "Décernée à la meilleure excuse du mois",
-"conditionsObtention": "Avoir plus de 50 votes",
-"niveau": "OR",
-"type": "BADGE"
+  "titre": "Récompense du mois",
+  "description": "Décernée à la meilleure excuse du mois",
+  "conditionsObtention": "Avoir plus de 50 votes",
+  "niveau": "OR",
+  "type": "BADGE"
 }
 
 #### exemple incorrecte

@@ -1,5 +1,6 @@
 package org.bem.procrapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,8 +29,9 @@ public class ExcuseCreative {
 
     private int votesRecus;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "excusePreferee")
-    private List<Utilisateur> utilisateurs;
+    private List<Utilisateur> utilisateurs = new ArrayList<>();
 
     @ManyToOne
     private Utilisateur createur;

@@ -1,5 +1,7 @@
 package org.bem.procrapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import org.bem.procrapi.utilities.enumerations.StatutPiege;
 import org.bem.procrapi.utilities.enumerations.TypePiege;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -39,8 +42,9 @@ public class PiegeDeProductivite {
     @ManyToOne
     private Utilisateur createur;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "piege")
-    private List<ConfrontationPiege> confrontations;
+    private List<ConfrontationPiege> confrontations = new ArrayList<>();
 
 }
 

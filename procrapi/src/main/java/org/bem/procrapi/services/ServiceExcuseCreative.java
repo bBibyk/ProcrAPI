@@ -32,6 +32,7 @@ public class ServiceExcuseCreative {
         this.serviceUtilisateur = serviceUtilisateur;
     }
 
+    //TODO votes recus doit être systématiquement à 0 !
     public ExcuseCreative create(String texte, String situation, int votesRecus, CategorieExcuse categorie) {
 
         Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();

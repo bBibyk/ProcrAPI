@@ -1,7 +1,7 @@
 package org.bem.procrapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -38,32 +38,31 @@ public class Utilisateur {
     @ManyToOne
     private ExcuseCreative excusePreferee;
 
-    @JsonBackReference
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "createur")
     private List<ExcuseCreative> excuses = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<TacheAEviter> taches = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "createur")
     private List<DefiDeProcrastination> defis = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "createur")
     private List<PiegeDeProductivite> pieges = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<ConfrontationPiege> confrontations = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<AttributionRecompense> recompenses = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<ParticipationDefi> participations = new ArrayList<>();
-    //TODO @JsonBackReference and init lists and sensible attributes
 }

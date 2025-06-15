@@ -1,5 +1,6 @@
 package org.bem.procrapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class DefiDeProcrastination {
     @ManyToOne
     private Utilisateur createur;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "defi")
     private List<ParticipationDefi> participations = new ArrayList<>();
 }

@@ -15,7 +15,7 @@ X-Utilisateur-Email: procrastineur@miage.fr
 {
   "titre": "Réviser l'examen",
   "description": "Examen final demain",
-  "dateLimite": "2025-06-10",
+  "dateLimite": "2025-07-10",
   "consequences": "Redoublement",
   "degreUrgence": 5
 }
