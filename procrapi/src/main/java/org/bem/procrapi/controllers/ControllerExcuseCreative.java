@@ -10,17 +10,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Contrôleur pour la gestion des excuses créatives.
+ */
 @RestController
 @RequestMapping(path = "/api/excuse")
 public class ControllerExcuseCreative {
 
+    /**
+     * Service métier pour les excuses créatives.
+     */
     private final ServiceExcuseCreative serviceExcuseCreative;
 
+    /**
+     * Constructeur avec injection du service.
+     * @param serviceExcuseCreative service injecté
+     */
     @Autowired
     public ControllerExcuseCreative(ServiceExcuseCreative serviceExcuseCreative) {
         this.serviceExcuseCreative = serviceExcuseCreative;
     }
 
+    /**
+     * Endpoint pour soumettre une nouvelle excuse créative.
+     * Requête POST vers http://localhost:8080/api/excuse/create
+     * @param excuseCreative DTO contenant les données d'excuse
+     * @return l'excuse créée ou un message d'erreur
+     */
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportExcuseCreative excuseCreative) {
         try {
@@ -30,13 +46,9 @@ public class ControllerExcuseCreative {
                     excuseCreative.getVotesRecus(),
                     excuseCreative.getCategorie()
             );
-            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdExcuse);
         } catch (Exception e) {
-            //cas d'exception prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
-
 }

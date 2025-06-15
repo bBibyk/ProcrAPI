@@ -12,21 +12,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Contrôleur pour gérer les attributions de récompenses.
+ */
 @RestController
 @RequestMapping(path = "/api/attributions")
 public class ControllerAttributionRecompense {
 
+    /**
+     * Service métier pour l'attribution des récompenses.
+     */
     private final ServiceAttributionRecompense serviceAttributionRecompense;
 
+    /**
+     * Constructeur avec injection du service.
+     * @param serviceAttributionRecompense service métier injecté
+     */
     @Autowired
     public ControllerAttributionRecompense(ServiceAttributionRecompense serviceAttributionRecompense) {
         this.serviceAttributionRecompense = serviceAttributionRecompense;
     }
 
+    /**
+     * Endpoint pour attribuer une récompense à un utilisateur.
+     * Requête POST vers http://localhost:8080/api/attributions/create
+     * @param attributionRecompense DTO contenant les informations nécessaires
+     * @return l'attribution créée ou un message d'erreur
+     */
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportAttributionRecompense attributionRecompense) {
         try {
-            //cas normal
             AttributionRecompense createdAttribution = serviceAttributionRecompense.create(
                     attributionRecompense.getUtilisateur(),
                     attributionRecompense.getRecompense(),
@@ -35,10 +50,8 @@ public class ControllerAttributionRecompense {
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(createdAttribution);
         } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
-
 }
+

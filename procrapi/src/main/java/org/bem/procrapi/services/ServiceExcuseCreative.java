@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service métier pour la gestion des excuses créatives soumises par les utilisateurs.
+ */
 @Service
 public class ServiceExcuseCreative {
 
@@ -24,6 +27,9 @@ public class ServiceExcuseCreative {
     private final ServiceUtilisateur serviceUtilisateur;
     private final RepositoryTacheAEviter repositoryTacheAEviter;
 
+    /**
+     * Constructeur avec injection.
+     */
     @Autowired
     public ServiceExcuseCreative(RepositoryExcuseCreative repositoryExcuseCreative,
                                  RepositoryTacheAEviter repositoryTacheAEviter,
@@ -33,22 +39,24 @@ public class ServiceExcuseCreative {
         this.serviceUtilisateur = serviceUtilisateur;
     }
 
+    /**
+     * Crée une nouvelle excuse si l’utilisateur a une tâche valide.
+     * @param texte texte de l'excuse
+     * @param situation contexte d'utilisation
+     * @param votesRecus ignoré (initialisé à 0)
+     * @param categorie catégorie de l’excuse
+     * @return l’excuse créée
+     * @throws ServiceValidationException si l’utilisateur n’a pas de tâche admissible
+     */
     public ExcuseCreative create(String texte, String situation, Integer votesRecus, CategorieExcuse categorie) {
-
         Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();
 
-        List<TacheAEviter> tachesSucces = repositoryTacheAEviter.findByUtilisateurIdAndStatut(
-                currentUser.getId(), StatutTache.EVITE_AVEC_SUCCES
-        );
-
-        List<TacheAEviter> tachesCatastrophe = repositoryTacheAEviter.findByUtilisateurIdAndStatut(
-                currentUser.getId(), StatutTache.CATASTROPHE
-        );
+        List<TacheAEviter> tachesSucces = repositoryTacheAEviter.findByUtilisateurIdAndStatut(currentUser.getId(), StatutTache.EVITE_AVEC_SUCCES);
+        List<TacheAEviter> tachesCatastrophe = repositoryTacheAEviter.findByUtilisateurIdAndStatut(currentUser.getId(), StatutTache.CATASTROPHE);
 
         if (tachesSucces.isEmpty() && tachesCatastrophe.isEmpty()) {
             throw new ServiceValidationException("Vous n'avez pas de tâche éligible pour soumettre une excuse.");
         }
-
 
         ExcuseCreative excuse = new ExcuseCreative();
         excuse.setTexte(texte);
@@ -62,11 +70,21 @@ public class ServiceExcuseCreative {
         return repositoryExcuseCreative.save(excuse);
     }
 
+    /**
+     * Récupère les excuses selon un statut donné.
+     * @param statut statut cible (en attente, approuvée, etc.)
+     * @return liste d’excuses
+     */
     public List<ExcuseCreative> getExusesByStatut(StatutExcuse statut) {
         return repositoryExcuseCreative.findByStatut(statut);
     }
 
-
+    /**
+     * Change le statut d’une excuse (action réservée au gestionnaire).
+     * @param idExcuse ID de l’excuse
+     * @param nouveauStatut nouveau statut
+     * @return excuse mise à jour
+     */
     public ExcuseCreative setStatut(Long idExcuse, StatutExcuse nouveauStatut) {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
@@ -81,6 +99,11 @@ public class ServiceExcuseCreative {
         return repositoryExcuseCreative.save(excuse);
     }
 
+    /**
+     * Permet à un utilisateur (non gestionnaire) de voter pour une excuse approuvée.
+     * @param idExcuse ID de l’excuse ciblée
+     * @return excuse mise à jour
+     */
     public ExcuseCreative voterPourExcuse(Long idExcuse) {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
 
@@ -98,9 +121,8 @@ public class ServiceExcuseCreative {
         excuse.setVotesRecus(excuse.getVotesRecus() + 1);
         return repositoryExcuseCreative.save(excuse);
     }
-
-
 }
+
 
 
 
