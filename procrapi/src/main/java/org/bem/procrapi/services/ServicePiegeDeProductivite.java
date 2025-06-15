@@ -16,22 +16,22 @@ public class ServicePiegeDeProductivite {
 
     private final RepositoryPiegeDeProductivite piegeRepo;
     private final ServiceUtilisateur utilisateurService;
-    private final RepositoryRecompense recompenseRepo;
+    private final RepositoryRecompense repositoryRecompense;
 
 
     @Autowired
     public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege,
-                                      ServiceUtilisateur utilisateurService, RepositoryRecompense recompenseRepo){
+                                      ServiceUtilisateur utilisateurService, RepositoryRecompense repositoryRecompense){
         this.piegeRepo = repositoryPiege;
         this.utilisateurService = utilisateurService;
-        this.recompenseRepo = recompenseRepo;
+        this.repositoryRecompense = repositoryRecompense;
     }
 
     public PiegeDeProductivite create(String titre,
                                       TypePiege type,
                                       Integer difficulte,
                                       String description,
-                                      Recompense recompense,
+                                      String titreRecompense,
                                       String consequence) {
         Utilisateur currentUser = utilisateurService.getUtilisateurCourant();
 
@@ -54,11 +54,12 @@ public class ServicePiegeDeProductivite {
             newPiege.setDescription(description);
         }
         newPiege.setDifficulte(difficulte);
-        if(recompenseRepo.findById(recompense.getId()).isPresent()) {
-            newPiege.setRecompense(recompense);
-        }else{
-            throw new ServiceValidationException("Recompense non trouvé.");
+        if(titreRecompense==null){
+            throw new ServiceValidationException("Recompense non valide.");
         }
+        Recompense recompenseFull = repositoryRecompense.findByTitre(titreRecompense)
+                .orElseThrow(()-> new ServiceValidationException("Recompense non trouvée."));
+        newPiege.setRecompense(recompenseFull);
 
         if(consequence != null){
             newPiege.setConsequence(consequence);
