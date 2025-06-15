@@ -1,6 +1,5 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
@@ -74,7 +73,7 @@ public class ServiceTacheAEviter {
         throw new IllegalArgumentException("Vous n'êtes pas le non-réalisateur de cette tâche.");
     }
 
-    public Integer computePointsRapportes(TacheAEviter tacheAEviter, LocalDate dateDuCalcul){
+    protected Integer computePointsRapportes(TacheAEviter tacheAEviter, LocalDate dateDuCalcul){
         LocalDate dateLimite = tacheAEviter.getDateLimite();
         int joursEntre = (int) ChronoUnit.DAYS.between(dateLimite, dateDuCalcul);
 

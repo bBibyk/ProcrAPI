@@ -1,10 +1,9 @@
-package org.bem.procrapi.components.authentication;
+package org.bem.procrapi.authentication;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

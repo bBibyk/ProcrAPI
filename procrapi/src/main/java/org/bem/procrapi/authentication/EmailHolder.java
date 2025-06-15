@@ -1,4 +1,4 @@
-package org.bem.procrapi.components.authentication;
+package org.bem.procrapi.authentication;
 
 import org.bem.procrapi.entities.Utilisateur;
 

@@ -22,8 +22,7 @@ public class DefiDeProcrastination {
 
     private String description = "";
 
-    // minutes -> décision arbitraire pour mieux tester
-    // temps de durée pour participer
+    // attribut un peu inutile car dateFin existe et est mieux
     private Integer duree;
 
     @Enumerated(EnumType.ORDINAL)

@@ -1,6 +1,5 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;

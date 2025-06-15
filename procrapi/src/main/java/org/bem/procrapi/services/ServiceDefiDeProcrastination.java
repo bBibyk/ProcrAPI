@@ -1,6 +1,5 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.DefiDeProcrastination;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryDefiDeProcrastination;
@@ -60,7 +59,8 @@ public class ServiceDefiDeProcrastination {
         return repositoryDefiDeProcrastination.save(defi);
     }
 
-    public DefiDeProcrastination setStatut(DefiDeProcrastination defi, StatutDefi statut){
+    //method accessible seulement pour les services donc protected
+    protected DefiDeProcrastination setStatut(DefiDeProcrastination defi, StatutDefi statut){
         defi.setStatut(statut);
         return repositoryDefiDeProcrastination.save(defi);
     }

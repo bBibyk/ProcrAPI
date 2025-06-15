@@ -69,10 +69,6 @@ public class ServiceAttributionRecompense {
         return repository.save(attribution);
     }
 
-    public List<AttributionRecompense> getTypeBadge() {
-        return repository.findByRecompense_Type(TypeRecompense.BADGE);
-    }
-
     private boolean aAssezDAnciennete(Utilisateur utilisateur) {
         if (utilisateur.getDateInscription() == null) {
             return false;
