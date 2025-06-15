@@ -36,6 +36,7 @@ public class ServiceRecompense {
         if (recompense.getType() == null) {
             throw new IllegalArgumentException("Type de récompense non valide.");
         }
+        //TODO attention avec cette manière de faire on ne se protège pas contre l'exemple que j'ai donné dans le http
         return repository.save(recompense);
     }
 }

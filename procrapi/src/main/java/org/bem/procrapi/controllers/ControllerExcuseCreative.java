@@ -30,9 +30,11 @@ public class ControllerExcuseCreative {
                     excuseCreative.getDateSoumission(),
                     excuseCreative.getCategorie()
             );
+            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdExcuse);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            //cas d'exception prévue
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

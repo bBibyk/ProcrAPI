@@ -24,9 +24,11 @@ public class ControllerUtilisateur {
     public ResponseEntity<?> create(@RequestBody Utilisateur utilisateur) {
         try{
             Utilisateur createdUtilisateur = serviceUtilisateur.create(utilisateur);
+            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur);
         }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            //cas d'exception prévue
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

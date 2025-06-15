@@ -1,12 +1,10 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.authentication.UtilisateurHolder;
 import org.bem.procrapi.entities.ConfrontationPiege;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryConfrontationPiege;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
-import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +16,19 @@ public class ServiceConfrontationPiege {
 
     private final RepositoryConfrontationPiege confrontationPiegeRepo;
     private final RepositoryPiegeDeProductivite piegeRepo;
+    private final ServiceUtilisateur utilisateurService;
 
     @Autowired
     public ServiceConfrontationPiege(RepositoryConfrontationPiege confrontationPiegeRepo,
-                                     RepositoryPiegeDeProductivite piegeRepo) {
+                                     RepositoryPiegeDeProductivite piegeRepo,
+                                     ServiceUtilisateur utilisateurService) {
         this.confrontationPiegeRepo = confrontationPiegeRepo;
         this.piegeRepo = piegeRepo;
+        this.utilisateurService = utilisateurService;
     }
 
     public ConfrontationPiege create(ConfrontationPiege confrontation) {
-        Utilisateur utilisateur = UtilisateurHolder.getCurrentUser();
+        Utilisateur utilisateur = utilisateurService.getUtilisateurCourant();
         ConfrontationPiege confrontationSauvegardee=new ConfrontationPiege();
 
         if (utilisateur == null) {
@@ -68,6 +69,7 @@ public class ServiceConfrontationPiege {
             }
         }
 
+        // TODO : oubli de la règle métier sur le badge. ajouter ça en utilisant le service attribution récompense
         utilisateur.setPointsAccumules(confrontationSauvegardee.getPoints());
         return confrontationPiegeRepo.save(confrontationSauvegardee);
     }

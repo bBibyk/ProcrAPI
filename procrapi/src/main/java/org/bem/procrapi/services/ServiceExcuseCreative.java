@@ -1,7 +1,7 @@
 package org.bem.procrapi.services;
 
 
-import org.bem.procrapi.authentication.UtilisateurHolder;
+import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.entities.TacheAEviter;
@@ -20,24 +20,22 @@ import java.util.List;
 public class ServiceExcuseCreative {
 
     private final RepositoryExcuseCreative repositoryExcuseCreative;
+    private final ServiceUtilisateur serviceUtilisateur;
     private final RepositoryTacheAEviter repositoryTacheAEviter;
 
     @Autowired
     public ServiceExcuseCreative(RepositoryExcuseCreative repositoryExcuseCreative,
-                                 RepositoryTacheAEviter repositoryTacheAEviter) {
+                                 RepositoryTacheAEviter repositoryTacheAEviter,
+                                 ServiceUtilisateur serviceUtilisateur) {
         this.repositoryExcuseCreative = repositoryExcuseCreative;
         this.repositoryTacheAEviter = repositoryTacheAEviter;
+        this.serviceUtilisateur = serviceUtilisateur;
     }
 
     public ExcuseCreative create(String texte, String situation, int votesRecus,
                                  LocalDate dateSoumission, CategorieExcuse categorie) {
 
-        Utilisateur currentUser = UtilisateurHolder.getCurrentUser();
-
-
-        if (currentUser == null) {
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié.");
-        }
+        Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();
 
         List<TacheAEviter> tachesSucces = repositoryTacheAEviter.findByUtilisateurIdAndStatut(
                 currentUser.getId(), StatutTache.EVITE_AVEC_SUCCES
@@ -57,6 +55,7 @@ public class ServiceExcuseCreative {
         excuse.setSituation(situation);
         excuse.setVotesRecus(votesRecus);
         excuse.setCreateur(currentUser);
+        // TODO : est-ce vraiment nécessaire de laisser la possibiliter à l'utilisateur de saisir la date ?
         excuse.setDateSoumission(dateSoumission != null ? dateSoumission : LocalDate.now());
         excuse.setCategorie(categorie);
         excuse.setStatut(StatutExcuse.EN_ATTENTE);
@@ -64,9 +63,21 @@ public class ServiceExcuseCreative {
         return repositoryExcuseCreative.save(excuse);
     }
 
+    // TODO ajouter le controlleur associé à cette méthode
     public List<ExcuseCreative> getStatutEnAttente() {
         return repositoryExcuseCreative.findByStatut(StatutExcuse.EN_ATTENTE);
     }
+
+    // TODO : compléter avec une méthode pour setStatut
+    // seul le gestionnaire du temps peut l'appeler
+
+
+
+
+    // TODO ajouter une méthode pour voter pour une excuse créative
+    // Expliquer que c'est un bonus qu'on a décidé d'implémenter
+    // Seuls les utilisateur peuvent voter
+    // Seules les excuses avec statut aprouvé peuvent être votées
 
 }
 

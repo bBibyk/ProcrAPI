@@ -33,6 +33,7 @@ public class ProcrapiApplication implements CommandLineRunner {
             gestionnaireDuTempsPerdu.setEmail(gestionnaire_mail);
             repositoryUtilisateur.save(gestionnaireDuTempsPerdu);
         }
+        // TODO Eylul : tu peux créer le badge procrastinateur en danger. Vu qu'il est par défaut dans le programme
 
         System.out.println("Database initialized!");
     }

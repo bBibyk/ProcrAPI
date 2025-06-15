@@ -28,9 +28,11 @@ public class ControllerAttributionRecompense {
                     attributionRecompense.getRecompense(),
                     attributionRecompense.getContexteAttribution()
             );
+            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdAttribution);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            //cas d'exception prévue
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

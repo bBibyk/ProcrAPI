@@ -1,6 +1,6 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.authentication.UtilisateurHolder;
+import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
@@ -25,12 +25,24 @@ public class ServiceUtilisateur {
         this.repositoryExcuseCreative = repositoryExcuseCreative;
     }
 
+    // Initialement ce traitement se faisait dans EmailHolder (qui était UtilisateurHodlder)
+    // Mais nous avons opté pour cette solution afin de maintenir le user dans le contexte de persistence
+    // De plus ça a permis de factoriser du code pour ne pas refaire le teste à chaque fois si le user
+    // n'est pas authentifié
+    public Utilisateur getUtilisateurCourant(){
+        Optional<Utilisateur> utilisateurCourant = repositoryUtilisateur.findByEmail(EmailHolder.getEmail());
+        if(utilisateurCourant.isEmpty()){
+            throw new IllegalArgumentException("Vous n'êtes pas authentifié.");
+        }
+        return utilisateurCourant.get();
+    }
+
     public Utilisateur create(Utilisateur utilisateur) throws  IllegalArgumentException {
         if (utilisateur.getRole()==RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
             throw new IllegalArgumentException("Cet utilisateur ne peut pas être crée.");
         } else if (utilisateur.getRole() == RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI
-                && UtilisateurHolder.getCurrentUser().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
-            throw new IllegalArgumentException("Vous n'avez pas ce droit.");
+                && getUtilisateurCourant().getRole() != RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
+            throw new IllegalArgumentException("Seul le Gestionnaire du temps perdu peut créer des antiprocrastinateurs répantis.");
         } else if (utilisateur.getRole() == null){
             throw new IllegalArgumentException("Role non valide.");
         } else if (utilisateur.getPseudo() == null ){
@@ -54,11 +66,12 @@ public class ServiceUtilisateur {
         return repositoryUtilisateur.save(savedUtilisateur);
     }
 
-    public Utilisateur attribuerPoints(Utilisateur utilisateur, Integer points) {
+    public void attribuerPoints(Utilisateur utilisateur, Integer points) {
         int nouveauxPoints = utilisateur.getPointsAccumules() + points;
         if (nouveauxPoints <= 0){
             utilisateur.setPointsAccumules(0);
-            return repositoryUtilisateur.save(utilisateur);
+            repositoryUtilisateur.save(utilisateur);
+            return;
         }
         utilisateur.setPointsAccumules(nouveauxPoints);
         if (utilisateur.getNiveau()== NiveauProcrastination.DEBUTANT && nouveauxPoints>=500){
@@ -66,6 +79,6 @@ public class ServiceUtilisateur {
         } else if (utilisateur.getNiveau()== NiveauProcrastination.INTERMEDIAIRE && nouveauxPoints>=1000){
             utilisateur.setNiveau(NiveauProcrastination.EXPERT);
         }
-        return repositoryUtilisateur.save(utilisateur);
+        repositoryUtilisateur.save(utilisateur);
     }
 }

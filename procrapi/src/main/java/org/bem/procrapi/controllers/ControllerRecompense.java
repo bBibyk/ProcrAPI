@@ -22,9 +22,11 @@ public class ControllerRecompense {
     public ResponseEntity<?> create(@RequestBody Recompense recompense) {
         try {
             Recompense createdRecompense = serviceRecompense.create(recompense);
+            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdRecompense);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            //cas d'exception prévue
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

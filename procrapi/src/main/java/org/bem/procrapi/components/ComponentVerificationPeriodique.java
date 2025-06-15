@@ -1,10 +1,12 @@
-package org.bem.procrapi.services;
+package org.bem.procrapi.components;
 
 import jakarta.transaction.Transactional;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
+import org.bem.procrapi.services.ServiceTacheAEviter;
+import org.bem.procrapi.services.ServiceUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,8 +19,8 @@ import java.util.List;
 public class ComponentVerificationPeriodique {
     private final ServiceUtilisateur serviceUtilisateur;
     private final ServiceTacheAEviter serviceTacheAEviter;
-    private RepositoryUtilisateur repositoryUtilisateur;
-    private RepositoryTacheAEviter repositoryTacheAEviter;
+    private final RepositoryUtilisateur repositoryUtilisateur;
+    private final RepositoryTacheAEviter repositoryTacheAEviter;
 
     @Autowired
     public ComponentVerificationPeriodique(RepositoryUtilisateur repositoryUtilisateur,
@@ -48,4 +50,8 @@ public class ComponentVerificationPeriodique {
             serviceUtilisateur.attribuerPoints(utilisateur, pointsMerites);
         }
     }
+
+    // TODO faire la méthode quotidienne pour finir un défis et setStatutParticipation
+
+    // TODO une méthode pour terminer les récompenses
 }

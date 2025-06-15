@@ -1,4 +1,4 @@
-package org.bem.procrapi.authentication;
+package org.bem.procrapi.components.authentication;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,17 +12,11 @@ import java.io.IOException;
 
 /* Nous avons opté pour cette solution d'authentification
 * parce qu'une solution colmpète (token, cookies...) n'était pas forcément nécessaire.
-* Notre approche possède des défauts : BD souvent sollicitée, peu de sécurité.
+* Notre approche possède des défauts : BD plus souvent sollicitée, peu de sécurité.
 * Néanmoins, on considère que c'est suffisant pour ce cadre d'étude.*/
 
 @Component
 public class EmailAuthenticationFilter extends OncePerRequestFilter {
-
-    private final RepositoryUtilisateur repositoryUtilisateur;
-
-    public EmailAuthenticationFilter(RepositoryUtilisateur utilisateurRepository) {
-        this.repositoryUtilisateur = utilisateurRepository;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -30,16 +24,18 @@ public class EmailAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        // On récupère le champs dans l'entête
         String email = request.getHeader("X-Utilisateur-Email");
 
         if (email != null) {
-            repositoryUtilisateur.findByEmail(email).ifPresent(UtilisateurHolder::setCurrentUser);
+            // On le stockque dans notre holder
+            EmailHolder.setEmail(email);
         }
 
         try {
             filterChain.doFilter(request, response);
         } finally {
-            UtilisateurHolder.clear();
+            EmailHolder.clear();
         }
     }
 }

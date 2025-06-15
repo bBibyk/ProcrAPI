@@ -30,5 +30,7 @@ public class Recompense {
     private TypeRecompense type;
 
     @OneToMany(mappedBy = "recompense")
+    //TODO pense à l'initialiser à un moment dans le code sinon tel quel il y a un null pointer exception !
+    // Je te propose de l'initialiser ici direct comme j'ai fait
     private List<AttributionRecompense> attributions;
 }

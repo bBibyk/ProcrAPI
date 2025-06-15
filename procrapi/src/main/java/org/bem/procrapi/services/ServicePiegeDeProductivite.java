@@ -1,6 +1,6 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.authentication.UtilisateurHolder;
+import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
@@ -15,14 +15,18 @@ import java.time.LocalDate;
 public class ServicePiegeDeProductivite {
 
     private final RepositoryPiegeDeProductivite piegeRepo;
+    private final ServiceUtilisateur utilisateurService;
+
 
     @Autowired
-    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege){
+    public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege,
+                                      ServiceUtilisateur utilisateurService){
         this.piegeRepo = repositoryPiege;
+        this.utilisateurService = utilisateurService;
     }
 
     public PiegeDeProductivite create(PiegeDeProductivite piege) {
-        Utilisateur currentUser = UtilisateurHolder.getCurrentUser();
+        Utilisateur currentUser = utilisateurService.getUtilisateurCourant();
 
         if (currentUser == null) {
             throw new IllegalArgumentException("Utilisateur non authentifié.");

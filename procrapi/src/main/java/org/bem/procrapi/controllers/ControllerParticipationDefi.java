@@ -22,8 +22,10 @@ public class ControllerParticipationDefi {
     public ResponseEntity<?> create(@RequestBody ParticipationDefi participationDefi) {
         try {
             ParticipationDefi savedParticipation = serviceParticipation.create(participationDefi);
+            //cas normal
             return new ResponseEntity<>(savedParticipation, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
+            //cas d'exception prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

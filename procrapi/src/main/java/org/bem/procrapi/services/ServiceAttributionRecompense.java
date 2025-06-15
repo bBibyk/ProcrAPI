@@ -42,6 +42,7 @@ public class ServiceAttributionRecompense {
             throw new IllegalArgumentException("Récompense non valide.");
         }
 
+        // TODO : peut-être faire un poil plus explicites les erreurs, genre "Cette utilisateur n'existe pas"
         Utilisateur fullUtilisateur = repositoryUtilisateur.findById(utilisateur.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
 
@@ -61,6 +62,7 @@ public class ServiceAttributionRecompense {
         attribution.setUtilisateur(fullUtilisateur);
         attribution.setRecompense(fullRecompense);
         attribution.setDateObtention(LocalDate.now());
+        // TODO date d'expiration ? Elle devrait être trasmise aussi
         attribution.setDateExpiration(null);
         attribution.setContexteAttribution(contexte);
         attribution.setStatut(StatutRecompense.ACTIF);

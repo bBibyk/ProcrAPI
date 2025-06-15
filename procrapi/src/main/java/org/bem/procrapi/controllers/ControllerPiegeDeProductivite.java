@@ -23,9 +23,10 @@ public class ControllerPiegeDeProductivite {
     public ResponseEntity<?> creerPiege(@RequestBody PiegeDeProductivite piege) {
         try {
             PiegeDeProductivite created = piegeService.create(piege);
+            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IllegalArgumentException e) {
-            // Quand les données reçues sont incorrectes
+            //cas d'exception prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

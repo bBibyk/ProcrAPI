@@ -1,6 +1,6 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.authentication.UtilisateurHolder;
+import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
@@ -18,24 +18,26 @@ import java.util.List;
 public class ServiceTacheAEviter {
     private RepositoryTacheAEviter repositoryTacheAEviter;
     private RepositoryUtilisateur repositoryUtilisateur;
+    private ServiceUtilisateur serviceUtilisateur;
 
     @Autowired
     public ServiceTacheAEviter(RepositoryTacheAEviter repositoryTacheAEviter,
-                               RepositoryUtilisateur repositoryUtilisateur) {
+                               RepositoryUtilisateur repositoryUtilisateur,
+                               ServiceUtilisateur serviceUtilisateur) {
         this.repositoryUtilisateur = repositoryUtilisateur;
         this.repositoryTacheAEviter = repositoryTacheAEviter;
+        this.serviceUtilisateur = serviceUtilisateur;
     }
 
     public TacheAEviter create(TacheAEviter tacheAEviter){
-        if (UtilisateurHolder.getCurrentUser() == null){
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié.");
-        }else if (UtilisateurHolder.getCurrentUser().getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE){
+        Utilisateur utilisateurCourant = serviceUtilisateur.getUtilisateurCourant();
+        if (utilisateurCourant.getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE){
             throw new IllegalArgumentException("Vous n'avez pas ce droit.");
         } else if(tacheAEviter.getDateLimite()==null){
             throw new IllegalArgumentException("La date doit être spécifiée.");
-        } /*else if (tacheAEviter.getDateLimite().before(new Date())) {
+        } else if (tacheAEviter.getDateLimite().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La date limite doit être postérieure à la date actuelle.");
-        }*/ else if (tacheAEviter.getTitre()==null) {
+        } else if (tacheAEviter.getTitre()==null) {
             throw new IllegalArgumentException("Le titre doit être spécifiée.");
         }
 
@@ -47,7 +49,7 @@ public class ServiceTacheAEviter {
                 throw new IllegalArgumentException("Le degré d'urgence doit être compris entre 1 et 5.");
             }
         }
-        savedTache.setUtilisateur(UtilisateurHolder.getCurrentUser());
+        savedTache.setUtilisateur(utilisateurCourant);
         savedTache.setDateLimite(tacheAEviter.getDateLimite());
         savedTache.setTitre(tacheAEviter.getTitre());
         if(tacheAEviter.getConsequences()!=null){
@@ -60,10 +62,8 @@ public class ServiceTacheAEviter {
     }
 
     public TacheAEviter setStatut(Long idTache, StatutTache statut){
-        if (UtilisateurHolder.getCurrentUser() == null){
-            throw new IllegalArgumentException("Vous n'êtes pas authentifié.");
-        }
-        Utilisateur utilisateur = repositoryUtilisateur.findById(UtilisateurHolder.getCurrentUser().getId()).get();
+        Utilisateur utilisateurCourant = serviceUtilisateur.getUtilisateurCourant();
+        Utilisateur utilisateur = repositoryUtilisateur.findById(utilisateurCourant.getId()).get();
         List<TacheAEviter> taches = utilisateur.getTaches();
         for(TacheAEviter tache : taches){
             if (tache.getId()==idTache){

@@ -9,3 +9,16 @@ Content-Type: application/json
 "niveau": "OR",
 "type": "BADGE"
 }
+
+#### exemple incorrecte
+POST http://localhost:8080/api/recompense/create
+Content-Type: application/json
+
+{
+"titre": "Récompense du mois",
+"description": "Décernée à la meilleure excuse du mois",
+"conditionsObtention": "Avoir plus de 50 votes",
+"niveau": "OR",
+"type": "BADGE",
+"attributions": [1, 2, 3]
+}

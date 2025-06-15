@@ -25,8 +25,10 @@ public class ControllerConfrontationPiege {
     public ResponseEntity<?> createConfrontation(@RequestBody ConfrontationPiege confrontation) {
         try {
             ConfrontationPiege saved = serviceConfrontationPiege.create(confrontation);
+            //cas normal
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
+            //cas d'exception prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
