@@ -5,7 +5,6 @@ import org.bem.procrapi.repositories.RepositoryAttributionRecompense;
 import org.bem.procrapi.repositories.RepositoryConfrontationPiege;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
-import org.bem.procrapi.utilities.enumerations.StatutRecompense;
 import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,7 @@ public class ServiceConfrontationPiege {
     private final RepositoryConfrontationPiege confrontationPiegeRepo;
     private final RepositoryPiegeDeProductivite piegeRepo;
     private final ServiceUtilisateur utilisateurService;
-    private final ServiceRecompense serviceRecompense;
     private final ServiceAttributionRecompense serviceAttributionRecompense;
-    private final RepositoryAttributionRecompense repositoryAttributionRecompense;
 
     @Autowired
     public ServiceConfrontationPiege(RepositoryConfrontationPiege confrontationPiegeRepo,
@@ -29,9 +26,7 @@ public class ServiceConfrontationPiege {
         this.confrontationPiegeRepo = confrontationPiegeRepo;
         this.piegeRepo = piegeRepo;
         this.utilisateurService = utilisateurService;
-        this.serviceRecompense = serviceRecompense;
         this.serviceAttributionRecompense = serviceAttributionRecompense;
-        this.repositoryAttributionRecompense = repositoryAttributionRecompense;
     }
 
     public ConfrontationPiege create(ConfrontationPiege confrontation) {
