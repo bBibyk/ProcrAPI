@@ -42,7 +42,7 @@ public class ServiceUtilisateur {
     public Utilisateur create(RoleUtilisateur role,
                               String pseudo,
                               String email,
-                              ExcuseCreative excusePreferee) throws  ServiceValidationException {
+                              String texteExcusePreferee) throws  ServiceValidationException {
         if (role==RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU){
             throw new ServiceValidationException("Cet utilisateur ne peut pas être crée.");
         } else if (role == RoleUtilisateur.ANTIPROCRASTINATEUR_REPENTI
@@ -57,12 +57,10 @@ public class ServiceUtilisateur {
         }
 
         Utilisateur savedUtilisateur = new Utilisateur();
-        if (excusePreferee != null){
-            Optional<ExcuseCreative> excusePrefereeFull = repositoryExcuseCreative.findById(excusePreferee.getId());
-            if (excusePrefereeFull.isEmpty()){
-                throw new ServiceValidationException("Excuse non valide.");
-            }
-            savedUtilisateur.setExcusePreferee(excusePrefereeFull.get());
+        if (texteExcusePreferee != null){
+            ExcuseCreative excusePrefereeFull = repositoryExcuseCreative.findByTexte(texteExcusePreferee)
+                    .orElseThrow(() -> new ServiceValidationException("Excuse non valide."));
+            savedUtilisateur.setExcusePreferee(excusePrefereeFull);
         }
 
         savedUtilisateur.setEmail(email);

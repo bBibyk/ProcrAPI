@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * Service métier pour la gestion des attributions de récompenses aux utilisateurs.
@@ -53,28 +54,29 @@ public class ServiceAttributionRecompense {
 
     /**
      * Permet d’attribuer une récompense à un utilisateur, avec des règles de validation selon le niveau.
-     * @param utilisateur utilisateur cible
-     * @param recompense récompense à attribuer
+     * @param email utilisateur cible
+     * @param titreRecompense récompense à attribuer
      * @param contexte contexte de l’attribution
      * @param dateExpiration date éventuelle d’expiration
      * @return l’attribution créée
      * @throws ServiceValidationException si des règles métier sont violées
      */
-    public AttributionRecompense create(Utilisateur utilisateur, Recompense recompense, String contexte, LocalDate dateExpiration) {
+    public AttributionRecompense create(String email,
+                                        String titreRecompense,
+                                        String contexte,
+                                        LocalDate dateExpiration) {
 
-        if (utilisateur == null || utilisateur.getId() == null) {
+        if (email == null) {
             throw new ServiceValidationException("Utilisateur non valide.");
         }
-
-        if (recompense == null || recompense.getId() == null) {
-            throw new ServiceValidationException("Récompense non valide.");
-        }
-
-        Utilisateur fullUtilisateur = repositoryUtilisateur.findById(utilisateur.getId())
+        Utilisateur fullUtilisateur = repositoryUtilisateur.findByEmail(email)
                 .orElseThrow(() -> new ServiceValidationException("Cette utilisateur n'existe pas."));
 
-        Recompense fullRecompense = repositoryRecompense.findById(recompense.getId())
-                .orElseThrow(() -> new ServiceValidationException("Récompense introuvable."));
+        if (titreRecompense == null) {
+            throw new ServiceValidationException("Récompense non valide.");
+        }
+        Recompense fullRecompense = repositoryRecompense.findByTitre(titreRecompense)
+                .orElseThrow(() -> new ServiceValidationException("Recompense introuvable."));
 
         if (fullRecompense.getNiveau() == NiveauDePrestige.OR) {
             if (!aAssezDAnciennete(fullUtilisateur)) {
