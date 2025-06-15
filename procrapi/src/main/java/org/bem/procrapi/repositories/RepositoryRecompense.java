@@ -4,4 +4,7 @@ import org.bem.procrapi.entities.Recompense;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryRecompense extends JpaRepository<Recompense, Long> {
+    boolean findRecompenseByTitre(String titre);
+
+    Recompense getRecompenseByTitre(String titre);
 }

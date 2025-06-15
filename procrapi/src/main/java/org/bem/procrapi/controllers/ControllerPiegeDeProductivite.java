@@ -28,7 +28,9 @@ public class ControllerPiegeDeProductivite {
                     piege.getTitre(),
                     piege.getType(),
                     piege.getDifficulte(),
-                    piege.getDescription());
+                    piege.getDescription(),
+                    piege.getRecompense(),
+                    piege.getConsequence());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (ServiceValidationException e) {

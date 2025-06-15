@@ -65,7 +65,6 @@ public class ServiceParticipationDefi {
         nouvelleParticipation.setUtilisateur(utilisateurCourant);
         nouvelleParticipation.setDefi(defi);
         nouvelleParticipation.setDateInscription(LocalDate.now());
-        // Ici peut être il faut vérifier si c'est null mais si non le cas par défaut ?
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
 
         /* Mise à jour des points gagnés par la participation

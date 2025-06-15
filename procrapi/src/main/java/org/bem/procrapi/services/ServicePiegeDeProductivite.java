@@ -1,8 +1,10 @@
 package org.bem.procrapi.services;
 
 import org.bem.procrapi.entities.PiegeDeProductivite;
+import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
+import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.TypePiege;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
@@ -14,19 +16,23 @@ public class ServicePiegeDeProductivite {
 
     private final RepositoryPiegeDeProductivite piegeRepo;
     private final ServiceUtilisateur utilisateurService;
+    private final RepositoryRecompense recompenseRepo;
 
 
     @Autowired
     public ServicePiegeDeProductivite(RepositoryPiegeDeProductivite repositoryPiege,
-                                      ServiceUtilisateur utilisateurService){
+                                      ServiceUtilisateur utilisateurService, RepositoryRecompense recompenseRepo){
         this.piegeRepo = repositoryPiege;
         this.utilisateurService = utilisateurService;
+        this.recompenseRepo = recompenseRepo;
     }
 
     public PiegeDeProductivite create(String titre,
                                       TypePiege type,
                                       Integer difficulte,
-                                      String description) {
+                                      String description,
+                                      Recompense recompense,
+                                      String consequence) {
         Utilisateur currentUser = utilisateurService.getUtilisateurCourant();
 
         if (currentUser == null) {
@@ -44,9 +50,19 @@ public class ServicePiegeDeProductivite {
         PiegeDeProductivite newPiege = new PiegeDeProductivite();
         newPiege.setTitre(titre);
         newPiege.setType(type);
-        newPiege.setDescription(description);
-        newPiege.setDifficulte(difficulte); //TODO si description null ??
-        // TODO recompense ? conséquences ?
+        if(description != null){
+            newPiege.setDescription(description);
+        }
+        newPiege.setDifficulte(difficulte);
+        if(recompenseRepo.findById(recompense.getId()).isPresent()) {
+            newPiege.setRecompense(recompense);
+        }else{
+            throw new ServiceValidationException("Recompense non trouvé.");
+        }
+
+        if(consequence != null){
+            newPiege.setConsequence(consequence);
+        }
         newPiege.setCreateur(currentUser);
 
         return piegeRepo.save(newPiege);

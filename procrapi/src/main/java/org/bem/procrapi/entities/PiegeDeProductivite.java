@@ -29,7 +29,8 @@ public class PiegeDeProductivite {
 
     private Integer difficulte;
 
-    private String recompense = "";
+    @ManyToOne
+    private Recompense recompense;
 
     private String consequence = "";
 

@@ -6,9 +6,9 @@ import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryConfrontationPiege;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
+import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
-import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +22,18 @@ public class ServiceConfrontationPiege {
     private final RepositoryPiegeDeProductivite piegeRepo;
     private final ServiceUtilisateur utilisateurService;
     private final ServiceAttributionRecompense serviceAttributionRecompense;
+    private final RepositoryRecompense repositoryRecompense;
 
     @Autowired
     public ServiceConfrontationPiege(RepositoryConfrontationPiege confrontationPiegeRepo,
                                      RepositoryPiegeDeProductivite piegeRepo,
                                      ServiceUtilisateur utilisateurService,
-                                     ServiceAttributionRecompense serviceAttributionRecompense) {
+                                     ServiceAttributionRecompense serviceAttributionRecompense, RepositoryRecompense repositoryRecompense) {
         this.confrontationPiegeRepo = confrontationPiegeRepo;
         this.piegeRepo = piegeRepo;
         this.utilisateurService = utilisateurService;
         this.serviceAttributionRecompense = serviceAttributionRecompense;
+        this.repositoryRecompense = repositoryRecompense;
     }
 
     public ConfrontationPiege create(PiegeDeProductivite piege,
@@ -65,6 +67,7 @@ public class ServiceConfrontationPiege {
         switch (resultat){
             case SUCCES-> {
                 confrontationSauvegardee.setPoints(50);
+
             }
             case ECHEC -> {
                 confrontationSauvegardee.setPoints(-50);
@@ -73,9 +76,7 @@ public class ServiceConfrontationPiege {
                  * cas d'échec utilisateur => utilisateur reçoit le badge "Procrastinateur en Danger"
                  * pour une durée d'une semaine
                  */
-                Recompense recompense = new Recompense();
-                recompense.setType(TypeRecompense.BADGE);
-                recompense.setTitre("Procrastinateur en Danger");
+                Recompense recompense = repositoryRecompense.getRecompenseByTitre("Procrastinateur en Danger");
                 serviceAttributionRecompense.create(
                         utilisateur,
                         recompense,

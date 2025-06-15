@@ -37,4 +37,8 @@ public class Recompense {
     @JsonIgnore
     @OneToMany(mappedBy = "recompense")
     private List<AttributionRecompense> attributions = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy= "recompense")
+    private List<PiegeDeProductivite> pieges = new ArrayList<>();
 }
