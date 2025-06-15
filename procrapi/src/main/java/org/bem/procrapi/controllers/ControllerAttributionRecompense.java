@@ -26,9 +26,9 @@ public class ControllerAttributionRecompense {
             AttributionRecompense createdAttribution = serviceAttributionRecompense.attribuerRecompense(
                     attributionRecompense.getUtilisateur(),
                     attributionRecompense.getRecompense(),
-                    attributionRecompense.getContexteAttribution()
+                    attributionRecompense.getContexteAttribution(),
+                    attributionRecompense.getDateExpiration()
             );
-            //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdAttribution);
         } catch (Exception e) {
             //cas d'exception prévue
