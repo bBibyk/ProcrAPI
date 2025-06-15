@@ -32,8 +32,7 @@ public class ServiceExcuseCreative {
         this.serviceUtilisateur = serviceUtilisateur;
     }
 
-    public ExcuseCreative create(String texte, String situation, int votesRecus,
-                                 LocalDate dateSoumission, CategorieExcuse categorie) {
+    public ExcuseCreative create(String texte, String situation, int votesRecus, CategorieExcuse categorie) {
 
         Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();
 
@@ -55,18 +54,17 @@ public class ServiceExcuseCreative {
         excuse.setSituation(situation);
         excuse.setVotesRecus(votesRecus);
         excuse.setCreateur(currentUser);
-        // TODO : est-ce vraiment nécessaire de laisser la possibiliter à l'utilisateur de saisir la date ?
-        excuse.setDateSoumission(dateSoumission != null ? dateSoumission : LocalDate.now());
+        excuse.setDateSoumission(LocalDate.now());
         excuse.setCategorie(categorie);
         excuse.setStatut(StatutExcuse.EN_ATTENTE);
 
         return repositoryExcuseCreative.save(excuse);
     }
 
-    // TODO ajouter le controlleur associé à cette méthode
-    public List<ExcuseCreative> getStatutEnAttente() {
-        return repositoryExcuseCreative.findByStatut(StatutExcuse.EN_ATTENTE);
+    public List<ExcuseCreative> getExusesByStatut(StatutExcuse statut) {
+        return repositoryExcuseCreative.findByStatut(statut);
     }
+
 
     // TODO : compléter avec une méthode pour setStatut
     // seul le gestionnaire du temps peut l'appeler
