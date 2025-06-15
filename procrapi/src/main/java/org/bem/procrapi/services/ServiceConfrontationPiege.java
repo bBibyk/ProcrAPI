@@ -74,23 +74,14 @@ public class ServiceConfrontationPiege {
             case ECHEC -> {
                 confrontationSauvegardee.setPoints(-50);
 
-                // TODO changer avec le code en dessous après Dali fait les modifs
+                /* Application de la règle métier concernant les pièges de productivité :
+                 * cas d'échec utilisateur => utilisateur reçoit le badge "Procrastinateur en Danger"
+                 * pour une durée d'une semaine
+                 */
                 Recompense recompense = new Recompense();
                 recompense.setType(TypeRecompense.BADGE);
                 recompense.setTitre("Procrastinateur en Danger");
-                AttributionRecompense attribution = new AttributionRecompense();
-                attribution.setUtilisateur(utilisateur);
-                attribution.setRecompense(recompense);
-                attribution.setDateObtention(LocalDate.now());
-                attribution.setDateExpiration(LocalDate.now().plusDays(7));
-                attribution.setContexteAttribution("Piège de productivité raté");
-                attribution.setStatut(StatutRecompense.ACTIF);
-
-                /* Je veux bien passer par le service mais pour ça,
-                il faut que Dali fasse ses modifs pour passer en paramètre date d'expiration */
-
-                //serviceAttributionRecompense.attribuerRecompense(utilisateur, recompense,"Piège de productivité raté");
-                //attribution.setDateExpiration(LocalDate.now().plusDays(7));
+                serviceAttributionRecompense.attribuerRecompense(utilisateur, recompense,"Piège de productivité raté", LocalDate.now().plusDays(7));
             }
         }
 
