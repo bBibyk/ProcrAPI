@@ -23,11 +23,11 @@ public class ExcuseCreative {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String texte;
+    private String texte = "";
 
-    private String situation;
+    private String situation = "";
 
-    private int votesRecus;
+    private Integer votesRecus = 0;
 
     @JsonIgnore
     @OneToMany(mappedBy = "excusePreferee")

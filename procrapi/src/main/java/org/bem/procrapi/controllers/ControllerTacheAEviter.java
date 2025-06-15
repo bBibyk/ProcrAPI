@@ -2,6 +2,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.services.ServiceTacheAEviter;
+import org.bem.procrapi.utilities.dto.ImportTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,14 @@ public class ControllerTacheAEviter {
     }
 
     @PostMapping(path="/create")
-    public ResponseEntity<?> create(@RequestBody TacheAEviter tacheAEviter) {
+    public ResponseEntity<?> create(@RequestBody ImportTacheAEviter tacheAEviter) {
         try{
-            TacheAEviter nouvelleTache = serviceTacheAEviter.create(tacheAEviter);
+            TacheAEviter nouvelleTache = serviceTacheAEviter.create(
+                    tacheAEviter.getDateLimite(),
+                    tacheAEviter.getTitre(),
+                    tacheAEviter.getDegreUrgence(),
+                    tacheAEviter.getConsequences(),
+                    tacheAEviter.getDescription());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleTache);
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class ServiceExcuseCreative {
     }
 
     //TODO votes recus doit être systématiquement à 0 !
-    public ExcuseCreative create(String texte, String situation, int votesRecus, CategorieExcuse categorie) {
+    public ExcuseCreative create(String texte, String situation, Integer votesRecus, CategorieExcuse categorie) {
 
         Utilisateur currentUser = serviceUtilisateur.getUtilisateurCourant();
 
@@ -64,7 +64,7 @@ public class ServiceExcuseCreative {
 
     public List<ExcuseCreative> getExusesByStatut(StatutExcuse statut) {
         return repositoryExcuseCreative.findByStatut(statut);
-    }
+    } //TODO controller
 
 
     public ExcuseCreative setStatut(Long idExcuse, StatutExcuse nouveauStatut) {
@@ -79,11 +79,7 @@ public class ServiceExcuseCreative {
 
         excuse.setStatut(nouveauStatut);
         return repositoryExcuseCreative.save(excuse);
-    }
-
-
-
-
+    } //TODO controller
 
     public ExcuseCreative voterPourExcuse(Long idExcuse) {
         Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
@@ -101,7 +97,7 @@ public class ServiceExcuseCreative {
 
         excuse.setVotesRecus(excuse.getVotesRecus() + 1);
         return repositoryExcuseCreative.save(excuse);
-    }
+    } //TODO controller
 
 
 }

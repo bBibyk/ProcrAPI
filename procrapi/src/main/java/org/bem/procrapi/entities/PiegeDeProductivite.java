@@ -29,15 +29,15 @@ public class PiegeDeProductivite {
 
     private Integer difficulte;
 
-    private String recompense;
+    private String recompense = "";
 
-    private String consequence;
+    private String consequence = "";
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateCreation;
+    private LocalDate dateCreation = LocalDate.now();
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutPiege statut;
+    private StatutPiege statut = StatutPiege.ACTIF;
 
     @ManyToOne
     private Utilisateur createur;

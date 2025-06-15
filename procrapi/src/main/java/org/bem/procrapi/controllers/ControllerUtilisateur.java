@@ -2,6 +2,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.services.ServiceUtilisateur;
+import org.bem.procrapi.utilities.dto.ImportUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,13 @@ public class ControllerUtilisateur {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> create(@RequestBody Utilisateur utilisateur) {
+    public ResponseEntity<?> create(@RequestBody ImportUtilisateur utilisateur) {
         try{
-            Utilisateur createdUtilisateur = serviceUtilisateur.create(utilisateur);
+            Utilisateur createdUtilisateur = serviceUtilisateur.create(
+                    utilisateur.getRole(),
+                    utilisateur.getPseudo(),
+                    utilisateur.getEmail(),
+                    utilisateur.getExcusePreferee());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUtilisateur);
         }catch (Exception e) {

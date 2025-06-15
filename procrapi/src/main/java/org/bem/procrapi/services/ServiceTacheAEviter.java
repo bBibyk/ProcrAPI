@@ -28,34 +28,38 @@ public class ServiceTacheAEviter {
         this.serviceUtilisateur = serviceUtilisateur;
     }
 
-    public TacheAEviter create(TacheAEviter tacheAEviter){
+    public TacheAEviter create(LocalDate dateLimite,
+                               String titre,
+                               Integer degreUrgence,
+                               String consequences,
+                               String description){
         Utilisateur utilisateurCourant = serviceUtilisateur.getUtilisateurCourant();
         if (utilisateurCourant.getRole() != RoleUtilisateur.PROCRASTINATEUR_EN_HERBE){
             throw new IllegalArgumentException("Vous n'avez pas ce droit.");
-        } else if(tacheAEviter.getDateLimite()==null){
+        } else if(dateLimite==null){
             throw new IllegalArgumentException("La date doit être spécifiée.");
-        } else if (tacheAEviter.getDateLimite().isBefore(LocalDate.now())) {
+        } else if (dateLimite.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La date limite doit être postérieure à la date actuelle.");
-        } else if (tacheAEviter.getTitre()==null) {
+        } else if (titre==null) {
             throw new IllegalArgumentException("Le titre doit être spécifiée.");
         }
 
         TacheAEviter savedTache = new TacheAEviter();
-        if(tacheAEviter.getDegreUrgence()!=null){
-            if(tacheAEviter.getDegreUrgence()>=1 && tacheAEviter.getDegreUrgence()<=5){
-                savedTache.setDegreUrgence(tacheAEviter.getDegreUrgence());
+        if(degreUrgence!=null){
+            if(degreUrgence>=1 && degreUrgence<=5){
+                savedTache.setDegreUrgence(degreUrgence);
             }else{
                 throw new IllegalArgumentException("Le degré d'urgence doit être compris entre 1 et 5.");
             }
         }
         savedTache.setUtilisateur(utilisateurCourant);
-        savedTache.setDateLimite(tacheAEviter.getDateLimite());
-        savedTache.setTitre(tacheAEviter.getTitre());
-        if(tacheAEviter.getConsequences()!=null){
-            savedTache.setConsequences(tacheAEviter.getConsequences());
+        savedTache.setDateLimite(dateLimite);
+        savedTache.setTitre(titre);
+        if(consequences!=null){
+            savedTache.setConsequences(consequences);
         }
-        if(tacheAEviter.getDescription()!=null){
-            savedTache.setDescription(tacheAEviter.getDescription());
+        if(description!=null){
+            savedTache.setDescription(description);
         }
         return repositoryTacheAEviter.save(savedTache);
     }

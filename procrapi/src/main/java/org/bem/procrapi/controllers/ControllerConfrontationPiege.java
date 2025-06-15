@@ -2,6 +2,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.ConfrontationPiege;
 import org.bem.procrapi.services.ServiceConfrontationPiege;
+import org.bem.procrapi.utilities.dto.ImportConfrontationPiege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,13 @@ public class ControllerConfrontationPiege {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> createConfrontation(@RequestBody ConfrontationPiege confrontation) {
+    public ResponseEntity<?> createConfrontation(@RequestBody ImportConfrontationPiege confrontation) {
         try {
-            ConfrontationPiege saved = serviceConfrontationPiege.create(confrontation);
+            ConfrontationPiege saved = serviceConfrontationPiege.create(
+                    confrontation.getPiege(),
+                    confrontation.getResultat(),
+                    confrontation.getPoints()
+            );
             //cas normal
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {

@@ -3,6 +3,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.services.ServicePiegeDeProductivite;
+import org.bem.procrapi.utilities.dto.ImportPiegeDeProductivite;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,13 @@ public class ControllerPiegeDeProductivite {
     }
 
     @PostMapping(path="/creer")
-    public ResponseEntity<?> creerPiege(@RequestBody PiegeDeProductivite piege) {
+    public ResponseEntity<?> creerPiege(@RequestBody ImportPiegeDeProductivite piege) {
         try {
-            PiegeDeProductivite created = piegeService.create(piege);
+            PiegeDeProductivite created = piegeService.create(
+                    piege.getTitre(),
+                    piege.getType(),
+                    piege.getDifficulte(),
+                    piege.getDescription());
             //cas normal
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IllegalArgumentException e) {

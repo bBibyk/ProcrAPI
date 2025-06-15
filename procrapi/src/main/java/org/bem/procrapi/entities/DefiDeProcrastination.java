@@ -23,18 +23,18 @@ public class DefiDeProcrastination {
 
     private String description = "";
 
-    // attribut un peu inutile car dateFin existe et est mieux
-    private Integer duree;
+    private Integer duree = 1;
 
     @Enumerated(EnumType.ORDINAL)
     private DifficulteDefi difficulte = DifficulteDefi.FACILE;
 
-    private Integer pointsAGagner;
+    private Integer pointsAGagner = 0;
 
     @Temporal(TemporalType.DATE)
     private LocalDate dateDebut;
 
     //date de décompte des résultats
+    //attribut calculé à partir de la durée
     @Temporal(TemporalType.DATE)
     private LocalDate dateFin;
 

@@ -2,12 +2,11 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.services.ServiceAttributionRecompense;
+import org.bem.procrapi.utilities.dto.ImportAttributionRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/attributions")
@@ -21,9 +20,10 @@ public class ControllerAttributionRecompense {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> create(@RequestBody AttributionRecompense attributionRecompense) {
+    public ResponseEntity<?> create(@RequestBody ImportAttributionRecompense attributionRecompense) {
         try {
-            AttributionRecompense createdAttribution = serviceAttributionRecompense.attribuerRecompense(
+            //cas normal
+            AttributionRecompense createdAttribution = serviceAttributionRecompense.create(
                     attributionRecompense.getUtilisateur(),
                     attributionRecompense.getRecompense(),
                     attributionRecompense.getContexteAttribution(),

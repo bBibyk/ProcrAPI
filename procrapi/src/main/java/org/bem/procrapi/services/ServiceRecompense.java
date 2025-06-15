@@ -17,31 +17,35 @@ public class ServiceRecompense {
         this.repository = repository;
     }
 
-    public Recompense create(Recompense recompense) throws IllegalArgumentException {
+    public Recompense create(String titre,
+                             String description,
+                             String conditionsObtention,
+                             NiveauDePrestige niveau,
+                             TypeRecompense type) throws IllegalArgumentException {
 
-        if (recompense.getTitre() == null) {
+        if (titre == null) {
             throw new IllegalArgumentException("Titre de la récompense non valide.");
         }
-        if (recompense.getDescription() == null ) {
+        if (description == null ) {
             throw new IllegalArgumentException("Description de la récompense non valide.");
         }
-        if (recompense.getConditionsObtention() == null) {
+        if (conditionsObtention == null) {
             throw new IllegalArgumentException("Conditions d'obtention non valides.");
         }
 
-        if (recompense.getNiveau() == null) {
+        if (niveau == null) {
             throw new IllegalArgumentException("Niveau de prestige non valide.");
         }
 
-        if (recompense.getType() == null) {
+        if (type == null) {
             throw new IllegalArgumentException("Type de récompense non valide.");
         }
         Recompense savedRecompense = new Recompense();
-        savedRecompense.setTitre(recompense.getTitre());
-        savedRecompense.setDescription(recompense.getDescription());
-        savedRecompense.setConditionsObtention(recompense.getConditionsObtention());
-        savedRecompense.setNiveau(recompense.getNiveau());
-        savedRecompense.setType(recompense.getType());
-        return repository.save(recompense);
+        savedRecompense.setTitre(titre);
+        savedRecompense.setDescription(description);
+        savedRecompense.setConditionsObtention(conditionsObtention);
+        savedRecompense.setNiveau(niveau);
+        savedRecompense.setType(type);
+        return repository.save(savedRecompense);
     }
 }

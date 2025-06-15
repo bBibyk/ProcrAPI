@@ -8,12 +8,10 @@ import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
 import org.bem.procrapi.utilities.enumerations.StatutRecompense;
-import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class ServiceAttributionRecompense {
@@ -32,7 +30,7 @@ public class ServiceAttributionRecompense {
         this.repositoryRecompense = repositoryRecompense;
     }
 
-    public AttributionRecompense attribuerRecompense(Utilisateur utilisateur, Recompense recompense, String contexte,LocalDate dateExpiration) {
+    public AttributionRecompense create(Utilisateur utilisateur, Recompense recompense, String contexte, LocalDate dateExpiration) {
 
         if (utilisateur == null || utilisateur.getId() == null) {
             throw new IllegalArgumentException("Utilisateur non valide.");
@@ -41,7 +39,6 @@ public class ServiceAttributionRecompense {
         if (recompense == null || recompense.getId() == null) {
             throw new IllegalArgumentException("Récompense non valide.");
         }
-
 
         Utilisateur fullUtilisateur = repositoryUtilisateur.findById(utilisateur.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Cette utilisateur n'existe pas."));
