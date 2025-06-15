@@ -1,18 +1,29 @@
 package org.bem.procrapi;
 
+import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
+import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
+import org.bem.procrapi.services.ServiceRecompense;
 import org.bem.procrapi.utilities.enumerations.NiveauProcrastination;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
+import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Optional;
+
 @SpringBootApplication
 @EnableScheduling
 public class ProcrapiApplication implements CommandLineRunner {
+
+    @Autowired
+    private ServiceRecompense serviceRecompense;
+    @Autowired
+    private RepositoryRecompense repositoryRecompense;
 
     public static void main(String[] args) {
         SpringApplication.run(ProcrapiApplication.class, args);
@@ -33,7 +44,13 @@ public class ProcrapiApplication implements CommandLineRunner {
             gestionnaireDuTempsPerdu.setEmail(gestionnaire_mail);
             repositoryUtilisateur.save(gestionnaireDuTempsPerdu);
         }
-        // TODO Eylul : tu peux créer le badge procrastinateur en danger. Vu qu'il est par défaut dans le programme
+
+        // Création du badge procrastinateur en danger, vu qu'il est par défaut dans le programme
+        Recompense recompense = new Recompense();
+        recompense.setTitre("Procrastinateur en Danger");
+        recompense.setConditionsObtention("Échouer à un piège de productivité.");
+        recompense.setType(TypeRecompense.BADGE);
+        repositoryRecompense.save(recompense);
 
         System.out.println("Database initialized!");
     }

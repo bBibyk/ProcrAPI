@@ -1,12 +1,10 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.components.authentication.EmailHolder;
 import org.bem.procrapi.entities.DefiDeProcrastination;
 import org.bem.procrapi.entities.ParticipationDefi;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryDefiDeProcrastination;
 import org.bem.procrapi.repositories.RepositoryParticipationDefi;
-import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
 import org.bem.procrapi.utilities.enumerations.StatutDefi;
 import org.bem.procrapi.utilities.enumerations.StatutParticipation;
@@ -40,9 +38,8 @@ public class ServiceParticipationDefi {
             throw new IllegalArgumentException("Défi non spécifié.");
         }
 
-        // TODO : un tout petit peu plus explicites les exceptions : "le défis spécifié est introuvable"
         DefiDeProcrastination defi = defiRepo.findById(partcipation.getDefi().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Défi introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Le défis spécifié est introuvable."));
 
         /* Il existe des contraintes imposées dans les règles :
          * Un utilisateur ne peut participer simultanément qu’à 3 défis maximum
@@ -50,14 +47,15 @@ public class ServiceParticipationDefi {
          */
 
         // Vérifie les 3 participations simultanées
-        long defisEnCours = utilisateurCourant.getParticipations().size();
+        int defisEnCours = (int) utilisateurCourant.getParticipations().stream()
+                .filter(p -> p.getStatut() == StatutParticipation.EN_COURS || p.getStatut() == StatutParticipation.INSCRIT)
+                .count();
         if (defisEnCours >= 3) {
-            // TODO vérifier seulement les défis actifs
             throw new IllegalArgumentException("Vous participez déjà à 3 défis.");
         }
 
         // Vérifie les 5 participants max
-        long nbParticipants = partcipation.getDefi().getParticipations().size();
+        int nbParticipants = partcipation.getDefi().getParticipations().size();
         if (nbParticipants >= 5) {
             throw new IllegalArgumentException("Ce défi a atteint le nombre maximal de participants (5).");
         }
@@ -69,6 +67,8 @@ public class ServiceParticipationDefi {
         // Ici peut être il faut vérifier si c'est null mais si non le cas par défaut ?
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
 
+        /* Mise à jour des points gagnés par la participation
+        et attribution des points à l'utilisateur à la fin du défi */
         if(partcipation.getDefi().getStatut()== StatutDefi.TERMINE){
             nouvelleParticipation.setPoints(partcipation.getDefi().getPointsAGagner());
             utilisateurService.attribuerPoints(utilisateurCourant, nouvelleParticipation.getPoints());

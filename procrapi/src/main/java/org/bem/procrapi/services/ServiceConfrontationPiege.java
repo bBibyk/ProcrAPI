@@ -1,11 +1,12 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.entities.ConfrontationPiege;
-import org.bem.procrapi.entities.PiegeDeProductivite;
-import org.bem.procrapi.entities.Utilisateur;
+import org.bem.procrapi.entities.*;
+import org.bem.procrapi.repositories.RepositoryAttributionRecompense;
 import org.bem.procrapi.repositories.RepositoryConfrontationPiege;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
+import org.bem.procrapi.utilities.enumerations.StatutRecompense;
+import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,20 @@ public class ServiceConfrontationPiege {
     private final RepositoryConfrontationPiege confrontationPiegeRepo;
     private final RepositoryPiegeDeProductivite piegeRepo;
     private final ServiceUtilisateur utilisateurService;
+    private final ServiceRecompense serviceRecompense;
+    private final ServiceAttributionRecompense serviceAttributionRecompense;
+    private final RepositoryAttributionRecompense repositoryAttributionRecompense;
 
     @Autowired
     public ServiceConfrontationPiege(RepositoryConfrontationPiege confrontationPiegeRepo,
                                      RepositoryPiegeDeProductivite piegeRepo,
-                                     ServiceUtilisateur utilisateurService) {
+                                     ServiceUtilisateur utilisateurService, ServiceRecompense serviceRecompense, ServiceAttributionRecompense serviceAttributionRecompense, RepositoryAttributionRecompense repositoryAttributionRecompense) {
         this.confrontationPiegeRepo = confrontationPiegeRepo;
         this.piegeRepo = piegeRepo;
         this.utilisateurService = utilisateurService;
+        this.serviceRecompense = serviceRecompense;
+        this.serviceAttributionRecompense = serviceAttributionRecompense;
+        this.repositoryAttributionRecompense = repositoryAttributionRecompense;
     }
 
     public ConfrontationPiege create(ConfrontationPiege confrontation) {
@@ -66,10 +73,27 @@ public class ServiceConfrontationPiege {
             }
             case ECHEC -> {
                 confrontationSauvegardee.setPoints(-50);
+
+                // TODO changer avec le code en dessous après Dali fait les modifs
+                Recompense recompense = new Recompense();
+                recompense.setType(TypeRecompense.BADGE);
+                recompense.setTitre("Procrastinateur en Danger");
+                AttributionRecompense attribution = new AttributionRecompense();
+                attribution.setUtilisateur(utilisateur);
+                attribution.setRecompense(recompense);
+                attribution.setDateObtention(LocalDate.now());
+                attribution.setDateExpiration(LocalDate.now().plusDays(7));
+                attribution.setContexteAttribution("Piège de productivité raté");
+                attribution.setStatut(StatutRecompense.ACTIF);
+
+                /* Je veux bien passer par le service mais pour ça,
+                il faut que Dali fasse ses modifs pour passer en paramètre date d'expiration */
+
+                //serviceAttributionRecompense.attribuerRecompense(utilisateur, recompense,"Piège de productivité raté");
+                //attribution.setDateExpiration(LocalDate.now().plusDays(7));
             }
         }
 
-        // TODO : oubli de la règle métier sur le badge. ajouter ça en utilisant le service attribution récompense
         utilisateur.setPointsAccumules(confrontationSauvegardee.getPoints());
         return confrontationPiegeRepo.save(confrontationSauvegardee);
     }
