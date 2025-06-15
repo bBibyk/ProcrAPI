@@ -14,13 +14,33 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+/**
+ * Service métier pour la gestion des attributions de récompenses aux utilisateurs.
+ */
 @Service
 public class ServiceAttributionRecompense {
 
+    /**
+     * Repository des attributions de récompenses.
+     */
     private final RepositoryAttributionRecompense repository;
+
+    /**
+     * Repository des utilisateurs.
+     */
     private final RepositoryUtilisateur repositoryUtilisateur;
+
+    /**
+     * Repository des récompenses.
+     */
     private final RepositoryRecompense repositoryRecompense;
 
+    /**
+     * Constructeur avec injection des dépendances.
+     * @param repository repository des attributions
+     * @param repositoryUtilisateur repository des utilisateurs
+     * @param repositoryRecompense repository des récompenses
+     */
     @Autowired
     public ServiceAttributionRecompense(
             RepositoryAttributionRecompense repository,
@@ -31,6 +51,15 @@ public class ServiceAttributionRecompense {
         this.repositoryRecompense = repositoryRecompense;
     }
 
+    /**
+     * Permet d’attribuer une récompense à un utilisateur, avec des règles de validation selon le niveau.
+     * @param utilisateur utilisateur cible
+     * @param recompense récompense à attribuer
+     * @param contexte contexte de l’attribution
+     * @param dateExpiration date éventuelle d’expiration
+     * @return l’attribution créée
+     * @throws ServiceValidationException si des règles métier sont violées
+     */
     public AttributionRecompense create(Utilisateur utilisateur, Recompense recompense, String contexte, LocalDate dateExpiration) {
 
         if (utilisateur == null || utilisateur.getId() == null) {
@@ -67,12 +96,13 @@ public class ServiceAttributionRecompense {
         return repository.save(attribution);
     }
 
+    /**
+     * Vérifie si l’utilisateur est inscrit depuis au moins 6 mois.
+     * @param utilisateur utilisateur à vérifier
+     * @return true s’il est assez ancien, false sinon
+     */
     private boolean aAssezDAnciennete(Utilisateur utilisateur) {
-        if (utilisateur.getDateInscription() == null) {
-            return false;
-        }
-        LocalDate dateInscription = utilisateur.getDateInscription();
-        LocalDate sixMoisAvant = LocalDate.now().minusMonths(6);
-        return dateInscription.isBefore(sixMoisAvant);
+        if (utilisateur.getDateInscription() == null) return false;
+        return utilisateur.getDateInscription().isBefore(LocalDate.now().minusMonths(6));
     }
 }
