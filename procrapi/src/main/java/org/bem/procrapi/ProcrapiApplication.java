@@ -45,6 +45,7 @@ public class ProcrapiApplication implements CommandLineRunner {
         if (repositoryUtilisateur.findByEmail(gestionnaireMail).isEmpty()) {
             Utilisateur gestionnaireDuTempsPerdu = new Utilisateur();
             gestionnaireDuTempsPerdu.setRole(RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU);
+            // On lui donne du niveau pour pouvoir attribuer l'OR à qqn
             gestionnaireDuTempsPerdu.setNiveau(NiveauProcrastination.EXPERT);
             gestionnaireDuTempsPerdu.setPointsAccumules(2000);
             gestionnaireDuTempsPerdu.setPseudo("LaFl3ww");
