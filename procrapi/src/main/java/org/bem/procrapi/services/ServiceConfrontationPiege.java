@@ -63,7 +63,11 @@ public class ServiceConfrontationPiege {
         switch (resultat){
             case SUCCES-> {
                 confrontationSauvegardee.setPoints(50);
-
+                serviceAttributionRecompense.create(
+                        utilisateur.getEmail(),
+                        piegeFull.getRecompense().getTitre(),
+                        "Piège de productivité évité",
+                        LocalDate.now().plusDays(30)); // arbitrairement on a décidé que la récompense est attribuée pour 1 mois
             }
             case ECHEC -> {
                 confrontationSauvegardee.setPoints(-50);

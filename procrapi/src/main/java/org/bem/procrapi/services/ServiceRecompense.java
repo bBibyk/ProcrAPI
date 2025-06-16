@@ -30,6 +30,7 @@ public class ServiceRecompense {
 
     /**
      * Crée une nouvelle récompense si tous les champs obligatoires sont valides.
+     * De même que pour attribution, le sujet ne précise rien, donc tout le monde peut créer des récompenses.
      * @param titre titre de la récompense
      * @param description description de la récompense
      * @param conditionsObtention conditions d'obtention

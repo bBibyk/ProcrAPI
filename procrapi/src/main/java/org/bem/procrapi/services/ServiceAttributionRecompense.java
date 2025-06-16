@@ -54,6 +54,8 @@ public class ServiceAttributionRecompense {
 
     /**
      * Permet d’attribuer une récompense à un utilisateur, avec des règles de validation selon le niveau.
+     * Le sujet ne précise rien sur la restriction d'accès à cette méthode on a donc laisser n'importe qui
+     * attribuer les récompenses.
      * @param email utilisateur cible
      * @param titreRecompense récompense à attribuer
      * @param contexte contexte de l’attribution
