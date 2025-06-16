@@ -17,12 +17,12 @@ public class ParticipationDefi {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateInscription;
+    private LocalDate dateInscription = LocalDate.now();
 
     @Enumerated(EnumType.ORDINAL)
     private StatutParticipation statut;
 
-    private Integer points;
+    private Integer points = 0;
 
     @ManyToOne
     private Utilisateur utilisateur;
