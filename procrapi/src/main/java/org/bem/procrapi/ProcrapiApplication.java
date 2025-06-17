@@ -17,26 +17,21 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Optional;
-
 @SpringBootApplication
 @EnableScheduling
 // CommandLineRunner qui permet d'initialiser des entités nécessaires dans notre BD
 public class ProcrapiApplication implements CommandLineRunner {
 
     @Autowired
-    private ServiceRecompense serviceRecompense;
-    @Autowired
     private RepositoryRecompense repositoryRecompense;
     @Autowired
     private RepositoryExcuseCreative repositoryExcuseCreative;
+    @Autowired
+    private RepositoryUtilisateur repositoryUtilisateur;
 
     public static void main(String[] args) {
         SpringApplication.run(ProcrapiApplication.class, args);
     }
-
-    @Autowired
-    RepositoryUtilisateur repositoryUtilisateur;
 
     @Override
     public void run(String... args) throws Exception {
