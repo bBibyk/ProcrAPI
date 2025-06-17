@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/verification")
+@RequestMapping("/api/admin")
+// Cette classe permet de manuellement triggerer les méthodes temporelles
+// Logiquement la function PUT a été choisis, car on change des entités
 public class ControllerVerificationPeriodique {
 
     private final ServiceVerificationPeriodique service;

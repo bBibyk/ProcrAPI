@@ -8,5 +8,4 @@ import org.bem.procrapi.utilities.enumerations.ResultatConfrontationPiege;
 public class ImportConfrontationPiege {
     private ImportPiegeDeProductivite piege;
     private ResultatConfrontationPiege resultat;
-    private Integer points;
 }

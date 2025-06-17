@@ -28,8 +28,7 @@ public class ControllerConfrontationPiege {
         try {
             ConfrontationPiege saved = serviceConfrontationPiege.create(
                     confrontation.getPiege()==null ? null : confrontation.getPiege().getTitre(),
-                    confrontation.getResultat(),
-                    confrontation.getPoints()
+                    confrontation.getResultat()
             );
             //cas normal
             return new ResponseEntity<>(saved, HttpStatus.CREATED);

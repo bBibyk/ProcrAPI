@@ -34,8 +34,7 @@ public class ServiceConfrontationPiege {
     }
 
     public ConfrontationPiege create(String titrePiege,
-                                     ResultatConfrontationPiege resultat,
-                                     Integer points) {
+                                     ResultatConfrontationPiege resultat) {
         Utilisateur utilisateur = utilisateurService.getUtilisateurCourant();
         ConfrontationPiege confrontationSauvegardee=new ConfrontationPiege();
 
@@ -51,10 +50,6 @@ public class ServiceConfrontationPiege {
 
         if (resultat == null) {
             throw new ServiceValidationException("Le résultat doit être précisé");
-        }
-
-        if (points == null) {
-            throw new ServiceValidationException("Les points doivent être précisés.");
         }
 
         confrontationSauvegardee.setUtilisateur(utilisateur);

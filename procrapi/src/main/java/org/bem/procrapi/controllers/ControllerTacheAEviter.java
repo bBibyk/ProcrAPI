@@ -2,6 +2,7 @@ package org.bem.procrapi.controllers;
 
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.services.ServiceTacheAEviter;
+import org.bem.procrapi.utilities.dto.ImportSetStatutTache;
 import org.bem.procrapi.utilities.dto.ImportTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
@@ -37,10 +38,11 @@ public class ControllerTacheAEviter {
         }
     }
 
-    @PutMapping(path="/setStatut")
-    public ResponseEntity<?> setStatut(@RequestBody String titreTache, @RequestBody StatutTache statut) {
+    @PutMapping(path="/set-statut")
+    public ResponseEntity<?> setStatut(@RequestBody ImportSetStatutTache setStatutTache) {
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(titreTache, statut));
+            return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(
+                    setStatutTache.getTitreTache(), setStatutTache.getStatut()));
         }catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

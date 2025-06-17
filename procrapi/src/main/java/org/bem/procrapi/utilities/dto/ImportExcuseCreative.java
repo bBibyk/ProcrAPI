@@ -7,6 +7,5 @@ import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
 public class ImportExcuseCreative {
     private String texte;
     private String situation;
-    private Integer votesRecus;
     private CategorieExcuse categorie;
 }

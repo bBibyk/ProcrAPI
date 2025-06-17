@@ -3,6 +3,7 @@ package org.bem.procrapi.controllers;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.services.ServiceExcuseCreative;
 import org.bem.procrapi.utilities.dto.ImportExcuseCreative;
+import org.bem.procrapi.utilities.dto.ImportSetStatutExcuse;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,10 @@ public class ControllerExcuseCreative {
 
 
     @PutMapping(path = "/changer-statut")
-    public ResponseEntity<?> setStatut(@RequestBody String texteExcuse, @RequestBody StatutExcuse nouveauStatut) {
+    public ResponseEntity<?> setStatut(@RequestBody ImportSetStatutExcuse setStatutExcuse) {
         try {
-            ExcuseCreative updated = serviceExcuseCreative.setStatut(texteExcuse, nouveauStatut);
+            ExcuseCreative updated = serviceExcuseCreative.setStatut(
+                    setStatutExcuse.getTexteExcuse(), setStatutExcuse.getStatut());
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
