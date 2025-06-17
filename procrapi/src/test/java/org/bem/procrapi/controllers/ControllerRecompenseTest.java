@@ -1,42 +1,97 @@
 package org.bem.procrapi.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bem.procrapi.entities.Recompense;
+import org.bem.procrapi.repositories.RepositoryExcuseCreative;
+import org.bem.procrapi.repositories.RepositoryRecompense;
+import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.services.ServiceRecompense;
 import org.bem.procrapi.utilities.dto.ImportRecompense;
+import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
+import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
-@RestController
-@RequestMapping(path = "/api/recompense")
-public class ControllerRecompenseTest {
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-    private final ServiceRecompense serviceRecompense;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(ControllerRecompense.class)
+@AutoConfigureMockMvc(addFilters = false)
+class ControllerRecompenseTest {
 
     @Autowired
-    public ControllerRecompenseTest(ServiceRecompense serviceRecompense) {
-        this.serviceRecompense = serviceRecompense;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private ServiceRecompense serviceRecompense;
+
+    // Dépendances annexes mockées
+    @MockitoBean
+    private RepositoryRecompense repositoryRecompense;
+
+    @MockitoBean
+    private RepositoryExcuseCreative repositoryExcuseCreative;
+
+    @MockitoBean
+    private RepositoryUtilisateur repositoryUtilisateur;
+
+    @Test
+    void createRecompense_ok() throws Exception {
+        ImportRecompense input = new ImportRecompense();
+        input.setTitre("Titre récompense");
+        input.setDescription("Une belle récompense");
+        input.setConditionsObtention("Terminer 3 tâches");
+        input.setNiveau(NiveauDePrestige.OR);
+        input.setType(TypeRecompense.POUVOIR_SPECIAL);
+
+        Recompense saved = new Recompense();
+        saved.setId(1L);
+        saved.setTitre(input.getTitre());
+
+        when(serviceRecompense.create(
+                input.getTitre(),
+                input.getDescription(),
+                input.getConditionsObtention(),
+                input.getNiveau(),
+                input.getType()
+        )).thenReturn(saved);
+
+        mockMvc.perform(post("/api/recompense/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.titre").value("Titre récompense"));
     }
 
-    @PostMapping(path = "/create")
-    public ResponseEntity<?> create(@RequestBody ImportRecompense recompense) {
-        try {
-            Recompense createdRecompense = serviceRecompense.create(
-                    recompense.getTitre(),
-                    recompense.getDescription(),
-                    recompense.getConditionsObtention(),
-                    recompense.getNiveau(),
-                    recompense.getType());
-            //cas normal
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdRecompense);
-        } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @Test
+    void createRecompense_validationError() throws Exception {
+        ImportRecompense input = new ImportRecompense();
+        input.setTitre(null); // Titre manquant pour provoquer l'erreur
+
+        when(serviceRecompense.create(
+                input.getTitre(),
+                input.getDescription(),
+                input.getConditionsObtention(),
+                input.getNiveau(),
+                input.getType()
+        )).thenThrow(new ServiceValidationException("Le titre est requis"));
+
+        mockMvc.perform(post("/api/recompense/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Le titre est requis"));
     }
 }

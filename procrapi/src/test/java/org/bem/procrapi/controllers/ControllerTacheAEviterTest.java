@@ -1,49 +1,127 @@
 package org.bem.procrapi.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bem.procrapi.entities.TacheAEviter;
+import org.bem.procrapi.repositories.RepositoryExcuseCreative;
+import org.bem.procrapi.repositories.RepositoryRecompense;
+import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.services.ServiceTacheAEviter;
 import org.bem.procrapi.utilities.dto.ImportSetStatutTache;
 import org.bem.procrapi.utilities.dto.ImportTacheAEviter;
+import org.bem.procrapi.utilities.enumerations.StatutTache;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-@RestController
-@RequestMapping(path="/api/tacheaeviter")
-public class ControllerTacheAEviterTest {
-    private ServiceTacheAEviter serviceTacheAEviter;
+import java.time.LocalDate;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(ControllerTacheAEviter.class)
+@AutoConfigureMockMvc(addFilters = false)
+class ControllerTacheAEviterTest {
 
     @Autowired
-    public ControllerTacheAEviterTest(ServiceTacheAEviter serviceTacheAEviter) {
-        this.serviceTacheAEviter = serviceTacheAEviter;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private ServiceTacheAEviter serviceTacheAEviter;
+
+    // Dépendances nécessaires au contexte
+    @MockitoBean private RepositoryRecompense repositoryRecompense;
+    @MockitoBean private RepositoryExcuseCreative repositoryExcuseCreative;
+    @MockitoBean private RepositoryUtilisateur repositoryUtilisateur;
+
+    @Test
+    void createTache_ok() throws Exception {
+        ImportTacheAEviter dto = new ImportTacheAEviter();
+        dto.setTitre("Tâche inutile");
+        dto.setDateLimite(LocalDate.of(2025, 6, 20));
+        dto.setDegreUrgence(3);
+        dto.setDescription("À éviter absolument");
+        dto.setConsequences("Retard assuré");
+
+        TacheAEviter saved = new TacheAEviter();
+        saved.setTitre(dto.getTitre());
+
+        when(serviceTacheAEviter.create(
+                dto.getDateLimite(),
+                dto.getTitre(),
+                dto.getDegreUrgence(),
+                dto.getConsequences(),
+                dto.getDescription()
+        )).thenReturn(saved);
+
+        mockMvc.perform(post("/api/tacheaeviter/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.titre").value("Tâche inutile"));
     }
 
-    @PostMapping(path="/create")
-    public ResponseEntity<?> create(@RequestBody ImportTacheAEviter tacheAEviter) {
-        try{
-            TacheAEviter nouvelleTache = serviceTacheAEviter.create(
-                    tacheAEviter.getDateLimite(),
-                    tacheAEviter.getTitre(),
-                    tacheAEviter.getDegreUrgence(),
-                    tacheAEviter.getConsequences(),
-                    tacheAEviter.getDescription());
-            //cas normal
-            return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleTache);
-        } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @Test
+    void createTache_validationError() throws Exception {
+        ImportTacheAEviter dto = new ImportTacheAEviter();
+        dto.setTitre(null); // champ obligatoire manquant
+
+        when(serviceTacheAEviter.create(
+                dto.getDateLimite(),
+                dto.getTitre(),
+                dto.getDegreUrgence(),
+                dto.getConsequences(),
+                dto.getDescription()
+        )).thenThrow(new ServiceValidationException("Titre obligatoire"));
+
+        mockMvc.perform(post("/api/tacheaeviter/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Titre obligatoire"));
     }
 
-    @PutMapping(path="/set-statut")
-    public ResponseEntity<?> setStatut(@RequestBody ImportSetStatutTache setStatutTache) {
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.setStatut(
-                    setStatutTache.getTitreTache(), setStatutTache.getStatut()));
-        }catch (ServiceValidationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    @Test
+    void setStatut_ok() throws Exception {
+        ImportSetStatutTache input = new ImportSetStatutTache();
+        input.setTitreTache("Tâche inutile");
+        input.setStatut(StatutTache.CATASTROPHE);
+
+        TacheAEviter updated = new TacheAEviter();
+        updated.setTitre("Tâche inutile");
+
+        when(serviceTacheAEviter.setStatut(input.getTitreTache(), input.getStatut()))
+                .thenReturn(updated);
+
+        mockMvc.perform(put("/api/tacheaeviter/set-statut")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.titre").value("Tâche inutile"));
+    }
+
+    @Test
+    void setStatut_error() throws Exception {
+        ImportSetStatutTache input = new ImportSetStatutTache();
+        input.setTitreTache("Tâche inconnue");
+        input.setStatut(StatutTache.EVITE_AVEC_SUCCES);
+
+        when(serviceTacheAEviter.setStatut(input.getTitreTache(), input.getStatut()))
+                .thenThrow(new ServiceValidationException("Tâche introuvable"));
+
+        mockMvc.perform(put("/api/tacheaeviter/set-statut")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isConflict())
+                .andExpect(content().string("Tâche introuvable"));
     }
 }

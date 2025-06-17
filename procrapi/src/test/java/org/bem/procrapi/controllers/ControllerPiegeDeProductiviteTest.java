@@ -1,42 +1,101 @@
 package org.bem.procrapi.controllers;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bem.procrapi.entities.PiegeDeProductivite;
+import org.bem.procrapi.repositories.RepositoryExcuseCreative;
+import org.bem.procrapi.repositories.RepositoryRecompense;
+import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.services.ServicePiegeDeProductivite;
 import org.bem.procrapi.utilities.dto.ImportPiegeDeProductivite;
+import org.bem.procrapi.utilities.dto.ImportRecompense;
+import org.bem.procrapi.utilities.enumerations.TypePiege;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-@RestController
-@RequestMapping("/api/piegedeproductivite")
-public class ControllerPiegeDeProductiviteTest {
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    private final ServicePiegeDeProductivite piegeService;
+@WebMvcTest(ControllerPiegeDeProductivite.class)
+@AutoConfigureMockMvc(addFilters = false)
+class ControllerPiegeDeProductiviteTest {
 
-    public ControllerPiegeDeProductiviteTest(ServicePiegeDeProductivite piegeService) {
-        this.piegeService = piegeService;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private ServicePiegeDeProductivite piegeService;
+
+    // Mocks nécessaires pour éviter les erreurs de dépendances
+    @MockitoBean
+    private RepositoryRecompense repositoryRecompense;
+
+    @MockitoBean
+    private RepositoryExcuseCreative repositoryExcuseCreative;
+
+    @MockitoBean
+    private RepositoryUtilisateur repositoryUtilisateur;
+
+    @Test
+    void creerPiege_ok() throws Exception {
+        ImportPiegeDeProductivite input = new ImportPiegeDeProductivite();
+        input.setTitre("Piège A");
+        input.setType(TypePiege.MEDITATION);
+        input.setDifficulte(3);
+        input.setDescription("Description piège");
+        ImportRecompense recompenseDTO = new ImportRecompense();
+        recompenseDTO.setTitre("Récompense 1");
+        input.setRecompense(recompenseDTO);
+        input.setConsequence("Conséquence forte");
+
+        PiegeDeProductivite saved = new PiegeDeProductivite();
+        saved.setId(42L);
+        saved.setTitre(input.getTitre());
+
+        when(piegeService.create(
+                input.getTitre(),
+                input.getType(),
+                input.getDifficulte(),
+                input.getDescription(),
+                input.getRecompense().getTitre(),
+                input.getConsequence()
+        )).thenReturn(saved);
+
+        mockMvc.perform(post("/api/piegedeproductivite/creer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(42L))
+                .andExpect(jsonPath("$.titre").value("Piège A"));
     }
 
-    @PostMapping(path="/creer")
-    public ResponseEntity<?> creerPiege(@RequestBody ImportPiegeDeProductivite piege) {
-        try {
-            PiegeDeProductivite created = piegeService.create(
-                    piege.getTitre(),
-                    piege.getType(),
-                    piege.getDifficulte(),
-                    piege.getDescription(),
-                    piege.getRecompense()==null ? null : piege.getRecompense().getTitre(),
-                    piege.getConsequence());
-            //cas normal
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @Test
+    void creerPiege_validationError() throws Exception {
+        ImportPiegeDeProductivite input = new ImportPiegeDeProductivite();
+        input.setTitre(null); // Donnée invalide volontaire
+
+        when(piegeService.create(
+                input.getTitre(),
+                input.getType(),
+                input.getDifficulte(),
+                input.getDescription(),
+                null,
+                input.getConsequence()
+        )).thenThrow(new ServiceValidationException("Titre obligatoire"));
+
+        mockMvc.perform(post("/api/piegedeproductivite/creer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Titre obligatoire"));
     }
 }
