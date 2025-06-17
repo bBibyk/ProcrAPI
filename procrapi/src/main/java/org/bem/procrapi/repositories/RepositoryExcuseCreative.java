@@ -3,6 +3,7 @@ package org.bem.procrapi.repositories;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.utilities.enumerations.StatutExcuse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import java.util.Optional;
  * DAO pour les entités représentant les excuses créatives.
  */
 
+@Repository
 public interface RepositoryExcuseCreative extends JpaRepository<ExcuseCreative, Long> {
     Optional<ExcuseCreative> findByTexte(String texte);
 

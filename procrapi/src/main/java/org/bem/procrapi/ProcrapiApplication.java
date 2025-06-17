@@ -64,7 +64,6 @@ public class ProcrapiApplication implements CommandLineRunner {
             ExcuseCreative excuse = new ExcuseCreative();
             excuse.setTexte(texteExcuse);
             excuse.setStatut(StatutExcuse.APPROUVEE);
-            excuse.setCreateur(repositoryUtilisateur.findByEmail(gestionnaireMail).get());
             repositoryExcuseCreative.save(excuse);
         }
 

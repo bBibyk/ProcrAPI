@@ -2,13 +2,14 @@ package org.bem.procrapi.repositories;
 
 import org.bem.procrapi.entities.AttributionRecompense;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 /**
  * DAO pour les entités représentant les attributions de récompenses.
  */
-
+@Repository
 public interface RepositoryAttributionRecompense extends JpaRepository<AttributionRecompense, Long> {
     /**
      * Recherche les attributions de récompenses par date d'expiration.
