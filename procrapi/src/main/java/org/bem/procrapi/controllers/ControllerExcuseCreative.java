@@ -43,8 +43,8 @@ public class ControllerExcuseCreative {
     }
 
     @GetMapping(path = "/get-by-statut")
-    public ResponseEntity<?> getByStatut(@RequestParam StatutExcuse statut) {
-        List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(statut);
+    public ResponseEntity<?> getByStatut(@RequestParam ImportSetStatutExcuse setStatutExcuse) {
+        List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(setStatutExcuse.getStatut());
         return ResponseEntity.ok(excuses);
     }
 
@@ -62,9 +62,9 @@ public class ControllerExcuseCreative {
 
 
     @PutMapping(path = "/voter")
-    public ResponseEntity<?> voter(@RequestBody String texteExcuse) {
+    public ResponseEntity<?> voter(@RequestBody ImportExcuseCreative excuse) {
         try {
-            ExcuseCreative voted = serviceExcuseCreative.voterPourExcuse(texteExcuse);
+            ExcuseCreative voted = serviceExcuseCreative.voterPourExcuse(excuse.getTexte());
             return ResponseEntity.ok(voted);
         } catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

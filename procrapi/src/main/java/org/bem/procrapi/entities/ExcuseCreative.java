@@ -41,11 +41,11 @@ public class ExcuseCreative {
     private Utilisateur createur;
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateSoumission;
+    private LocalDate dateSoumission = LocalDate.now();
 
     @Enumerated(EnumType.ORDINAL)
-    private CategorieExcuse categorie;
+    private CategorieExcuse categorie = CategorieExcuse.VIE_SOCIALE;
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutExcuse statut;
+    private StatutExcuse statut = StatutExcuse.EN_ATTENTE;
 }
