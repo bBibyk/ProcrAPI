@@ -2,7 +2,9 @@ package org.bem.procrapi.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bem.procrapi.entities.ConfrontationPiege;
+import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryRecompense;
+import org.bem.procrapi.repositories.RepositoryUtilisateur;
 import org.bem.procrapi.services.ServiceConfrontationPiege;
 import org.bem.procrapi.utilities.dto.ImportConfrontationPiege;
 import org.bem.procrapi.utilities.dto.ImportPiegeDeProductivite;
@@ -33,8 +35,15 @@ class ControllerConfrontationPiegeTest {
     @MockBean
     private ServiceConfrontationPiege serviceConfrontationPiege;
 
+    // Repos mockés pour éviter les erreurs de dépendances
     @MockBean
     private RepositoryRecompense repositoryRecompense;
+
+    @MockBean
+    private RepositoryExcuseCreative repositoryExcuseCreative;
+
+    @MockBean
+    private RepositoryUtilisateur repositoryUtilisateur;
 
     @Test
     void createConfrontation_ok() throws Exception {
