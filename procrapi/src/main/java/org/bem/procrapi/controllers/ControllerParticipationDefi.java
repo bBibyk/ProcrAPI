@@ -26,7 +26,7 @@ public class ControllerParticipationDefi {
     public ResponseEntity<?> create(@RequestBody ImportParticipationDefi participationDefi) {
         try {
             ParticipationDefi savedParticipation = serviceParticipation.create(
-                    participationDefi==null ? null : participationDefi.getDefi().getTitre());
+                    participationDefi.getDefi()==null ? null : participationDefi.getDefi().getTitre());
             //cas normal
             return new ResponseEntity<>(savedParticipation, HttpStatus.CREATED);
         } catch (ServiceValidationException e) {

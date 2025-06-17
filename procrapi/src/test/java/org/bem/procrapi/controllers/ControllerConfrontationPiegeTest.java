@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -32,17 +33,17 @@ class ControllerConfrontationPiegeTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private ServiceConfrontationPiege serviceConfrontationPiege;
 
     // Repos mockés pour éviter les erreurs de dépendances
-    @MockBean
+    @MockitoBean
     private RepositoryRecompense repositoryRecompense;
 
-    @MockBean
+    @MockitoBean
     private RepositoryExcuseCreative repositoryExcuseCreative;
 
-    @MockBean
+    @MockitoBean
     private RepositoryUtilisateur repositoryUtilisateur;
 
     @Test

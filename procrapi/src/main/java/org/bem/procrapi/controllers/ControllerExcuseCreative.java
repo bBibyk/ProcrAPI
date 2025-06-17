@@ -43,7 +43,7 @@ public class ControllerExcuseCreative {
     }
 
     @GetMapping(path = "/get-by-statut")
-    public ResponseEntity<?> getByStatut(@RequestParam ImportSetStatutExcuse setStatutExcuse) {
+    public ResponseEntity<?> getByStatut(@RequestBody ImportSetStatutExcuse setStatutExcuse) {
         List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(setStatutExcuse.getStatut());
         return ResponseEntity.ok(excuses);
     }
