@@ -55,7 +55,7 @@ public class ControllerExcuseCreative {
             ExcuseCreative updated = serviceExcuseCreative.setStatut(
                     setStatutExcuse.getTexteExcuse(), setStatutExcuse.getStatut());
             return ResponseEntity.ok(updated);
-        } catch (Exception e) {
+        } catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -66,7 +66,7 @@ public class ControllerExcuseCreative {
         try {
             ExcuseCreative voted = serviceExcuseCreative.voterPourExcuse(texteExcuse);
             return ResponseEntity.ok(voted);
-        } catch (Exception e) {
+        } catch (ServiceValidationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
