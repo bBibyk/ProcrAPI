@@ -108,12 +108,6 @@ public class ServiceExcuseCreative {
      * @return excuse mise à jour
      */
     public ExcuseCreative voterPourExcuse(String texteExcuse) {
-        Utilisateur current = serviceUtilisateur.getUtilisateurCourant();
-
-        if (current.getRole() == RoleUtilisateur.GESTIONNAIRE_DU_TEMPS_PERDU) {
-            throw new ServiceValidationException("Le Gestionnaire ne peut pas voter.");
-        }
-
         ExcuseCreative excuse = repositoryExcuseCreative.findByTexte(texteExcuse)
                 .orElseThrow(() -> new ServiceValidationException("Excuse non trouvée."));
 

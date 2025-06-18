@@ -1,0 +1,526 @@
+{
+	"info": {
+		"_postman_id": "eb569eeb-1bd1-462c-a991-e175b4888273",
+		"name": "Fonctionnalités basiques",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45550168",
+		"_collection_link": "https://bogdanbibyk.postman.co/workspace/Procr'Interface~c742ddb2-eab2-406d-b7d6-75e11e8b353b/collection/45550168-eb569eeb-1bd1-462c-a991-e175b4888273?action=share&source=collection_link&creator=45550168"
+	},
+	"item": [
+		{
+			"name": "1-Procrastinateur",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"pseudo\": \"LazyLady\",\r\n  \"email\": \"l.lazy@miage.fr\",\r\n  \"role\": \"PROCRASTINATEUR_EN_HERBE\",\r\n  \"excusePreferee\": {\r\n    \"texte\": \"Excuse ultime de je n'avais pas le temps\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/utilisateur/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"utilisateur",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2-Anti-Procrastinateur",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "professeur.flemardo@irit.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"pseudo\": \"Retar2ateur\",\r\n  \"email\": \"engendre.du.retard@miage.fr\",\r\n  \"role\": \"ANTIPROCRASTINATEUR_REPENTI\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/utilisateur/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"utilisateur",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3-Tâche",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titre\": \"Lazy révise Applications d'Entreprises\",\r\n  \"dateLimite\": \"2025-06-20\",\r\n  \"consequences\": \"Annulation des vacances en août :(\",\r\n  \"degreUrgence\": 5,\r\n  \"description\": \"Ce que j'ai repousé précieusement jusqu'à ajourd'hui\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/tacheaeviter/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tacheaeviter",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4-Défi",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "professeur.flemardo@irit.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titre\" : \"Somnolence en cours\",\r\n  \"dateDebut\": \"2026-04-23T18:25:43.511Z\",\r\n  \"pointsAGagner\": 150,\r\n  \"description\": \"S'endormir exactement entre les prises de notes et les question du prof.\",\r\n  \"difficulte\": \"MOYEN\",\r\n  \"duree\": 30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/defideprocrastination/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"defideprocrastination",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5-Participation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"defi\": {\r\n        \"titre\": \"Somnolence en cours\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/participationdefi/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"participationdefi",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6-Recompense",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titre\": \"Récompense des gamers distraits\",\r\n  \"description\": \"Récompense attribuée pour avoir échapé avec succès au piège de la programmation\",\r\n  \"conditionsObtention\": \"Eviter le jeu de la programmation\",\r\n  \"niveau\": \"FER\",\r\n  \"type\": \"BADGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/recompense/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"recompense",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7-Piège",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "engendre.du.retard@miage.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titre\": \"Jeu vidéo où il faut programmer\",\r\n  \"description\": \"Activité qui passe pour un jeu amusant, mais qui en réalité fait révise AE\",\r\n  \"consequences\": \"Amélioration de la concentration et des connaissances en Spring\",\r\n  \"recompense\": {\r\n    \"titre\": \"Récompense des gamers distraits\"\r\n  },\r\n  \"type\": \"JEU\",\r\n  \"difficulte\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/piegedeproductivite/creer?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"piegedeproductivite",
+						"creer"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8-Confrontation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"piege\": {\r\n    \"titre\": \"Jeu vidéo où il faut programmer\"\r\n  },\r\n  \"resultat\": \"SUCCES\",\r\n  \"commentaire\": \"J'ai été trop fatigué par le tuto pour continuer à jouer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/confrontationpiege/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"confrontationpiege",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9-Statut tâche",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titreTache\": \"Lazy révise Applications d'Entreprises\",\r\n    \"statut\": \"EVITE_AVEC_SUCCES\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/tacheaeviter/set-statut",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tacheaeviter",
+						"set-statut"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10-Excuse",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"texte\": \"J'ai révisé jusqu'au matin\",\r\n  \"situation\": \"Retard à l'examen oral\",\r\n  \"categorie\": \"ETUDES\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11-Validation",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "professeur.flemardo@irit.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"texteExcuse\": \"J'ai révisé jusqu'au matin\",\r\n  \"statut\": \"APPROUVEE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/changer-statut",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"changer-statut"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12-Voter",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Utilisateur-Email",
+						"value": "l.lazy@miage.fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"texte\": \"J'ai révisé jusqu'au matin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/voter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"voter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13-Classement",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/classement-hebdo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"classement-hebdo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

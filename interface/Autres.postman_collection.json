@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "0bafac8b-4813-4745-9bf4-076544230630",
+		"name": "Autres",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45550168",
+		"_collection_link": "https://bogdanbibyk.postman.co/workspace/Procr'Interface~c742ddb2-eab2-406d-b7d6-75e11e8b353b/collection/45550168-0bafac8b-4813-4745-9bf4-076544230630?action=share&source=collection_link&creator=45550168"
+	},
+	"item": [
+		{
+			"name": "ExcuseByStatut",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"statut\": \"APPROUVEE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/get-by-statut",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"get-by-statut"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Réevaluer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/reevaluer-points-taches-evitees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"reevaluer-points-taches-evitees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Commencer Défis",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/commencer-defis",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"commencer-defis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Terminer Défis",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/terminer-defis",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"terminer-defis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Terminer Récompenses",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/terminer-recompenses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"terminer-recompenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Réinitialiser Votes",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/reinitialiser-votes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"reinitialiser-votes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
