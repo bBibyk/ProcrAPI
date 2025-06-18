@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Contrôleur pour gérer les confrontations aux pièges de productivité.
+ */
 @RestController
 @RequestMapping("/api/confrontationpiege")
 public class ControllerConfrontationPiege {
@@ -23,19 +26,21 @@ public class ControllerConfrontationPiege {
         this.serviceConfrontationPiege = serviceConfrontationPiege;
     }
 
+    /**
+     * Crée une confrontation à un piège de productivité.
+     * @param confrontation DTO contenant les informations nécessaires
+     * @return ResponseEntity avec la confrontation créée ou un message d'erreur
+     */
     @PostMapping(path = "/create")
     public ResponseEntity<?> createConfrontation(@RequestBody ImportConfrontationPiege confrontation) {
         try {
             ConfrontationPiege saved = serviceConfrontationPiege.create(
-                    confrontation.getPiege()==null ? null : confrontation.getPiege().getTitre(),
+                    confrontation.getPiege() == null ? null : confrontation.getPiege().getTitre(),
                     confrontation.getResultat()
             );
-            //cas normal
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

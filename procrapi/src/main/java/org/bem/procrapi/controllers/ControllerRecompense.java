@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Contrôleur pour gérer les récompenses.
+ */
 @RestController
 @RequestMapping(path = "/api/recompense")
 public class ControllerRecompense {
@@ -23,6 +26,11 @@ public class ControllerRecompense {
         this.serviceRecompense = serviceRecompense;
     }
 
+    /**
+     * Crée une nouvelle récompense.
+     * @param recompense DTO contenant les informations nécessaires
+     * @return ResponseEntity avec la récompense créée ou un message d'erreur
+     */
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportRecompense recompense) {
         try {
@@ -31,11 +39,10 @@ public class ControllerRecompense {
                     recompense.getDescription(),
                     recompense.getConditionsObtention(),
                     recompense.getNiveau(),
-                    recompense.getType());
-            //cas normal
+                    recompense.getType()
+            );
             return ResponseEntity.status(HttpStatus.CREATED).body(createdRecompense);
         } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

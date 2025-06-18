@@ -1,6 +1,5 @@
 package org.bem.procrapi.controllers;
 
-
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.services.ServicePiegeDeProductivite;
 import org.bem.procrapi.utilities.dto.ImportPiegeDeProductivite;
@@ -11,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * Contrôleur pour gérer les pièges de productivité.
+ */
 @RestController
 @RequestMapping("/api/piegedeproductivite")
 public class ControllerPiegeDeProductivite {
@@ -21,7 +23,12 @@ public class ControllerPiegeDeProductivite {
         this.piegeService = piegeService;
     }
 
-    @PostMapping(path="/creer")
+    /**
+     * Crée un nouveau piège de productivité.
+     * @param piege DTO contenant les informations nécessaires
+     * @return ResponseEntity avec le piège créé ou un message d'erreur
+     */
+    @PostMapping(path = "/creer")
     public ResponseEntity<?> creerPiege(@RequestBody ImportPiegeDeProductivite piege) {
         try {
             PiegeDeProductivite created = piegeService.create(
@@ -29,12 +36,11 @@ public class ControllerPiegeDeProductivite {
                     piege.getType(),
                     piege.getDifficulte(),
                     piege.getDescription(),
-                    piege.getRecompense()==null ? null : piege.getRecompense().getTitre(),
-                    piege.getConsequence());
-            //cas normal
+                    piege.getRecompense() == null ? null : piege.getRecompense().getTitre(),
+                    piege.getConsequence()
+            );
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (ServiceValidationException e) {
-            //cas d'ServiceValidationException prévue
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -19,24 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/attributions")
 public class ControllerAttributionRecompense {
 
-    /**
-     * Service métier pour l'attribution des récompenses.
-     */
     private final ServiceAttributionRecompense serviceAttributionRecompense;
 
-    /**
-     * Constructeur avec injection du service.
-     * @param serviceAttributionRecompense service métier injecté
-     */
     @Autowired
     public ControllerAttributionRecompense(ServiceAttributionRecompense serviceAttributionRecompense) {
         this.serviceAttributionRecompense = serviceAttributionRecompense;
     }
 
     /**
-     * Requête POST vers http://localhost:8080/api/attributions/create
+     * Crée une attribution de récompense.
      * @param attributionRecompense DTO contenant les informations nécessaires
-     * @return l'attribution créée ou un message d'erreur
+     * @return ResponseEntity avec l'attribution créée ou un message d'erreur
      */
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportAttributionRecompense attributionRecompense) {
@@ -53,4 +46,3 @@ public class ControllerAttributionRecompense {
         }
     }
 }
-

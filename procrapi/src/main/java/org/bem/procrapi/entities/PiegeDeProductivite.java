@@ -16,36 +16,36 @@ import java.util.List;
 @Setter
 @Entity
 public class PiegeDeProductivite {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long id; // Identifiant unique du piège
 
-    private String titre;
+    private String titre; // Titre explicite du piège
 
-    private String description;
+    private String description; // Description détaillée du piège
 
     @Enumerated(EnumType.ORDINAL)
-    private TypePiege type;
+    private TypePiege type; // Type de piège (ex : numérique, environnemental, psychologique...)
 
-    private Integer difficulte;
+    private Integer difficulte; // Niveau de difficulté à éviter ce piège (à interpréter selon le contexte)
 
     @ManyToOne
-    private Recompense recompense;
+    private Recompense recompense; // Récompense liée à la réussite d'une confrontation à ce piège
 
-    private String consequence = "";
+    private String consequence = ""; // Conséquence potentielle si l'utilisateur "tombe" dans le piège
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateCreation = LocalDate.now();
+    private LocalDate dateCreation = LocalDate.now(); // Date de création du piège (auto initialisée)
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutPiege statut = StatutPiege.ACTIF;
+    private StatutPiege statut = StatutPiege.ACTIF; // Statut du piège (actif/inactif)
 
     @ManyToOne
-    private Utilisateur createur;
+    private Utilisateur createur; // Utilisateur ayant soumis ce piège
 
     @JsonIgnore
     @OneToMany(mappedBy = "piege")
-    private List<ConfrontationPiege> confrontations = new ArrayList<>();
+    private List<ConfrontationPiege> confrontations = new ArrayList<>(); // Historique des confrontations à ce piège
 
 }
-

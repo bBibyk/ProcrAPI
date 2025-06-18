@@ -14,38 +14,43 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entité représentant une excuse créative.
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ExcuseCreative {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long id; // Identifiant unique de l'excuse
 
-    private String texte = "";
+    private String texte = ""; // Contenu textuel de l'excuse
 
-    private String situation = "";
+    private String situation = ""; // Situation ou contexte justifiant l'excuse
 
-    private Integer votesRecus = 0;
+    private Integer votesRecus = 0; // Nb de votes reçus par la communauté (indicateur de popularité)
 
     @JsonIgnore
     @OneToMany(mappedBy = "excusePreferee")
-    private List<Utilisateur> utilisateurs = new ArrayList<>();
+    private List<Utilisateur> utilisateurs = new ArrayList<>(); // Utilisateurs ayant choisi cette excuse comme préférée
 
-    // Pour éviter de circulariser le JSON au cas ou le createur a pour Excuse préféree sa propre excuse
+    // Pour éviter de circulariser le JSON au cas où le créateur a pour excuse préférée sa propre excuse
     // On fait la sérialisation côté excuse
     @JsonManagedReference
     @ManyToOne
-    private Utilisateur createur;
+    private Utilisateur createur; // Auteur de l'excuse
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateSoumission = LocalDate.now();
+    private LocalDate dateSoumission = LocalDate.now(); // Date de soumission de l'excuse (par défaut aujourd'hui)
 
     @Enumerated(EnumType.ORDINAL)
-    private CategorieExcuse categorie = CategorieExcuse.VIE_SOCIALE;
+    private CategorieExcuse categorie = CategorieExcuse.VIE_SOCIALE; // Catégorie de l'excuse (vie sociale, fatigue, etc.)
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutExcuse statut = StatutExcuse.EN_ATTENTE;
+    private StatutExcuse statut = StatutExcuse.EN_ATTENTE; // Statut modération (en attente, validée, rejetée)
+
 }

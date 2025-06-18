@@ -11,40 +11,43 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entité représentant un défi de procrastination.
+ */
 @Entity
 @Getter
 @Setter
 public class DefiDeProcrastination {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long id; // Identifiant unique du défi
 
-    private String titre = "";
+    private String titre = ""; // Titre du défi (non nul par défaut)
 
-    private String description = "";
+    private String description = ""; // Description textuelle du défi
 
-    private Integer duree = 1;
-
-    @Enumerated(EnumType.ORDINAL)
-    private DifficulteDefi difficulte = DifficulteDefi.FACILE;
-
-    private Integer pointsAGagner = 0;
-
-    @Temporal(TemporalType.DATE)
-    private LocalDate dateDebut;
-
-    //date de décompte des résultats
-    //attribut calculé à partir de la durée
-    @Temporal(TemporalType.DATE)
-    private LocalDate dateFin;
+    private Integer duree = 1; // Durée du défi en jours (1 par défaut)
 
     @Enumerated(EnumType.ORDINAL)
-    private StatutDefi statut = StatutDefi.INSCRIT;
+    private DifficulteDefi difficulte = DifficulteDefi.FACILE; // Difficulté du défi (par défaut = FACILE)
+
+    private Integer pointsAGagner = 0; // Points accordés en cas de réussite
+
+    @Temporal(TemporalType.DATE)
+    private LocalDate dateDebut; // Date de début du défi (doit être fixée à la création)
+
+    @Temporal(TemporalType.DATE)
+    private LocalDate dateFin; // Date de fin du défi (logiquement = dateDebut + durée)
+
+    @Enumerated(EnumType.ORDINAL)
+    private StatutDefi statut = StatutDefi.INSCRIT; // Statut global du défi (modifiable selon phase : actif, terminé...)
 
     @ManyToOne
-    private Utilisateur createur;
+    private Utilisateur createur; // L'utilisateur ayant créé ce défi
 
     @JsonIgnore
     @OneToMany(mappedBy = "defi")
-    private List<ParticipationDefi> participations = new ArrayList<>();
+    private List<ParticipationDefi> participations = new ArrayList<>(); // Liste des participations associées
+
 }

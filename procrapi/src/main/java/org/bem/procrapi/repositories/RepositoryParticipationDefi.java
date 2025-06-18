@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
+/**
+ * Repository JPA pour l'entité ParticipationDefi.
+ */
 public interface RepositoryParticipationDefi extends JpaRepository<ParticipationDefi, Long> {
 
 }

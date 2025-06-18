@@ -22,12 +22,16 @@ public class ControllerExcuseCreative {
 
     private final ServiceExcuseCreative serviceExcuseCreative;
 
-
     @Autowired
     public ControllerExcuseCreative(ServiceExcuseCreative serviceExcuseCreative) {
         this.serviceExcuseCreative = serviceExcuseCreative;
     }
 
+    /**
+     * Crée une nouvelle excuse créative.
+     * @param excuseCreative DTO contenant les informations nécessaires
+     * @return ResponseEntity avec l'excuse créée ou un message d'erreur
+     */
     @PostMapping(path = "/create")
     public ResponseEntity<?> create(@RequestBody ImportExcuseCreative excuseCreative) {
         try {
@@ -42,13 +46,22 @@ public class ControllerExcuseCreative {
         }
     }
 
+    /**
+     * Récupère les excuses par statut.
+     * @param setStatutExcuse DTO contenant le statut des excuses à récupérer
+     * @return ResponseEntity avec la liste des excuses
+     */
     @GetMapping(path = "/get-by-statut")
     public ResponseEntity<?> getByStatut(@RequestBody ImportSetStatutExcuse setStatutExcuse) {
         List<ExcuseCreative> excuses = serviceExcuseCreative.getExusesByStatut(setStatutExcuse.getStatut());
         return ResponseEntity.ok(excuses);
     }
 
-
+    /**
+     * Met à jour le statut d'une excuse.
+     * @param setStatutExcuse DTO contenant le texte de l'excuse et le nouveau statut
+     * @return ResponseEntity avec l'excuse mise à jour ou un message d'erreur
+     */
     @PutMapping(path = "/changer-statut")
     public ResponseEntity<?> setStatut(@RequestBody ImportSetStatutExcuse setStatutExcuse) {
         try {
@@ -60,7 +73,11 @@ public class ControllerExcuseCreative {
         }
     }
 
-
+    /**
+     * Vote pour une excuse.
+     * @param excuse DTO contenant le texte de l'excuse
+     * @return ResponseEntity avec l'excuse votée ou un message d'erreur
+     */
     @PutMapping(path = "/voter")
     public ResponseEntity<?> voter(@RequestBody ImportExcuseCreative excuse) {
         try {
@@ -71,6 +88,10 @@ public class ControllerExcuseCreative {
         }
     }
 
+    /**
+     * Récupère le classement hebdomadaire des excuses.
+     * @return ResponseEntity avec la liste des excuses les mieux notées
+     */
     @GetMapping("/classement-hebdo")
     public ResponseEntity<?> classementHebdomadaire() {
         List<ExcuseCreative> topExcuses = serviceExcuseCreative.getClassementHebdomadaire();

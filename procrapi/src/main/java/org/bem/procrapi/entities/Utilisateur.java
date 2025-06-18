@@ -17,53 +17,62 @@ import java.util.List;
 @Setter
 @Entity
 public class Utilisateur {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long id; // Identifiant unique
 
     @NotNull
-    private String email;
+    private String email; // Email de connexion / d'identification (non null)
 
-    private RoleUtilisateur role;
+    private RoleUtilisateur role; // Rôle de l'utilisateur dans l'app (ex : USER, ADMIN)
 
-    private String pseudo;
+    private String pseudo; // Nom affiché dans l'application
 
-    private NiveauProcrastination niveau = NiveauProcrastination.DEBUTANT;
+    private NiveauProcrastination niveau = NiveauProcrastination.DEBUTANT; // Niveau de progression ou de "sagesse" anti-procrastination
 
-    private Integer pointsAccumules = 0;
+    private Integer pointsAccumules = 0; // Points obtenus via les défis ou confrontations
 
     @Temporal(TemporalType.DATE)
-    private LocalDate dateInscription = LocalDate.now();
+    private LocalDate dateInscription = LocalDate.now(); // Date d’inscription, auto-assignée
 
-    // On fait la sérialisation côté excuse
+    // Référence à l'excuse préférée de l'utilisateur
+    // JsonBackReference pour éviter les boucles d'infinite recursion côté JSON
     @JsonBackReference
     @ManyToOne
     private ExcuseCreative excusePreferee;
 
+    // Excuses créées par cet utilisateur
     @JsonIgnore
     @OneToMany(mappedBy = "createur")
     private List<ExcuseCreative> excuses = new ArrayList<>();
 
+    // Tâches de cet utilisateur
     @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<TacheAEviter> taches = new ArrayList<>();
 
+    // Défis de procrastination créés par cet utilisateur
     @JsonIgnore
     @OneToMany(mappedBy = "createur")
     private List<DefiDeProcrastination> defis = new ArrayList<>();
 
+    // Pièges soumis par cet utilisateur
     @JsonIgnore
     @OneToMany(mappedBy = "createur")
     private List<PiegeDeProductivite> pieges = new ArrayList<>();
 
+    // Confrontations de l'utilisateur avec des pièges
     @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<ConfrontationPiege> confrontations = new ArrayList<>();
 
+    // Récompenses obtenues par l'utilisateur
     @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<AttributionRecompense> recompenses = new ArrayList<>();
 
+    // Participations aux défis
     @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<ParticipationDefi> participations = new ArrayList<>();
