@@ -3,6 +3,7 @@ package org.bem.procrapi.services;
 import org.bem.procrapi.authentication.EmailHolder;
 import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.ExcuseCreative;
+import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryUtilisateur;
@@ -99,6 +100,11 @@ public class ServiceUtilisateur {
         }
     }
 
+    /**
+     * Récupère la liste de tous les utilisateurs enregistrées en base de données.
+     *
+     * @return une liste de {@link Utilisateur} représentant toutes les entités stockées.
+     */
     public List<Utilisateur> getAll() {
         return repositoryUtilisateur.findAll();
     }

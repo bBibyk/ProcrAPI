@@ -1,10 +1,7 @@
 package org.bem.procrapi.services;
 
 
-import org.bem.procrapi.entities.AttributionRecompense;
-import org.bem.procrapi.entities.ExcuseCreative;
-import org.bem.procrapi.entities.TacheAEviter;
-import org.bem.procrapi.entities.Utilisateur;
+import org.bem.procrapi.entities.*;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
 import org.bem.procrapi.utilities.enumerations.CategorieExcuse;
@@ -123,6 +120,11 @@ public class ServiceExcuseCreative {
         return repositoryExcuseCreative.findByStatutOrderByVotesRecusDesc(StatutExcuse.APPROUVEE);
     }
 
+    /**
+     * Récupère la liste de toutes les excuses creatives enregistrées en base de données.
+     *
+     * @return une liste de {@link ExcuseCreative} représentant toutes les entités stockées.
+     */
     public List<ExcuseCreative> getAll() {
         return repositoryExcuseCreative.findAll();
     }

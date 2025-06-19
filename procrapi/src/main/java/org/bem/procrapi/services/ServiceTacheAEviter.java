@@ -1,6 +1,7 @@
 package org.bem.procrapi.services;
 
 import org.bem.procrapi.entities.AttributionRecompense;
+import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
@@ -98,6 +99,11 @@ public class ServiceTacheAEviter {
         return Integer.min(200, points);
     }
 
+    /**
+     * Récupère la liste de toutes les tâches à éviter enregistrées en base de données.
+     *
+     * @return une liste de {@link TacheAEviter} représentant toutes les entités stockées.
+     */
     public List<TacheAEviter> getAll() {
         return repositoryTacheAEviter.findAll();
     }

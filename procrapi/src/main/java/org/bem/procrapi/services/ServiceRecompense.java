@@ -1,6 +1,7 @@
 package org.bem.procrapi.services;
 
 import org.bem.procrapi.entities.AttributionRecompense;
+import org.bem.procrapi.entities.ConfrontationPiege;
 import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
@@ -65,6 +66,11 @@ public class ServiceRecompense {
         return repository.save(savedRecompense);
     }
 
+    /**
+     * Récupère la liste de toutes les récompenses enregistrées en base de données.
+     *
+     * @return une liste de {@link Recompense} représentant toutes les entités stockées.
+     */
     public List<Recompense> getAll() {
         return repository.findAll();
     }

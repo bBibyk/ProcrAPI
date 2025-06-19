@@ -1,9 +1,6 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.entities.AttributionRecompense;
-import org.bem.procrapi.entities.DefiDeProcrastination;
-import org.bem.procrapi.entities.ParticipationDefi;
-import org.bem.procrapi.entities.Utilisateur;
+import org.bem.procrapi.entities.*;
 import org.bem.procrapi.repositories.RepositoryDefiDeProcrastination;
 import org.bem.procrapi.repositories.RepositoryParticipationDefi;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
@@ -72,6 +69,11 @@ public class ServiceParticipationDefi {
         return participationRepo.save(nouvelleParticipation);
     }
 
+    /**
+     * Récupère la liste de toutes les participation defi enregistrées en base de données.
+     *
+     * @return une liste de {@link ParticipationDefi} représentant toutes les entités stockées.
+     */
     public List<ParticipationDefi> getAll() {
         return participationRepo.findAll();
     }

@@ -1,9 +1,6 @@
 package org.bem.procrapi.services;
 
-import org.bem.procrapi.entities.AttributionRecompense;
-import org.bem.procrapi.entities.PiegeDeProductivite;
-import org.bem.procrapi.entities.Recompense;
-import org.bem.procrapi.entities.Utilisateur;
+import org.bem.procrapi.entities.*;
 import org.bem.procrapi.repositories.RepositoryPiegeDeProductivite;
 import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.utilities.enumerations.RoleUtilisateur;
@@ -74,6 +71,11 @@ public class ServicePiegeDeProductivite {
         return piegeRepo.save(newPiege);
     }
 
+    /**
+     * Récupère la liste de tous les pièges de productivité enregistrées en base de données.
+     *
+     * @return une liste de {@link PiegeDeProductivite} représentant toutes les entités stockées.
+     */
     public List<PiegeDeProductivite> getAll() {
         return piegeRepo.findAll();
     }

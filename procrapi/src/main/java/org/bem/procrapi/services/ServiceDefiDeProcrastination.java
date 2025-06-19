@@ -70,6 +70,11 @@ public class ServiceDefiDeProcrastination {
         return repositoryDefiDeProcrastination.save(savedDefi);
     }
 
+    /**
+     * Récupère la liste de tous les defis de procrastination en base de données.
+     *
+     * @return une liste de {@link DefiDeProcrastination} représentant toutes les entités stockées.
+     */
     public List<DefiDeProcrastination> getAll() {
         return repositoryDefiDeProcrastination.findAll();
     }

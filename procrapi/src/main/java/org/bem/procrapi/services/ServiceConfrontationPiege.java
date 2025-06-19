@@ -85,6 +85,11 @@ public class ServiceConfrontationPiege {
         return confrontationPiegeRepo.save(confrontationSauvegardee);
     }
 
+    /**
+     * Récupère la liste de toutes les confrontations piège enregistrées en base de données.
+     *
+     * @return une liste de {@link ConfrontationPiege} représentant toutes les entités stockées.
+     */
     public List<ConfrontationPiege> getAll() {
         return confrontationPiegeRepo.findAll();
     }
