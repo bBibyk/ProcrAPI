@@ -61,4 +61,9 @@ public class ControllerTacheAEviter {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
+
+    @GetMapping(path="/getAll")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.getAll());
+    }
 }

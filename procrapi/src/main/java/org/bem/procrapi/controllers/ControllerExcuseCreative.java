@@ -97,4 +97,9 @@ public class ControllerExcuseCreative {
         List<ExcuseCreative> topExcuses = serviceExcuseCreative.getClassementHebdomadaire();
         return ResponseEntity.ok(topExcuses);
     }
+
+    @GetMapping(path="/getAll")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(serviceExcuseCreative.getAll());
+    }
 }

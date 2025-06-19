@@ -44,4 +44,9 @@ public class ControllerPiegeDeProductivite {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping(path="/getAll")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(piegeService.getAll());
+    }
 }
