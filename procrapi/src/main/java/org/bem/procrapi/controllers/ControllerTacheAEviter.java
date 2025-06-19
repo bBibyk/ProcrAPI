@@ -62,7 +62,7 @@ public class ControllerTacheAEviter {
         }
     }
 
-    @GetMapping(path="/getAll")
+    @GetMapping(path="/get-all")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(serviceTacheAEviter.getAll());
     }

@@ -98,7 +98,7 @@ public class ControllerExcuseCreative {
         return ResponseEntity.ok(topExcuses);
     }
 
-    @GetMapping(path="/getAll")
+    @GetMapping(path="/get-all")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(serviceExcuseCreative.getAll());
     }

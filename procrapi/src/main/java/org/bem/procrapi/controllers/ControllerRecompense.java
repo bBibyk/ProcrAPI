@@ -44,7 +44,7 @@ public class ControllerRecompense {
         }
     }
 
-    @GetMapping(path="/getAll")
+    @GetMapping(path="/get-all")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(serviceRecompense.getAll());
     }
