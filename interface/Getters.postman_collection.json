@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "baeb2d76-5df4-4342-a07f-0b76298fff98",
+		"name": "Getters",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45550168",
+		"_collection_link": "https://bogdanbibyk.postman.co/workspace/Procr'Interface~c742ddb2-eab2-406d-b7d6-75e11e8b353b/collection/45550168-baeb2d76-5df4-4342-a07f-0b76298fff98?action=share&source=collection_link&creator=45550168"
+	},
+	"item": [
+		{
+			"name": "Attributions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/attributions/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"attributions",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confrontations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/confrontationpiege/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"confrontationpiege",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Défis",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/defideprocrastination/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"defideprocrastination",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excuses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/excuse/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"excuse",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Participations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/participationdefi/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"participationdefi",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pièges",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/piegedeproductivite/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"piegedeproductivite",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récompenses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/recompense/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"recompense",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tâches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/tacheaeviter/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tacheaeviter",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Utilisateurs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/utilisateur/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"utilisateur",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
