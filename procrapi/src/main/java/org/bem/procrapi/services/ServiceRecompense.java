@@ -1,5 +1,6 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.repositories.RepositoryRecompense;
 import org.bem.procrapi.utilities.enumerations.NiveauDePrestige;
@@ -7,6 +8,8 @@ import org.bem.procrapi.utilities.enumerations.TypeRecompense;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service métier pour la gestion des récompenses disponibles dans le système.
@@ -60,5 +63,9 @@ public class ServiceRecompense {
         savedRecompense.setType(type);
 
         return repository.save(savedRecompense);
+    }
+
+    public List<Recompense> getAll() {
+        return repository.findAll();
     }
 }

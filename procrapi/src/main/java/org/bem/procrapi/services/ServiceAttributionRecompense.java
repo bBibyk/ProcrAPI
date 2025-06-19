@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -108,5 +109,13 @@ public class ServiceAttributionRecompense {
     private boolean aAssezDAnciennete(Utilisateur utilisateur) {
         if (utilisateur.getDateInscription() == null) return false;
         return utilisateur.getDateInscription().isBefore(LocalDate.now().minusMonths(6));
+    }
+
+    /**
+     * Récupère toutes les attributions de récompenses.
+     * @return une liste de toutes les attributions
+     */
+    public List<AttributionRecompense> getAll() {
+        return repository.findAll();
     }
 }

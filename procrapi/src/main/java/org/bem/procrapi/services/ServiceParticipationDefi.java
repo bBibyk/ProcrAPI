@@ -1,5 +1,6 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.DefiDeProcrastination;
 import org.bem.procrapi.entities.ParticipationDefi;
 import org.bem.procrapi.entities.Utilisateur;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ServiceParticipationDefi {
@@ -68,5 +70,9 @@ public class ServiceParticipationDefi {
         nouvelleParticipation.setStatut(StatutParticipation.INSCRIT);
 
         return participationRepo.save(nouvelleParticipation);
+    }
+
+    public List<ParticipationDefi> getAll() {
+        return participationRepo.findAll();
     }
 }

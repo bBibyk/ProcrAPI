@@ -1,6 +1,7 @@
 package org.bem.procrapi.services;
 
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
@@ -120,6 +121,10 @@ public class ServiceExcuseCreative {
     }
     public List<ExcuseCreative> getClassementHebdomadaire() {
         return repositoryExcuseCreative.findByStatutOrderByVotesRecusDesc(StatutExcuse.APPROUVEE);
+    }
+
+    public List<ExcuseCreative> getAll() {
+        return repositoryExcuseCreative.findAll();
     }
 }
 

@@ -1,5 +1,6 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.ConfrontationPiege;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Utilisateur;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ServiceConfrontationPiege {
@@ -81,5 +83,9 @@ public class ServiceConfrontationPiege {
 
         utilisateur.setPointsAccumules(confrontationSauvegardee.getPoints());
         return confrontationPiegeRepo.save(confrontationSauvegardee);
+    }
+
+    public List<ConfrontationPiege> getAll() {
+        return confrontationPiegeRepo.findAll();
     }
 }

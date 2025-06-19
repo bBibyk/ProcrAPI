@@ -1,5 +1,6 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.PiegeDeProductivite;
 import org.bem.procrapi.entities.Recompense;
 import org.bem.procrapi.entities.Utilisateur;
@@ -10,6 +11,8 @@ import org.bem.procrapi.utilities.enumerations.TypePiege;
 import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ServicePiegeDeProductivite {
@@ -71,4 +74,7 @@ public class ServicePiegeDeProductivite {
         return piegeRepo.save(newPiege);
     }
 
+    public List<PiegeDeProductivite> getAll() {
+        return piegeRepo.findAll();
+    }
 }

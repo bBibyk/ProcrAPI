@@ -1,6 +1,7 @@
 package org.bem.procrapi.services;
 
 import org.bem.procrapi.authentication.EmailHolder;
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.ExcuseCreative;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryExcuseCreative;
@@ -11,6 +12,7 @@ import org.bem.procrapi.utilities.exceptions.ServiceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -95,5 +97,9 @@ public class ServiceUtilisateur {
         } else if (utilisateur.getNiveau()==NiveauProcrastination.INTERMEDIAIRE) {
             utilisateur.setNiveau(NiveauProcrastination.DEBUTANT);
         }
+    }
+
+    public List<Utilisateur> getAll() {
+        return repositoryUtilisateur.findAll();
     }
 }

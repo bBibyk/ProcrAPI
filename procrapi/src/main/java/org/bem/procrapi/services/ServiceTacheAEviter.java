@@ -1,5 +1,6 @@
 package org.bem.procrapi.services;
 
+import org.bem.procrapi.entities.AttributionRecompense;
 import org.bem.procrapi.entities.TacheAEviter;
 import org.bem.procrapi.entities.Utilisateur;
 import org.bem.procrapi.repositories.RepositoryTacheAEviter;
@@ -95,5 +96,9 @@ public class ServiceTacheAEviter {
 
         int points = tacheAEviter.getDegreUrgence()*10 + 5*(joursEntre);
         return Integer.min(200, points);
+    }
+
+    public List<TacheAEviter> getAll() {
+        return repositoryTacheAEviter.findAll();
     }
 }
